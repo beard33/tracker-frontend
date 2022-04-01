@@ -16,7 +16,6 @@ export default class Anagrafica extends Component {
     super(props);
 
     this.state = {
-      utente: {
         codicePersona: '',
         nome: '',
         cognome: '',
@@ -55,8 +54,8 @@ export default class Anagrafica extends Component {
         accountNonLocked: false,
         accountNonExpired: false,
         credentialsNonExpired: false,
-        password: "vfdvd"
-      }
+        password: ''
+      
     };
 
 
@@ -80,19 +79,19 @@ export default class Anagrafica extends Component {
                     style={{ width: "25%" }}
                     label="codice Persona"
                     value={this.state.codicePersona}
-                    onChange={(e) => { this.setState({ utente: { codicePersona: e.target.value } }) }}
+                    onChange={(e) => { this.setState({ codicePersona: e.target.value  }) }}
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
                     label="nome"
                     value={this.state.nome}
-                    onChange={(e) => { this.setState({ utente: { nome: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  nome: e.target.value  }) }}
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
                     label="cognome"
                     value={this.state.cognome}
-                    onChange={(e) => { this.setState({ utente: { cognome: e.target.value } }) }}
+                    onChange={(e) => { this.setState({ cognome: e.target.value } ) }}
                   ></TextField>
                 </Form.Row>
                 <Form.Row className="anagraficaform">
@@ -101,34 +100,34 @@ export default class Anagrafica extends Component {
                     label="data di nascita"
                     placeholder="yyyy-mm-dd"
                     value={this.state.dataNascita}
-                    onChange={(e) => { this.setState({ utente: { dataNascita: e.target.value } }) }}
+                    onChange={(e) => { this.setState({ dataNascita: e.target.value } ) }}
                   ></TextField>
 
                   <TextField
                     style={{ width: "25%" }}
                     label="luogo di nascita"
                     value={this.state.luogoNascita}
-                    onChange={(e) => { this.setState({ utente: { luogoNascita: e.target.value } }) }}
+                    onChange={(e) => { this.setState({ luogoNascita: e.target.value  }) }}
                   ></TextField>
 
                   <TextField
                     style={{ width: "25%" }}
                     label="codice fiscale"
                     value={this.state.codiceFiscale}
-                    onChange={(e) => { this.setState({ utente: { codiceFiscale: e.target.value } }) }}
+                    onChange={(e) => { this.setState({ codiceFiscale: e.target.value  }) }}
                   ></TextField>
                 </Form.Row>
                 <Form.Row className="anagraficaform">
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.username}
-                    onChange={(e) => { this.setState({ utente: { username: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  username: e.target.value }) }}
                     label="username"
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.avatar}
-                    onChange={(e) => { this.setState({ utente: { avatar: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  avatar: e.target.value  }) }}
                     label="avatar"
                   ></TextField>
                 </Form.Row>
@@ -147,19 +146,19 @@ export default class Anagrafica extends Component {
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.provinciaResidenza}
-                    onChange={(e) => { this.setState({ utente: { provinciaResidenza: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  provinciaResidenza: e.target.value  }) }}
                     label="provincia residenza"
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.comuneResidenza}
-                    onChange={(e) => { this.setState({ utente: { comuneResidenza: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  comuneResidenza: e.target.value  }) }}
                     label="comune residenza"
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.indirizzoResidenza}
-                    onChange={(e) => { this.setState({ utente: { indirizzoResidenza: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  indirizzoResidenza: e.target.value  }) }}
                     label="indirizzo residenza"
                   ></TextField>
                 </Form.Row>
@@ -167,21 +166,21 @@ export default class Anagrafica extends Component {
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.provinciaDomicilio}
-                    onChange={(e) => { this.setState({ utente: { provinciaDomicilio: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  provinciaDomicilio: e.target.value  }) }}
                     label="provincia domicilio"
                   ></TextField>
 
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.comuneDomicilio}
-                    onChange={(e) => { this.setState({ utente: { comuneDomicilio: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  comuneDomicilio: e.target.value  }) }}
                     label="comune domicilio"
                   ></TextField>
 
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.indirizzoDomicilio}
-                    onChange={(e) => { this.setState({ utente: { indirizzoDomicilio: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  indirizzoDomicilio: e.target.value  }) }}
                     label="indirizzo domicilio"
                   ></TextField>
                 </Form.Row>
@@ -200,19 +199,19 @@ export default class Anagrafica extends Component {
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.mailAziendale}
-                    onChange={(e) => { this.setState({ utente: { mailAziendale: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  mailAziendale: e.target.value }) }}
                     label="mail aziendale"
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.cellulare}
-                    onChange={(e) => { this.setState({ utente: { cellulare: e.target.value } }) }}
+                    onChange={(e) => { this.setState({ cellulare: e.target.value  }) }}
                     label="cellulare"
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.mailPrivata}
-                    onChange={(e) => { this.setState({ utente: { mailPrivata: e.target.value } }) }}
+                    onChange={(e) => { this.setState( { mailPrivata: e.target.value  }) }}
                     label="mail privata"
                   ></TextField>
                 </Form.Row>
@@ -231,13 +230,13 @@ export default class Anagrafica extends Component {
                   <TextField
                     style={{ width: "40%" }}
                     value={this.state.nomeContattoEmergenza}
-                    onChange={(e) => { this.setState({ utente: { nomeContattoEmergenza: e.target.value } }) }}
+                    onChange={(e) => { this.setState({ nomeContattoEmergenza: e.target.value  }) }}
                     label="nome contatto emergenza"
                   ></TextField>
                   <TextField
                     style={{ width: "40%" }}
                     value={this.state.cellulareContattoEmergenza}
-                    onChange={(e) => { this.setState({ utente: { cellulareContattoEmergenza: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  cellulareContattoEmergenza: e.target.value  }) }}
                     label="cellulare contatto emergenza"
                   ></TextField>
                 </Form.Row>
@@ -256,19 +255,19 @@ export default class Anagrafica extends Component {
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.iban}
-                    onChange={(e) => { this.setState({ utente: { iban: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  iban: e.target.value  }) }}
                     label="iban"
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.tipo}
-                    onChange={(e) => { this.setState({ utente: { tipo: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  tipo: e.target.value  }) }}
                     label="tipo"
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.stato}
-                    onChange={(e) => { this.setState({ utente: { stato: e.target.value } }) }}
+                    onChange={(e) => { this.setState({ stato: e.target.value  }) }}
                     label="stato"
                   ></TextField>
                 </Form.Row>
@@ -276,7 +275,7 @@ export default class Anagrafica extends Component {
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.codiceAzienda}
-                    onChange={(e) => { this.setState({ utente: { codiceAzienda: e.target.value } }) }}
+                    onChange={(e) => { this.setState({  codiceAzienda: e.target.value  }) }}
                     label="codice azienda"
                   ></TextField>
                 </Form.Row>
@@ -317,27 +316,20 @@ export default class Anagrafica extends Component {
           <Form>
             <div className="button-container">
               {this.props.personale == "dipendente" ?
-                <Link to={{ pathname: "/dipendente", state: { utente: this.state.utente } }}>
+                <Link to={{ pathname: "/dipendente", state: { utente: this.state} }}>
                   <button className="button-avanti"
                     type="button" >
                     AVANTI
                   </button>
                 </Link> :
-                <Link to={{ pathname: "/consulenti", state: { utente: this.state.utente } }}>
+                <Link to={{ pathname: "/consulenti", state: { utente: this.state } }}>
                   <button className="button-avanti"
                     type="button" >
                     AVANTI
                   </button>
                 </Link>
               }
-              <Link to={{ pathname: "/dipendente", state: { utente: this.state.utente } }}>
-                <button className="button-avanti"
-                  type="button" 
-                  onClick={console.log(this.state.utente)}>
-                  AVANTI
-                </button>
-              </Link>
-
+              
             </div>
           </Form>
 

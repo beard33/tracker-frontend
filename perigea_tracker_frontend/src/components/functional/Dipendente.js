@@ -6,7 +6,7 @@ import AxiosInstance from "../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
 import Title from '../structural/Title';
 import DatiEconomiciDipendente from "./DatiEconomiciDipendente";
-import { Link } from 'react-router-dom';
+
 
 
 
@@ -16,29 +16,29 @@ export default class Dipendente extends React.Component {
 
         this.state = {
             utente: {
-                codicePersona: "01",
-                nome: "samuel",
-                cognome: "galli",
-                dataNascita: "2022-01-02",
-                luogoNascita: "string",
-                codiceFiscale: "string",
-                cellulare: "string",
-                username: "string",
-                avatar: "string",
-                provinciaResidenza: "string",
-                comuneResidenza: "string",
-                indirizzoResidenza: "string",
-                provinciaDomicilio: "string",
-                comuneDomicilio: "string",
-                indirizzoDomicilio: "string",
-                mailPrivata: "string",
-                mailAziendale: "string",
-                nomeContattoEmergenza: "string",
-                cellulareContattoEmergenza: "string",
-                iban: "string",
-                stato: "A",
-                tipo: "I",
-                codiceAzienda: "string",
+                codicePersona: '',
+                nome: '',
+                cognome: '',
+                dataNascita: '',
+                luogoNascita: '',
+                codiceFiscale: '',
+                cellulare: '',
+                username: '',
+                avatar: '',
+                provinciaResidenza: '',
+                comuneResidenza: '',
+                indirizzoResidenza: '',
+                provinciaDomicilio: '',
+                comuneDomicilio: '',
+                indirizzoDomicilio: '',
+                mailPrivata: '',
+                mailAziendale: '',
+                nomeContattoEmergenza: '',
+                cellulareContattoEmergenza: '',
+                iban: '',
+                stato: '',
+                tipo: '',
+                codiceAzienda: '',
                 ruoli: [
                     {
                         id: "M",
@@ -48,41 +48,41 @@ export default class Dipendente extends React.Component {
                 accountNonLocked: false,
                 accountNonExpired: false,
                 credentialsNonExpired: false,
-                password: "string"
+                password: ''
             },
-            codicePersona: "01",
+            codicePersona: '',
             tipo: '',
-            dataAssunzione: "2022-01-02",
-            dataCessazione: "2022-01-02",
-            codiceResponsabile: "d02e486a-0613-4b19-bdf6-e05e6bc78c04",
+            dataAssunzione: '',
+            dataCessazione: '',
+            codiceResponsabile: '',
 
             economics: {
-                codicePersona: "01",
-                livelloIniziale: "LIVELLO_1",
-                tipoContrattoIniziale: "STAGE",
-                ralInizile: 12.20,
-                ralAttuale: 12.30,
-                decorrenzaRalAttuale: "2022-02-02",
-                dataAssegnazioneTicket: "2022-02-02",
-                rimborsoGionaliero: 10.0,
-                decorrenzaRimborso: "2022-02-02",
-                livelloAttuale: "LIVELLO_1",
-                decorrenzaLivello: "2022-02-02",
-                tipoContrattoAttuale: "STAGE",
-                jobTitle: "JUNIOR_PROF",
-                sceltaTredicesima: "A",
-                ultimoPremio: 10.0,
-                dataUltimoPremio: "2022-02-02",
-                modelloAuto: "Panda",
-                rimborsoPerKm: 10.0,
-                kmPerGiorno: 10.0,
-                costoGiornaliero: 10.0,
-                dataDecorrenzaCosto: "2022-02-02",
-                codiceCentroDiCosto: "key",
-                decorrenzaAssegnazioneCentroDiCosto: "2022-02-02",
-                decorrenzaKmRimborsabili: "2022-02-02",
-                decorrenzaRimborsiKm: "2022-02-02",
-                decorrenzaTipoContratto: "2022-02-02",
+                codicePersona: '',
+                livelloIniziale: '',
+                tipoContrattoIniziale: '',
+                ralInizile: 0.0,
+                ralAttuale: 0.0,
+                decorrenzaRalAttuale: 0.0,
+                dataAssegnazioneTicket: 0.0,
+                rimborsoGionaliero: 0.0,
+                decorrenzaRimborso: '',
+                livelloAttuale: '',
+                decorrenzaLivello: '',
+                tipoContrattoAttuale: '',
+                jobTitle: '',
+                sceltaTredicesima: '',
+                ultimoPremio: 0.0,
+                dataUltimoPremio: '',
+                modelloAuto: '',
+                rimborsoPerKm: 0.0,
+                kmPerGiorno: 0.0,
+                costoGiornaliero: 0.0,
+                dataDecorrenzaCosto: '',
+                codiceCentroDiCosto: '',
+                decorrenzaAssegnazioneCentroDiCosto: '',
+                decorrenzaKmRimborsabili: '',
+                decorrenzaRimborsiKm: '',
+                decorrenzaTipoContratto: '',
                 archived: false
             },
 
@@ -91,12 +91,14 @@ export default class Dipendente extends React.Component {
         };
     }
 
-    componentDidMount = () => {
+    componentDidMount = () => {        
         this.setState({
             tipo: "DIPENDENTE",
-            // utente: this.props.location.state.utente
-
+            utente: this.props.location.state.utente,
+            codicePersona: this.props.location.state.utente.codicePersona,
+            economics: { codicePersona: this.props.location.state.utente.codicePersona }
         })
+        
     }
     onADDButtonClick = () => {
         this.setState({
@@ -104,10 +106,30 @@ export default class Dipendente extends React.Component {
         })
     }
 
-    updateState = (e) => { this.setState({ economics: { livelloAttuale: e } }) }
+    updateState = (e) => { this.setState({ economics: e  })}
 
+    saveAnagraficaDipendenteWithoutEconomics = () => {
+        console.log("saveDipendente start ", this.state.codicePersona)
+        AxiosInstance({
+            method: 'post',
+            url: "dipendenti/create",
+            data: {
+                utente: this.state.utente,
+                codicePersona: this.state.codicePersona,
+                tipo: this.state.tipo,
+                dataAssunzione: this.state.dataAssunzione,
+                dataCessazione: this.state.dataCessazione,
+                codiceResponsabile: this.state.codiceResponsabile,
+            }
+        }).then(() => {
+            alert("Salvataggio del dipendente effettuato con successo")
+            console.log("Salvataggio del dipendente effettuato con successo", this.data)
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+        })
+    }
 
-    saveAnagraficaDipendente = () => {
+    saveAnagraficaDipendenteWithEconomics = () => {
         console.log("saveDipendente start ", this.state.codicePersona)
         AxiosInstance({
             method: 'post',
@@ -130,14 +152,13 @@ export default class Dipendente extends React.Component {
     }
 
     onSAVEButtonClick = () => {
-        // if (!this.state.showComponent) {
-
-        //     this.setState({
-        //         economics: {null}
-        //     })
-        // }
-        console.log(this.state)
-        this.saveAnagraficaDipendente()
+        if (!this.state.showComponent) {
+            console.log(this.state)
+            this.saveAnagraficaDipendenteWithoutEconomics()
+        } else {
+            console.log(this.state)
+            // this.saveAnagraficaDipendenteWithEconomics()
+        }
     }
 
 
@@ -200,7 +221,7 @@ export default class Dipendente extends React.Component {
                                 ADD ECONOMICS
                             </button>}
                         {this.state.showComponent ?
-                            <DatiEconomiciDipendente updateState={this.updateState} /> :
+                            <DatiEconomiciDipendente  updateState={this.updateState}/> :
                             null
                         }
 
