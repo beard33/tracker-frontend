@@ -81,7 +81,7 @@ export default class Dipendente extends React.Component {
                 codiceCentroDiCosto: "key",
                 decorrenzaAssegnazioneCentroDiCosto: "2022-02-02",
                 decorrenzaKmRimborsabili: "2022-02-02",
-                decorrenzaRImborsiKm: "2022-02-02",
+                decorrenzaRimborsiKm: "2022-02-02",
                 decorrenzaTipoContratto: "2022-02-02",
                 archived: false
             },
@@ -131,8 +131,9 @@ export default class Dipendente extends React.Component {
 
     onSAVEButtonClick = () => {
         // if (!this.state.showComponent) {
+
         //     this.setState({
-        //     economics: null
+        //         economics: {null}
         //     })
         // }
         console.log(this.state)
