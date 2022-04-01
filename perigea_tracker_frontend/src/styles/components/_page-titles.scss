@@ -1,0 +1,13 @@
+.page-titles {
+  background-color: $greyPerigea;
+  width: 100%;
+  height: 57.4px;
+  font-size: 15px;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  &.open {
+    -webkit-transform: translateX(350px);
+    transform: translateX(350px);
+    width: 50%;
+  }
+}

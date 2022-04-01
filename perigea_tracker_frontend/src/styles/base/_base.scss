@@ -1,0 +1,73 @@
+@import './_settings';
+
+
+html {
+  width: 100%;
+  --width1: width;
+  height: 100%;
+  font-family: sans-serif;
+  font-weight: lighter;
+  color: black;
+  background: rgb(156,156,156);
+  background: linear-gradient(90deg, rgba(156,156,156,1) 0%, rgba(235,235,235,1) 16%, rgba(235,235,235,1) 84%, rgba(156,156,156,1) 100%);
+  margin: 0; 
+  padding: 0; 
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0; 
+  padding: 0; 
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0; 
+  padding: 0; 
+ 
+}
+
+.view { //div eliminato in componente View ma presente in layout
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  transition: all 0.3s ease-out;
+  margin: 0; 
+  padding: 0; 
+}
+
+.view.active {
+  left: 350px;
+}
+
+h1 {
+  color: $orangePerigea;
+}
+
+h4 {
+  color: black;
+}
+
+h5 {
+  font-size: 14px;
+  color: black;
+}
+
+::placeholder {
+  color: black;
+  margin-left: 30px;
+}
+
+input::-webkit-input-placeholder {
+  color: black;
+  //text-align: center;
+  text-align: center;
+  //line-height: 300px;
+  //margin: 40%;
+}
+
+input{
+  text-align:center;
+}

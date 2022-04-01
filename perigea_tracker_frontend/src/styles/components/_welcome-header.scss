@@ -1,0 +1,13 @@
+.img-welcome-header {
+  border-radius: 100%;
+  width:200px;
+  display: block;
+  margin: 0 auto;
+}
+
+.separator{
+  display: block;
+  height: 5px;
+  background-color: $orangePerigea;
+  animation: slideInFromLeft 5s forwards;
+}

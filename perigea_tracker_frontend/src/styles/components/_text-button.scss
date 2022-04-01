@@ -1,0 +1,27 @@
+.text-button{
+  display: block;
+  text-align: center;
+  padding: 10px;
+  margin:3px auto;
+  width: 60px;
+  background-color: $orangePerigea;
+  border:2px solid rgb(0, 0, 0);
+  border-radius: 5px;
+}
+
+.text-button:hover{
+  cursor:pointer;
+  background-color: $orangePerigea;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    width: 0px;
+  }
+  100% {
+    width: 150px;
+  }
+}
+
+
+
