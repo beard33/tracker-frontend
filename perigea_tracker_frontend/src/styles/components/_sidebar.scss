@@ -17,7 +17,7 @@ $backgroundPerigea: $backgroundPerigea;
     -webkit-transform: translateX(350px);
     transform: translateX(350px);
     position: fixed;
-    height: 100vh;
+    height: 100%;
   }
 }
 
@@ -30,6 +30,8 @@ $backgroundPerigea: $backgroundPerigea;
     width: 30%;
     color: rgb(250, 246, 246) !important;
   }
+
+
 }
 
 .pro-menu a {
@@ -49,9 +51,9 @@ $backgroundPerigea: $backgroundPerigea;
 }
 
 .pro-sidebar-layout {
-  background: rgb(0,0,0);
-  background: linear-gradient(0deg, rgba(75,7,84,1) 9%, rgba(0,0,0,1) 100%);
-  background-color:#9e9aa3;
+  // background: rgb(0,0,0);
+  // background: linear-gradient(0deg, rgba(75,7,84,1) 9%, rgba(0,0,0,1) 100%);
+  background-color:#333333;
   -webkit-transform: translateX(0);
   transform: translateX(0);
   height: 100vh;
@@ -76,8 +78,27 @@ $backgroundPerigea: $backgroundPerigea;
 
 .pro-item-content {
   color: rgb(250, 246, 246) !important;
+  font-weight: bold;
 }
 
 a:before {
   color: rgb(252, 244, 244) !important;
+  font-weight: bold;
+}
+
+.pro-sub-menu {
+  .pro-inner-list-item {
+    .pro-inner-item::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      min-width: 4px;
+      height: 4px;
+      border: 1px solid white;
+      border-radius: 50%;
+      margin-right: 15px;
+      background-color: white;
+      box-shadow: 1px 0px 0px white, 0px -1px 0px white, 0px 1px 0px white, -1px 0px 0px white;
+    }
+  }
 }

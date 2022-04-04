@@ -4,12 +4,13 @@ import React from 'react';
 export default class Footer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { }
+    this.state = {}
   }
-  
+
   render() {
     return (
-      <footer className={`footer${this.props.isMenuOpen === true ? ' open' : ''}`} > 
+      <footer className={`footer${this.props.isMenuOpen === true ? ' open' : ''}`}
+          >
         <h1 className="footer-text">{this.props.nomeCreatore}</h1>
       </footer>
     )

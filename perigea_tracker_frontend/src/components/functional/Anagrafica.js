@@ -294,11 +294,11 @@ export default class Anagrafica extends Component {
           <h3>Ruoli</h3>
           <div className="anagraficainfo">
 
-            <Form style={{ width: "40%" }}>
+            <Form  style={{ width: "40%" }}>
               <Ruoli ruoli={this.state.ruoli} />
               <TextField
                 style={{
-                  margin: "0px 0px 0px 400px",
+                  margin: "0% 0% 0% 75%",
                   width: "100%"
                 }}
                 id="select ruoli"

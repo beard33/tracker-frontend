@@ -163,7 +163,7 @@ export default class Dipendente extends React.Component {
 
             <React.Fragment>
                 <Title></Title>
-                <p>{this.state.economics.livelloIniziale}</p>
+                
                 <div className="personale">
                     <h3>Dati aziendali </h3>
                     <div className="infoAziendali">

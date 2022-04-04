@@ -3,13 +3,13 @@
 
   h3 {
     height: 50px;
-    text-align: center;
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    text-align: left;
+    font-family: 'Helvetica', sans-serif;
     color: darkslateblue;
     vertical-align:middle;
     line-height: 50px;
-    font-size: 35px
-    
+    font-size: 30px;
+    margin-left: 3%;
     
   }
 
@@ -24,7 +24,9 @@
     padding-bottom: 2%;
     width:90%;
     background-color: white;
-    border-radius: 20px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px $greyPerigea;
+    border: 1px solid $greyPerigea;
   }
 
   .anagraficacard {
@@ -34,9 +36,11 @@
 
   .anagraficaform {
     display:flex;
-    justify-content: space-between;
+    justify-content: space-around;
     height:75px;
-    width:100%
+    width:100%;
+    align-content: center;
+
   }
 
   .button-container {
@@ -99,7 +103,7 @@
   background-color: $orangePerigea;
   color: black;
   font-weight: lighter;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   border-radius: 10px;  
 }
 
@@ -112,6 +116,5 @@
   background-color: $orangePerigea;
   color: black;
   font-weight: lighter;
-  margin-bottom: 100px;
   border-radius: 10px; 
 }

@@ -1,5 +1,5 @@
 .path {
-  width: 100px;
+  width: 200px;
   height: 57.4px;
   float: right;
   line-height: 20px;
@@ -10,6 +10,10 @@
   color: rgb(236, 233, 233);
   padding: 0 auto;
   margin-top: 17px;
+  position: relative;
+  text-align: right;
+  margin-right: 5%;
+    
 }
 
 .position {
@@ -21,7 +25,7 @@
 }
 
 .position-text {
-  width: 100px;
+  width: 200px;
   height: 57.4px;
   color: rgb(231, 225, 225);
   padding:0 auto;

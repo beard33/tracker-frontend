@@ -2,13 +2,11 @@
 
 .footer {
   margin-bottom: 0px;
+  margin-top: 10%;
   background-color: $greyPerigea;
   height: 57.4px;
   display: inline-block;
   width: 100%;
-  //height: calc(var(--width1) - 10px);
-  //position: absolute;
-  position: fixed;
   left:0;
   bottom:0;
   right:0;
@@ -17,7 +15,9 @@
 .footer-text {
   padding: 10px;
   margin-top: 9px;
+  margin-right: 3%;
   font-size: 18px;
   font-weight: lighter;
-  color: black;
+  color: white;
+  text-align: right;
 }

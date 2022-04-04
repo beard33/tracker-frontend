@@ -17,7 +17,7 @@ export default class NavigationBar extends React.Component {
         
         
 
-        <div className="logo-sidebar" style={{ backgroundImage: `url("./images/SfondoLogin.jpg")` }} >
+        <div className={`logo-sidebar${this.props.isMenuOpen === true ? ' open' : ''}`} >
           <a href="/home"><img className="img-logo" src={this.props.logo}></img></a>
         </div>       
           
