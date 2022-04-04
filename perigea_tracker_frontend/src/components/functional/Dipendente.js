@@ -39,12 +39,7 @@ export default class Dipendente extends React.Component {
                 stato: '',
                 tipo: '',
                 codiceAzienda: '',
-                ruoli: [
-                    {
-                        id: "M",
-                        descrizione: "manger"
-                    }
-                ],
+                ruoli: [],
                 accountNonLocked: false,
                 accountNonExpired: false,
                 credentialsNonExpired: false,

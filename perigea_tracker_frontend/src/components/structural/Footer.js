@@ -9,7 +9,7 @@ export default class Footer extends React.Component {
   
   render() {
     return (
-      <footer className="footer" className={`footer${this.props.isMenuOpen === true ? ' open' : ''}`}>
+      <footer className={`footer${this.props.isMenuOpen === true ? ' open' : ''}`} > 
         <h1 className="footer-text">{this.props.nomeCreatore}</h1>
       </footer>
     )

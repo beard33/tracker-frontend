@@ -1,42 +1,16 @@
+import { TextField } from '@mui/material';
+import React from 'react';
+const Ruoli = (props) => (
+    <div>
 
-const ruoli = [
-    {
-        ruoloType: 'M',
-        descrizione: 'management'
-    },
-    {
-        ruoloType: 'A',
-        descrizione: 'amministrazione'
-    },
-    {
-        ruoloType: 'H',
-        descrizione: 'risorse umane'
-    },
-    {
-        ruoloType: 'D',
-        descrizione: 'dipendente'
-    },
-    {
-        ruoloType: 'C',
-        descrizione: 'consulente'
-    },
-    {
-        ruoloType: 'R',
-        descrizione: 'referente'
-    },
-    {
-        ruoloType: 'X',
-        descrizione: 'admin'
-    },
-    {
-        ruoloType: 'S',
-        descrizione: 'sales'
-    },
-    {
-        ruoloType: 'P',
-        descrizione: 'contatto esterno'
-    },
-]
 
-export { ruoli }
+        <ul className="roles-list">
+            {props.ruoli.map((ruolo) => (
+                <li color='black'>{ruolo}</li>
+            ))
+            }
+        </ul>
 
+    </div>
+);
+export default Ruoli;

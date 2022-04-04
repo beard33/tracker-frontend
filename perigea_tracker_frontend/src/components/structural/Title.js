@@ -50,7 +50,7 @@ export default class Title extends React.Component {
 
   render() {
     return (
-      <div className="page-titles">
+      <div className="page-titles" >
         <div className="position">
         <div className="position-text">{this.upperCaseItem(this.path()[this.path().length-1])}</div>
         </div>
