@@ -160,19 +160,14 @@ export default class Dipendente extends React.Component {
 
     render() {
         return (
-
-            <React.Fragment>
-               
-                
+            <React.Fragment>               
                 <div className="postStyleProps">
                     <h3>Dati aziendali </h3>
                     <div className="info">
                         <Grid className="infoGrid"
                             container
                             spacing={20}>
-                            <Form style={{ width: "100%" }}>
-                                                           
-                           
+                            <Form style={{ width: "100%" }}>                           
                                 <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}

@@ -12,6 +12,7 @@ import Fornitore from '../components/functional/Fornitore';
 import Layout from '../components/structural/Layout';
 import LoginPage from '../components/structural/LoginPage';
 import Dipendente from '../components/functional/Dipendente';
+import ConsulenteCreazione from '../components/functional/ConsulenteCreazione';
 
 export default function RouterApp() {
   console.log("ROUTERAPP ENTRY");
@@ -31,8 +32,9 @@ export default function RouterApp() {
         <Route path="/balance" exact component={Message} />
         <Route path="/view/clienti" exact component={Cliente} />
         <Route path="/consulenti" exact component={View} />
+        <Route path="/consulente" exact component={Consulente} />
         <Route path="/anagrafica-dipendenti" exact component={DipendenteCreazione} />
-        <Route path="/anagrafica-consulenti" exact component={Consulente} />
+        <Route path="/anagrafica-consulenti" exact component={ConsulenteCreazione} />
         <Route path="/dipendenti" exact component={View} />
         <Route path="/fornitori" exact component={Fornitore} />
         <Route path="/dipendente" exact component={Dipendente} />

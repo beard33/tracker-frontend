@@ -316,7 +316,7 @@ export default class Anagrafica extends Component {
                     AVANTI
                   </button>
                 </Link> :
-                <Link to={{ pathname: "/consulenti", state: { utente: this.state } }}>
+                <Link to={{ pathname: "/consulente", state: { utente: this.state } }}>
                   <button className="button-avanti"
                     type="button" >
                     AVANTI

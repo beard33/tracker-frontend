@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import { Grid, Input } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import Title from '../structural/Title';
+
 
 
 export default class DatiEconomiciDipendente extends React.Component {
@@ -33,7 +33,7 @@ export default class DatiEconomiciDipendente extends React.Component {
             decorrenzaAssegnazioneCentroDiCosto: '',
             decorrenzaKmRimborsabili: '',
             decorrenzaRimborsiKm: '',
-            decorrenzaTipoContratto: '',
+            decorrenzaTipoContratto: ''
         }
     }
 

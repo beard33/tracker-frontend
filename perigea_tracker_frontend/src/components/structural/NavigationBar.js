@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-const img = "./images/galaxy.jpg"
+
 
 export default class NavigationBar extends React.Component {
   constructor(props) {
