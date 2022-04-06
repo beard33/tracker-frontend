@@ -2,19 +2,13 @@ import React, { Component } from 'react';
 import Form from "react-bootstrap/Form";
 
 import { Grid } from "@material-ui/core";
-import AxiosInstance from "../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
 import UploadFileButton from '../structural/UploadFileButton'
-import { ruoli } from './RuoliEnum';
-import { Button, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Ruoli from './Ruoli';
 
 
-let ruolo = {
-  id: "M",
-  descrizione: "manager"
-};
+
 export default class Anagrafica extends Component {
   constructor(props) {
     super(props);
@@ -64,25 +58,40 @@ export default class Anagrafica extends Component {
 
 
   handleAddRole = (ruolo) => {
-
     this.setState((prevState) => ({
       ruoli: prevState.ruoli.concat(ruolo)
     }));
+    console.log(ruolo)
     console.log(this.state.ruoli)
   };
+
+  updateRoleState = (list) => {
+    if (list != undefined && list.length > 0) {
+      list.map((item) => {
+        console.log(item)
+        this.handleAddRole(JSON.parse(item))
+      });
+    } else {
+      console.log("vuoto")
+    }
+
+
+
+    console.log(this.state.ruoli)
+  }
 
   render() {
     return (
       <React.Fragment>
-        <div className="anagraficadipendente" >
+        <div className="postStyleProps" >
           <h3>Dati Personali</h3>
-          <div className="anagraficainfo">
-            <Grid className="anagraficacard"
+          <div className="info">
+            <Grid className="infoGrid"
               container
               spacing={20}
             >
               <Form style={{ width: "100%" }}>
-                <Form.Row className="anagraficaform">
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
                     label="codice Persona"
@@ -102,7 +111,7 @@ export default class Anagrafica extends Component {
                     onChange={(e) => { this.setState({ cognome: e.target.value }) }}
                   ></TextField>
                 </Form.Row>
-                <Form.Row className="anagraficaform">
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
                     label="data di nascita"
@@ -125,7 +134,7 @@ export default class Anagrafica extends Component {
                     onChange={(e) => { this.setState({ codiceFiscale: e.target.value }) }}
                   ></TextField>
                 </Form.Row>
-                <Form.Row className="anagraficaform">
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.username}
@@ -144,13 +153,13 @@ export default class Anagrafica extends Component {
           </div>
 
           <h3>Indirizzo</h3>
-          <div className="anagraficainfo">
-            <Grid className="anagraficacard"
+          <div className="info">
+            <Grid className="infoGrid"
               container
               spacing={20}
             >
               <Form style={{ width: "100%" }}>
-                <Form.Row className="anagraficaform">
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.provinciaResidenza}
@@ -170,7 +179,7 @@ export default class Anagrafica extends Component {
                     label="indirizzo residenza"
                   ></TextField>
                 </Form.Row>
-                <Form.Row className="anagraficaform">
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.provinciaDomicilio}
@@ -197,13 +206,13 @@ export default class Anagrafica extends Component {
           </div>
 
           <h3>Contatti</h3>
-          <div className="anagraficainfo">
-            <Grid className="anagraficacard"
+          <div className="info">
+            <Grid className="infoGrid"
               container
               spacing={20}
             >
               <Form style={{ width: "100%" }}>
-                <Form.Row className="anagraficaform">
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.mailAziendale}
@@ -228,13 +237,13 @@ export default class Anagrafica extends Component {
           </div>
 
           <h3>Emergenza</h3>
-          <div className="anagraficainfo">
-            <Grid className="anagraficacard"
+          <div className="info">
+            <Grid className="infoGrid"
               container
               spacing={20}
             >
               <Form style={{ width: "100%" }}>
-                <Form.Row className="anagraficaform">
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "40%" }}
                     value={this.state.nomeContattoEmergenza}
@@ -253,13 +262,13 @@ export default class Anagrafica extends Component {
           </div>
 
           <h3>Dati lavorativi</h3>
-          <div className="anagraficainfo">
-            <Grid className="anagraficacard"
+          <div className="info">
+            <Grid className="infoGrid"
               container
               spacing={20}
             >
               <Form style={{ width: "100%" }}>
-                <Form.Row className="anagraficaform">
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.iban}
@@ -279,7 +288,7 @@ export default class Anagrafica extends Component {
                     label="stato"
                   ></TextField>
                 </Form.Row>
-                <Form.Row className="anagraficaform">
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
                     value={this.state.codiceAzienda}
@@ -292,34 +301,7 @@ export default class Anagrafica extends Component {
           </div>
 
           <h3>Ruoli</h3>
-          <div className="anagraficainfo">
-
-            <Form  style={{ width: "40%" }}>
-              <Ruoli ruoli={this.state.ruoli} />
-              <TextField
-                style={{
-                  margin: "0% 0% 0% 75%",
-                  width: "100%"
-                }}
-                id="select ruoli"
-                select
-                label="Ruolo"
-                value={ruolo}
-                onChange={(e) => {
-                  ruolo = e.target.value
-                  this.handleAddRole(ruolo)
-                }}
-                helperText="select ruolo"
-              >
-                {ruoli.map((option) => (
-                  <MenuItem key={option.ruoloType} value={option.descrizione}>
-                    {option.ruoloType + " " + option.descrizione}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Form>
-          </div>
-
+          <Ruoli updateState={this.updateRoleState} />
 
 
           <UploadFileButton >

@@ -9,6 +9,7 @@ export default class DipendenteCreazione extends Component {
     return (
       <React.Fragment>
         <Title></Title>
+        
 
         <Anagrafica personale= "dipendente">
         </Anagrafica>

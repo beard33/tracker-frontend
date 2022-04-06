@@ -162,16 +162,18 @@ export default class Dipendente extends React.Component {
         return (
 
             <React.Fragment>
-                <Title></Title>
+               
                 
-                <div className="personale">
+                <div className="postStyleProps">
                     <h3>Dati aziendali </h3>
-                    <div className="infoAziendali">
-                        <Grid className="infoAziendaliGrid"
+                    <div className="info">
+                        <Grid className="infoGrid"
                             container
                             spacing={20}>
                             <Form style={{ width: "100%" }}>
-                                <Form.Row className="infoAziendaliForm">
+                                                           
+                           
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataAssunzione}
@@ -193,7 +195,7 @@ export default class Dipendente extends React.Component {
                                         label="Tipo Personale"
                                     ></TextField>
                                 </Form.Row>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.codiceResponsabile}
@@ -207,7 +209,7 @@ export default class Dipendente extends React.Component {
 
                     <h3>Dati Economici</h3>
                     <div>
-                        {!this.state.showComponent &&
+                        {!this.state.showComponent && 
                             <button className="button-add"
                                 type="button"
                                 onClick={this.onADDButtonClick}

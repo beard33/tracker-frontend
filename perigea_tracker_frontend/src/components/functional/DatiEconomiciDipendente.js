@@ -45,14 +45,14 @@ export default class DatiEconomiciDipendente extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="personale">
+                <div className="postStyleProps">
                     <h5>Dati Contratto </h5>
-                    <div className="infoAziendali">
-                        <Grid className="infoAziendaliGrid"
+                    <div className="info">
+                        <Grid className="infoGrid"
                             container
                             spacing={20}>
                             <Form style={{ width: "100%" }}>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         value={this.state.livelloIniziale}
                                         style={{ width: "25%" }}
@@ -82,7 +82,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                         label="Livello Attuale"
                                     ></TextField>
                                 </Form.Row>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.tipoContrattoIniziale}
@@ -112,7 +112,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                         label="Decorrenza Tipo Contratto"
                                     ></TextField>
                                 </Form.Row>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.jobTitle}
@@ -127,13 +127,13 @@ export default class DatiEconomiciDipendente extends React.Component {
                         </Grid>
                     </div>
                     <h5>RAL</h5>
-                    <div className="infoAziendali">
-                        <Grid className="infoAziendaliGrid"
+                    <div className="info">
+                        <Grid className="infoGrid"
                             container
                             spacing={20}
                         >
                             <Form style={{ width: "100%" }}>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.ralInizile}
@@ -167,13 +167,13 @@ export default class DatiEconomiciDipendente extends React.Component {
                         </Grid>
                     </div>
                     <h5>Centro di Costo</h5>
-                    <div className="infoAziendali">
-                        <Grid className="infoAziendaliGrid"
+                    <div className="info">
+                        <Grid className="infoGrid"
                             container
                             spacing={20}
                         >
                             <Form style={{ width: "100%" }}>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "40%" }}
                                         value={this.state.codiceCentroDiCosto}
@@ -198,13 +198,13 @@ export default class DatiEconomiciDipendente extends React.Component {
                         </Grid>
                     </div>
                     <h5>Dati auto e Kilometri</h5>
-                    <div className="infoAziendali">
-                        <Grid className="infoAziendaliGrid"
+                    <div className="info">
+                        <Grid className="infoGrid"
                             container
                             spacing={20}
                         >
                             <Form style={{ width: "100%" }}>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.modelloAuto}
@@ -233,7 +233,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                         label="Km per Giorno"
                                     ></TextField>
                                 </Form.Row>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.decorrenzaKmRimborsabili}
@@ -259,13 +259,13 @@ export default class DatiEconomiciDipendente extends React.Component {
                         </Grid>
                     </div>
                     <h5>Costi e Rimborsi Giornalieri</h5>
-                    <div className="infoAziendali">
-                        <Grid className="infoAziendaliGrid"
+                    <div className="info">
+                        <Grid className="infoGrid"
                             container
                             spacing={20}
                         >
                             <Form style={{ width: "100%" }}>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.rimborsoGionaliero}
@@ -295,7 +295,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                         label="Costo Giornaliero"
                                     ></TextField>
                                 </Form.Row>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataDecorrenzaCosto}
@@ -311,13 +311,13 @@ export default class DatiEconomiciDipendente extends React.Component {
                         </Grid>
                     </div>
                     <h5>Altri Dati Economici</h5>
-                    <div className="infoAziendali">
-                        <Grid className="infoAziendaliGrid"
+                    <div className="info">
+                        <Grid className="infoGrid"
                             container
                             spacing={20}
                         >
                             <Form style={{ width: "100%" }}>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.sceltaTredicesima}
@@ -347,7 +347,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                         label="Ultimo Premio"
                                     ></TextField>
                                 </Form.Row>
-                                <Form.Row className="infoAziendaliForm">
+                                <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataUltimoPremio}

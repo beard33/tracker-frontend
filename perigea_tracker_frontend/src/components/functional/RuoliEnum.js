@@ -1,39 +1,39 @@
 
 const ruoli = [
     {
-        ruoloType: 'M',
+        id: 'M',
         descrizione: 'management'
     },
     {
-        ruoloType: 'A',
+        id: 'A',
         descrizione: 'amministrazione'
     },
     {
-        ruoloType: 'H',
+        id: 'H',
         descrizione: 'risorse umane'
     },
     {
-        ruoloType: 'D',
+        id: 'D',
         descrizione: 'dipendente'
     },
     {
-        ruoloType: 'C',
+        id: 'C',
         descrizione: 'consulente'
     },
     {
-        ruoloType: 'R',
+        id: 'R',
         descrizione: 'referente'
     },
     {
-        ruoloType: 'X',
+        id: 'X',
         descrizione: 'admin'
     },
     {
-        ruoloType: 'S',
+        id: 'S',
         descrizione: 'sales'
     },
     {
-        ruoloType: 'P',
+        id: 'P',
         descrizione: 'contatto esterno'
     },
 ]

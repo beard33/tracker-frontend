@@ -22,8 +22,9 @@
   }  
   .page-titles{
     
-    background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(75,7,84,1) 9%, rgba(0,0,0,1) 100%);
+    // background: rgb(0,0,0);
+    // background: linear-gradient(0deg, rgb(102, 97, 103) 9%, rgba(0,0,0,1) 100%);
+    background-color: $greyPerigea;
     font-size: large;
     font-family: Georgia, 'Times New Roman', Times, serif;
     
@@ -40,8 +41,9 @@
     height: 80%;
     .page-titles {
       width: 100%;
-      background: rgb(0,0,0);
-      background: linear-gradient(0deg, rgba(75,7,84,1) 9%, rgba(0,0,0,1) 100%);
+      // background: rgb(0,0,0);
+      // background: linear-gradient(0deg, rgb(102, 97, 103) 9%, rgba(0,0,0,1) 100%);
+      background-color: $greyPerigea;
     }
     .corpo {
       width: 100%;

@@ -13,7 +13,7 @@ export default class NavigationBar extends React.Component {
   
   render() {
     return (
-      <header className={`navigation-bar${this.props.isMenuOpen === true ? ' open' : ''}`} style={{backgroundImage:`url("./images/SfondoLogin.jpg")`}} >
+      <header className={`navigation-bar${this.props.isMenuOpen === true ? ' open' : ''}`} /*style={{backgroundImage:`url("./images/SfondoLogin.jpg")`}}*/ >
         
         
 
