@@ -1,2 +1,0 @@
-//lista utenti per test
-

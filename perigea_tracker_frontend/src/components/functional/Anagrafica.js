@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import Form from "react-bootstrap/Form";
-
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import UploadFileButton from '../structural/UploadFileButton'
 import { Link } from 'react-router-dom';
 import Ruoli from './Ruoli';
+import { MenuItem } from '@mui/material';
+import { utenteStatus, anagraficaType } from '../enum/AnagraficaEnums';
 
 
 
 export default class Anagrafica extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       codicePersona: '',
       nome: '',
@@ -23,38 +23,27 @@ export default class Anagrafica extends Component {
       cellulare: '',
       username: '',
       avatar: '',
-
       provinciaResidenza: '',
       comuneResidenza: '',
       indirizzoResidenza: '',
       provinciaDomicilio: '',
       comuneDomicilio: '',
       indirizzoDomicilio: '',
-
       mailPrivata: '',
       mailAziendale: '',
-
       nomeContattoEmergenza: '',
       cellulareContattoEmergenza: '',
-
       iban: '',
       stato: '',
       tipo: '',
       codiceAzienda: '',
-
-
       ruoli: [],
-
       accountNonLocked: false,
       accountNonExpired: false,
       credentialsNonExpired: false,
       password: ''
-
     };
-
-
   }
-
 
 
   handleAddRole = (ruolo) => {
@@ -74,9 +63,6 @@ export default class Anagrafica extends Component {
     } else {
       console.log("vuoto")
     }
-
-
-
     console.log(this.state.ruoli)
   }
 
@@ -277,16 +263,38 @@ export default class Anagrafica extends Component {
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
+                    id="select Anagrafica Type"
+                    select
+                    label="tipo Anagrafica utente"
                     value={this.state.tipo}
                     onChange={(e) => { this.setState({ tipo: e.target.value }) }}
-                    label="tipo"
-                  ></TextField>
+                    helperText="select Anagrafica Type"
+                  >
+                    {anagraficaType.map((option) => (
+                      <MenuItem key={option.chiave} value={option.chiave} >
+                        {option.chiave + " - " + option.descrizione}
+                      </MenuItem>
+                    ))}
+
+                  </TextField>
+
                   <TextField
                     style={{ width: "25%" }}
+                    id="select stato"
+                    select
+                    label="stato utente"
                     value={this.state.stato}
                     onChange={(e) => { this.setState({ stato: e.target.value }) }}
-                    label="stato"
-                  ></TextField>
+                    helperText="select status"
+                  >
+                    {utenteStatus.map((option) => (
+                      <MenuItem key={option.stato} value={option.stato} >
+                        {option.stato + " - " + option.descrizione}
+                      </MenuItem>
+                    ))}
+
+                  </TextField>
+
                 </Form.Row>
                 <Form.Row className="infoForm">
                   <TextField
@@ -299,6 +307,8 @@ export default class Anagrafica extends Component {
               </Form>
             </Grid>
           </div>
+
+
 
           <h3>Ruoli</h3>
           <Ruoli updateState={this.updateRoleState} />
