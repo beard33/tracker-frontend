@@ -265,10 +265,10 @@ export default class Anagrafica extends Component {
                     style={{ width: "25%" }}
                     id="select Anagrafica Type"
                     select
-                    label="tipo Anagrafica utente"
+                    label="tipo Anagrafica"
                     value={this.state.tipo}
                     onChange={(e) => { this.setState({ tipo: e.target.value }) }}
-                    helperText="select Anagrafica Type"
+                    
                   >
                     {anagraficaType.map((option) => (
                       <MenuItem key={option.chiave} value={option.chiave} >
@@ -277,7 +277,6 @@ export default class Anagrafica extends Component {
                     ))}
 
                   </TextField>
-
                   <TextField
                     style={{ width: "25%" }}
                     id="select stato"
@@ -285,16 +284,14 @@ export default class Anagrafica extends Component {
                     label="stato utente"
                     value={this.state.stato}
                     onChange={(e) => { this.setState({ stato: e.target.value }) }}
-                    helperText="select status"
+                    
                   >
                     {utenteStatus.map((option) => (
                       <MenuItem key={option.stato} value={option.stato} >
                         {option.stato + " - " + option.descrizione}
                       </MenuItem>
                     ))}
-
                   </TextField>
-
                 </Form.Row>
                 <Form.Row className="infoForm">
                   <TextField

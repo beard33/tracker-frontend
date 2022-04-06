@@ -2,6 +2,8 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import { Grid, Input } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
+import { MenuItem } from '@mui/material';
+import { livelloContratto, contrattoType, jobTitle, sceltaTredicesima } from "../enum/EconomicsEnums";
 
 
 
@@ -54,14 +56,22 @@ export default class DatiEconomiciDipendente extends React.Component {
                             <Form style={{ width: "100%" }}>
                                 <Form.Row className="infoForm">
                                     <TextField
-                                        value={this.state.livelloIniziale}
                                         style={{ width: "25%" }}
+                                        id="select stato"
+                                        select
                                         label="Livello Iniziale"
+                                        value={this.state.livelloIniziale}
                                         onChange={(e) => {
                                             this.setState({ livelloIniziale: e.target.value })
                                             this.updateDipendenteState()
                                         }}
-                                    ></TextField>
+                                    >
+                                        {livelloContratto.map((option) => (
+                                            <MenuItem value={option.value} >
+                                                {option.value}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.decorrenzaLivello}
@@ -74,33 +84,57 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     ></TextField>
                                     <TextField
                                         style={{ width: "25%" }}
+                                        id="select stato"
+                                        select
+                                        label="Livello Attuale"
                                         value={this.state.livelloAttuale}
                                         onChange={(e) => {
                                             this.setState({ livelloAttuale: e.target.value })
                                             this.updateDipendenteState()
                                         }}
-                                        label="Livello Attuale"
-                                    ></TextField>
+                                    >
+                                        {livelloContratto.map((option) => (
+                                            <MenuItem value={option.value} >
+                                                {option.value}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                 </Form.Row>
                                 <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
+                                        id="select stato"
+                                        select
+                                        label="Tipo Contratto Iniziale"
                                         value={this.state.tipoContrattoIniziale}
                                         onChange={(e) => {
                                             this.setState({ tipoContrattoIniziale: e.target.value })
                                             this.updateDipendenteState()
                                         }}
-                                        label="Tipo Contratto Iniziale"
-                                    ></TextField>
+                                    >
+                                        {contrattoType.map((option) => (
+                                            <MenuItem value={option.value} >
+                                                {option.value}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                     <TextField
                                         style={{ width: "25%" }}
+                                        id="select stato"
+                                        select
+                                        label="Tipo Contratto Attuale"
                                         value={this.state.tipoContrattoAttuale}
                                         onChange={(e) => {
                                             this.setState({ tipoContrattoAttuale: e.target.value })
                                             this.updateDipendenteState()
                                         }}
-                                        label="Tipo Contratto Attuale"
-                                    ></TextField>
+                                    >
+                                        {contrattoType.map((option) => (
+                                            <MenuItem value={option.value} >
+                                                {option.value}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.decorrenzaTipoContratto}
@@ -113,15 +147,23 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     ></TextField>
                                 </Form.Row>
                                 <Form.Row className="infoForm">
-                                    <TextField
+                                <TextField
                                         style={{ width: "25%" }}
+                                        id="select stato"
+                                        select
+                                        label="Job Title"
                                         value={this.state.jobTitle}
                                         onChange={(e) => {
                                             this.setState({ jobTitle: e.target.value })
                                             this.updateDipendenteState()
                                         }}
-                                        label="Job Title"
-                                    ></TextField>
+                                    >
+                                        {jobTitle.map((option) => (
+                                            <MenuItem value={option.value} >
+                                                {option.value}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                 </Form.Row>
                             </Form>
                         </Grid>
@@ -318,15 +360,23 @@ export default class DatiEconomiciDipendente extends React.Component {
                         >
                             <Form style={{ width: "100%" }}>
                                 <Form.Row className="infoForm">
-                                    <TextField
+                                <TextField
                                         style={{ width: "25%" }}
+                                        id="select stato"
+                                        select
+                                        label="Scelta Tredicesima"
                                         value={this.state.sceltaTredicesima}
                                         onChange={(e) => {
                                             this.setState({ sceltaTredicesima: e.target.value })
                                             this.updateDipendenteState()
                                         }}
-                                        label="Scelta Tredicesima"
-                                    ></TextField>
+                                    >
+                                        {sceltaTredicesima.map((option) => (
+                                            <MenuItem key={option.key} value={option.key}>
+                                                {option.key + " - " + option.value}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataAssegnazioneTicket}

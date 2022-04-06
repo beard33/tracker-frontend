@@ -2,6 +2,8 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import { Grid, Input } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
+import { ingaggioType } from "../enum/EconomicsEnums";
+import { MenuItem } from '@mui/material';
 
 export default class DatiEconomiciConsulente extends React.Component {
     state = {
@@ -32,13 +34,21 @@ export default class DatiEconomiciConsulente extends React.Component {
                                 <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "40%" }}
+                                        id="select stato"
+                                        select
+                                        label="Tipo Ingaggio"
                                         value={this.state.tipoIngaggio}
                                         onChange={(e) => {
                                             this.setState({ tipoIngaggio: e.target.value })
                                             this.updateConsulenteState()
                                         }}
-                                        label="Tipo Ingaggio"
-                                    ></TextField>
+                                    >
+                                        {ingaggioType.map((option) => (
+                                            <MenuItem key={option.key} value={option.key} >
+                                                {option.key + " - " + option.value}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
                                     <TextField
                                         style={{ width: "40%" }}
                                         value={this.state.dataIngaggio}
