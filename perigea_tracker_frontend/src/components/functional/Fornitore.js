@@ -1,18 +1,18 @@
 //pagina che visualizza la scelta fornitori
 
 import React from 'react';
+import Azienda from './Azienda';
+import Title from '../structural/Title'
 
 export default class Fornitore extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { }
-  }
-
+  
   render() {
     return (
-      <div>
-        <h1>Fornitore</h1>
-      </div>
-    )
+      <React.Fragment>
+        <Title></Title>
+        <Azienda type="fornitore">
+        </Azienda>
+      </React.Fragment>
+    );
   }
 }

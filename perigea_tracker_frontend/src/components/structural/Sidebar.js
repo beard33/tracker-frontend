@@ -15,8 +15,8 @@ export default class Sidebar extends React.Component {
     return (
 
       <div className={`sidebar-menu${this.props.isMenuOpen === true ? ' open' : ''}`}   >
-        <div className="pro-menu" style={{ backgroundImage: `url("./images/violetGalaxy.jpg")` }}>
-          <ProSidebar style={{ backgroundImage: `url("./images/SfondoLogin.jpg")` }}>
+        <div className="pro-menu" >
+          <ProSidebar >
             <Menu>
               <div className="img-profile-div" >
                 <img className="img-profile" src="./images/fotoProfiloGenerica.png" alt="user"></img>
@@ -25,19 +25,23 @@ export default class Sidebar extends React.Component {
               <MenuItem><a href="/home">Home</a></MenuItem>
 
               <SubMenu title="Clienti">
+                <MenuItem><a href="/add-cliente">Add Cliente</a></MenuItem>
+                <MenuItem><a href="/clienti">Lista Clienti</a></MenuItem>
               </SubMenu>
 
               <SubMenu title="Consulenti">
-                <MenuItem><a href="/anagrafica-consulenti">Anagrafica</a></MenuItem>
+                <MenuItem><a href="/anagrafica-consulenti">Add Consulente</a></MenuItem>
                 <MenuItem><a href="/consulenti">Lista Consulenti</a></MenuItem>
               </SubMenu>
 
               <SubMenu title="Dipendenti">
-                <MenuItem><a href="/anagrafica-dipendenti">Anagrafica</a></MenuItem>
+                <MenuItem><a href="/anagrafica-dipendenti">Add Dipendente</a></MenuItem>
                 <MenuItem><a href="/dipendenti">Lista Dipendenti</a></MenuItem>
               </SubMenu>
 
               <SubMenu title="Fornitori">
+                <MenuItem><a href="/add-fornitore">Add Fornitore</a></MenuItem>
+                <MenuItem><a href="/fornitori">Lista Fornitori</a></MenuItem>
               </SubMenu>
             </Menu>
           </ProSidebar>

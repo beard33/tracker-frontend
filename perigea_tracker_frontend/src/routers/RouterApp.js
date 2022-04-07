@@ -30,13 +30,15 @@ export default function RouterApp() {
         <Route path="/profile" exact component={Message} />
         <Route path="/your-profile" exact component={PersonalProfile} />
         <Route path="/balance" exact component={Message} />
-        <Route path="/view/clienti" exact component={Cliente} />
+        <Route path="/add-cliente" exact component={Cliente} />
+        <Route path="/clienti" exact component={View} />
         <Route path="/consulenti" exact component={View} />
         <Route path="/consulente" exact component={Consulente} />
         <Route path="/anagrafica-dipendenti" exact component={DipendenteCreazione} />
         <Route path="/anagrafica-consulenti" exact component={ConsulenteCreazione} />
         <Route path="/dipendenti" exact component={View} />
-        <Route path="/fornitori" exact component={Fornitore} />
+        <Route path="/add-fornitore" exact component={Fornitore} />
+        <Route path="/fornitori" exact component={View} />
         <Route path="/dipendente" exact component={Dipendente} />
       </Layout>
     </Switch>

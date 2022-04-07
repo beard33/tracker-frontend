@@ -4,7 +4,6 @@ import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import AxiosInstance from "../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
-import Title from '../structural/Title';
 import DatiEconomiciDipendente from "./DatiEconomiciDipendente";
 
 
@@ -152,7 +151,7 @@ export default class Dipendente extends React.Component {
             this.saveAnagraficaDipendenteWithoutEconomics()
         } else {
             console.log(this.state)
-            // this.saveAnagraficaDipendenteWithEconomics()
+            this.saveAnagraficaDipendenteWithEconomics()
         }
     }
 
