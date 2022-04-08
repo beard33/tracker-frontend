@@ -9,6 +9,7 @@ import Modal from 'react-modal';
 import Anagrafica from "./Anagrafica";
 import UploadFileButton from "../structural/UploadFileButton";
 
+let result = [];
 export default class CardGrid extends React.Component {
   constructor(props) {
     super(props);
@@ -26,13 +27,14 @@ export default class CardGrid extends React.Component {
     this.loadUtenti = this.loadUtenti.bind(this);
     this.removeDipendente = this.removeDipendente.bind(this);
     this.saveDipendente = this.saveDipendente.bind(this);
-    this.loadUtentiResponseIntoGrid = this.loadUtentiResponseIntoGrid.bind(this);
+    
   }
+  
 
   componentDidMount() {
     console.log("componentDidMount start")
     AxiosInstance({
-      url:"anagrafica-service/Dipendente/getListDipendenti"
+      url:"dipendenti/read-all-dipendenti"
     }).then((response) => {
       this.loadUtentiResponseIntoGrid(response);
     }).catch((error) => {
@@ -41,22 +43,22 @@ export default class CardGrid extends React.Component {
   }
 
   // carica gli utenti all'interno della griglia dalla response backend
-  loadUtentiResponseIntoGrid(response) {
+  loadUtentiResponseIntoGrid = (response) => {
     let result = [];
-    response.data.forEach(element => {
-      result.push({
+    Object.keys(response.data).forEach((element) => {
+      result.concat({
         codicePersona:element.codicePersona,
-        image: 'image',
-        name: element.nome,
-        lastName: element.cognome,
-        codiceFiscale: element.codiceFiscale,
-        dataNascita: element.dataNascita,
-        luogoNascita: element.luogoNascita,
+        nome: element.utente.nome,
+        cognome: element.utente.cognome,
+        mailAziendale: element.utente.mailAziendale,
+        cellulare: element.utente.cellulare,
+        tipo: element.tipo,
         searchTerm: ''
       })
     });
+    // console.log(response)
     console.log("result : ", result)
-    this.setState({listCard: result.sort((cardA, cardB) => (cardA.name > cardB.name) ? 1 : -1)})
+    // this.setState({listCard: result.sort((cardA, cardB) => (cardA.name > cardB.name) ? 1 : -1)})
   }
 
   // chiamata axios carica utenti

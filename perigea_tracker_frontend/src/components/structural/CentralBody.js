@@ -13,7 +13,7 @@ export default class CentralBody extends React.Component {
   render() {
     console.log("CENTRALBODY ENTRY");
     return (
-      <div className="centralbody" className={`centralbody${this.props.isMenuOpen === true ? ' open' : ''}`}>
+      <div className={`centralbody${this.props.isMenuOpen === true ? ' open' : ''}`}>
         <Title />
         <CardGrid />
       </div>
