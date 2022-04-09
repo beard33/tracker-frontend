@@ -2,60 +2,38 @@
 
 import React from 'react';
 import Box from './Box';
-import CardButtonUpdate from './CardButtonUpdate';
-import CardButtonDelete from './CardButtonDelete';
 import CardDetails from './CardDetails';
 import CardImage from './CardImage';
-import UpdateCardWindow from '../functional/UpdateCardWindow';
+import Form from "react-bootstrap/Form";
 
-export default function Card( {
-    utente,
-    disabilitaButton, 
-    showModal,
-    deleteFunction,
-    closeShowUpdateCardWindow, 
-    showUpdateCard,
-    updateCard,
-    keyShow,
-    profileButtonDelete,
-    profileButtonUpdate,
-  } ) {
 
-    console.log("Card keyShow ", keyShow)
-  return(
+
+export default function Card({
+  dipendente
+}) {
+
+
+  return (
     <Box className="card">
 
-      {<CardImage 
-        cardImage="../images/fotoProfiloGenerica.png"
+      {<CardImage className="image"
+        cardImage="../images/default-profile-picture.png"
       />}
 
       <CardDetails
-        name={utente.name}
-        lastName={utente.lastName}
+        name={dipendente.nome}
+        lastName={dipendente.cognome}
+        username={dipendente.username}
+        mailAziendale={dipendente.mailAziendale}
+        cellulare={dipendente.cellulare}
       />
 
-      <CardButtonUpdate 
-        profileButton={profileButtonUpdate}
-        keyCardUpdate={utente.codicePersona} 
-        keyCard={utente.codicePersona}
-        visualizzaForm={showModal}
-        disabilitaButton={disabilitaButton}
-      />
-
-      <CardButtonDelete 
-        profileButton={profileButtonDelete}
-        keyCard={utente.codicePersona} 
-        deleteButton={deleteFunction}
-      />   
-
-      <UpdateCardWindow 
-        onClose={closeShowUpdateCardWindow} 
-        updateFunction={updateCard} 
-        isToShow={showUpdateCard}
-        utente={utente}
-        keyToShow={keyShow}
-      />
-
+      <Form>
+        <button className='view-button' onClick={console.log("ciao")}>VIEW</button>
+        <button className='delete-button'>DELETE</button>
+      </Form>
+      
     </Box>
+
   )
 }

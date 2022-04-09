@@ -16,6 +16,7 @@
       width: calc(100vw/1.5);
       height: calc(100vw/1.2);
       margin: calc(100vw/6.5);
+      
     }
     &.open {
       -webkit-transform: translateX(0);
@@ -329,6 +330,7 @@
       width: calc(100vw/3.5);
       height: calc(100vw/2.6);
       margin: calc(100vw/50);
+      margin-top: 7%;
     }
     &.open {
       /*div.box-card {

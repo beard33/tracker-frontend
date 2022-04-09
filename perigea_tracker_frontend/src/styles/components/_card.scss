@@ -1,165 +1,23 @@
+@import './base/_settings';
 .card-details {
   height: 30px;
-  margin: 2%;
+  margin-top: -100%;; 
   font-size: 25px;
   color: rgb(0, 0, 0);
+  justify-content: space-around;
   text-align: center;
 }
-
-.card-button-update {
-  width: 50%;
-  height: 25px;
-  font-size: 18px;
-  background-color: $orangePerigea;
-  border-radius: .45rem;
-  border: 0cm;
-  margin-left: 3%;
-  margin-bottom: 2%;
-  color: black;
-  font-weight: lighter;
-  float: left;
-}
-
-.card-button-delete {
-  width: 40%;
-  height: 25px;
-  font-size: 18px;
-  background-color: $redPerigea;
-  border-radius: .45rem;
-  border: 0cm;
-  margin-left: 3%;
-  margin-bottom: 2%;
-  color: black;
-  font-weight: lighter;
-}
-
-.close-button-update {
-  margin-left: 10px;
-  margin-bottom: 5px;
-  background-color: $redPerigea;
-  color: black;
-  width: 91.01px;
-  display: inline-block;
-  height: 50px;
-}
   
-.close-button-add {
-  margin-left: 10px;
-  margin-bottom: 5px;
-  background-color: $redPerigea;
-  color: black;
-  display: inline-block;
-  width: 43%;
-  height: 50px;
-}
-
-.card-input-add {
-  margin-left: 50px;
-  border: 1px solid black;
-  color: black;
-  width: 200px;
-  height: 50px;
-}
-
-.card-button-add {
-  background-color: $orangePerigea;
-  color: black;
-  display: inline-block;
-  width: 43%;
-  height: 50px;
-}
-
-.card-button-add:disabled {
-  background-color: $whitePerigea;
-  height: 50px;
-}
   
-.error { 
-  margin-left: 50px;
-  margin-right: 10px;
-  margin-bottom: 5px;
-  margin-top: 5px;
-  border: 1px solid $redPerigea;
-}
+  .details-from{
+  background-color: white;
+  }
 
-.modal {
-  max-width: 500px;
-  width: 100%;
-  max-height: 90%;
-  overflow-y: auto;
-  left: 0;
-  top: 10%;
-  right:0;
-  position:fixed;
-  background: white;
-  border: 1px solid #ccc;
-  box-shadow: 
-    -2rem 2rem 2rem rgba(black, 0.2);
-  opacity: 3;
-  visibility: visible;
-  margin: auto;
-  border: 3px;
-  padding: 10px;
-  &.off {
-    opacity: 0;
-    visibility: hidden;
-    box-shadow: 1rem 0 0 rgba(black, 0.2);
-  }
-  @supports (offset-rotate: 0deg) {
-    offset-rotate: 0deg;
-    &.off {
-    offset-distance: 100%;
-    }
-  }
-  @media (prefers-reduced-motion) {
-    offset-path: none;
-  }
-  h2 {
-    border-bottom: 1px solid #ccc;
-    padding: 1rem;
-    margin: 0;
-    font-size: 50px;;
-  }
-  .content {
-    padding: 1rem;
-    border-bottom: double;
-  }
-  .content2 {
-    height: 48.8px;
-    padding: 1rem;
-    padding-left: 50px;
-  }
-  .text-content {
-    color: black;
-    text-align: center;
-    font-size: 30px
-  }
-  .form-content {
-  }
-  .form-content-input{
-    margin: 5% 5% 5% 5%;
-    justify-content: space-around;
-    align-content: center;
-    
-  }
-  .form-content-submit {
-    width: 100%;
-    height: 50px;
-    margin : 10% 0% 0% 0%;
-    display: flex;
-    justify-content: space-between;
-  }
-  .actions {
-    border-top: 1px solid #ccc;
-    background: #eee;
-    padding: 0.5rem 1rem;
-    button {
-      border: 0;
-      background: #78f89f;
-      border-radius: 5px;
-      padding: 0.5rem 1rem;
-      font-size: 0.8rem;
-      line-height: 1;
-    }
-  }
-}  
+
+
+
+
+
+
+
+

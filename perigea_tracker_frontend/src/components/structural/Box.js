@@ -3,9 +3,9 @@
 import React from 'react';
 
 export default function Box( props ) {
-  return(
+  return(    
     <div className={`box-${props.className}`}> 
-      {props.children}    
+      {props.children}        
     </div>
   )
 }

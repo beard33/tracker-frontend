@@ -31,7 +31,7 @@ export default function Layout({children}) {
         onMenuToggle={menuToggle}
       />
 
-      <div className="centralbody" className={`centralbody${isMenuOpen === true ? ' open' : ''}`}>
+      <div className={`centralbody${isMenuOpen === true ? ' open' : ''}`}>
           {children}
       </div>
 
