@@ -13,6 +13,7 @@ import Layout from '../components/structural/Layout';
 import LoginPage from '../components/structural/LoginPage';
 import Dipendente from '../components/functional/Dipendente';
 import ConsulenteCreazione from '../components/functional/ConsulenteCreazione';
+import DipendenteView from '../components/structural/DipendenteView';
 
 export default function RouterApp() {
   console.log("ROUTERAPP ENTRY");
@@ -40,6 +41,7 @@ export default function RouterApp() {
         <Route path="/add-fornitore" exact component={Fornitore} />
         <Route path="/fornitori" exact component={View} />
         <Route path="/dipendente" exact component={Dipendente} />
+        <Route path="/dipendente-view" exact component={DipendenteView} />
       </Layout>
     </Switch>
   )

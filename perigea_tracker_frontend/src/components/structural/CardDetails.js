@@ -1,47 +1,63 @@
 //componente generico per dettagli delle card
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import Form from "react-bootstrap/Form";
 
 const CardDetails = (props) => {
 
   return (
-    
-      <div className="card-details">
-        <Form style={{
-          backgroundColor: "#fafafa",
-          width: "90%",
+
+    <div className="card-details">
+      <Form className='details-form'
+        style={{
+          backgroundColor: "trasparent",
+          width: "calc(65vw/3.5)",
+          height: "calc(57vw/3.6)",
           margin: "0% 0% 0% 5%",
           borderRadius: "10%",
           // border: "1px solid #333333"
         }}>
-          <TextField
-            label="nome"
-            value={props.name + " " + props.lastName}></TextField>
-          <TextField
-            label="username"
-            value={props.username}></TextField>
-          <TextField
-            label="mail Aziendale"
-            value={props.mailAziendale}></TextField>
-          <TextField
-            style={{ marginBottom: "5%" }}
-            label="cellulare"
-            value={props.cellulare}></TextField>
-
-        </Form>
-
-      
+        {/* <p>{props.name + " " + props.lastName}</p> */}
+        <TextField
+          label="nome"
+          value={props.name + " " + props.lastName}
+          style={{
+            width: "calc(57vw/3.5)",
+            height: "calc(14vw/3.6)",
+            fontWeight:"bolder"
+          }}></TextField>
+        {/* <p>{props.username}</p> */}
+        <TextField
+          label="username"
+          value={props.username}
+          style={{
+            width: "calc(57vw/3.5)",
+            height: "calc(14vw/3.6)",
+            fontWeight:"bolder"
+          }}></TextField>
+        {/* <p>{props.mailAziendale}</p> */}
+        <TextField
+          label="mail Aziendale"
+          value={props.mailAziendale}
+          style={{
+            width: "calc(58vw/3.5)",
+            height: "calc(14vw/3.6)",
+            fontWeight:"bolder"
+          }}></TextField>
+        {/* <p>{props.cellulare}</p> */}
+        <TextField
+          style={{
+            marginBottom: "5%",
+            width: "calc(57vw/3.5))",
+            height: "calc(14vw/3.6)",
+            fontWeight:"bolder"
+          }}
+          label="cellulare"
+          value={props.cellulare}></TextField>
+         </Form>
     </div>
   )
 }
 
 export default CardDetails;
-
-// CardDetails.propTypes = {
-//   name: PropTypes.string.isRequired,
-//   lastName: PropTypes.string.isRequired,
-// }

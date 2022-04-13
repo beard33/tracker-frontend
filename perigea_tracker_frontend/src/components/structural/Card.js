@@ -4,36 +4,43 @@ import React from 'react';
 import Box from './Box';
 import CardDetails from './CardDetails';
 import CardImage from './CardImage';
-import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 
 
 
-export default function Card({
-  dipendente
-}) {
+
+const Card = (props) => {
+
 
 
   return (
     <Box className="card">
 
       {<CardImage className="image"
-        cardImage="../images/default-profile-picture.png"
+        cardImage="../images/fotoProfiloGenerica.png"
       />}
 
+      <Link className='view-button' to={{ pathname: "/dipendente-view", codicePersona: props.dipendente.codicePersona }} >
+        <img className="view" src="./images/show-details.png"
+          style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
+        ></img>
+      </Link>
+      <button className='delete-button' onClick={() => { props.showDeleteModal(props.dipendente.codicePersona)}}>
+        <img className="bin" src="./images/bin.png"
+          style={{ width: "calc(7vw/3.5)", height: "calc(7vw/3.5)" }}
+        ></img>
+      </button>
+
       <CardDetails
-        name={dipendente.nome}
-        lastName={dipendente.cognome}
-        username={dipendente.username}
-        mailAziendale={dipendente.mailAziendale}
-        cellulare={dipendente.cellulare}
+        name={props.dipendente.nome}
+        lastName={props.dipendente.cognome}
+        username={props.dipendente.username}
+        mailAziendale={props.dipendente.mailAziendale}
+        cellulare={props.dipendente.cellulare}
       />
 
-      <Form>
-        <button className='view-button' onClick={console.log("ciao")}>VIEW</button>
-        <button className='delete-button'>DELETE</button>
-      </Form>
-      
     </Box>
 
   )
 }
+export default Card;
