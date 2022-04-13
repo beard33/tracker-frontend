@@ -24,25 +24,18 @@ export default class Sidebar extends React.Component {
               </div>
               <MenuItem><a href="/home">Home</a></MenuItem>
 
-              <SubMenu title="Clienti">
-                <MenuItem><a href="/add-cliente">Add Cliente</a></MenuItem>
-                <MenuItem><a href="/clienti">Lista Clienti</a></MenuItem>
+
+              <SubMenu title="Esterni">
+                <MenuItem><a href="/fornitori"> Fornitori</a></MenuItem>
+                <MenuItem><a href="/clienti"> Clienti</a></MenuItem>
               </SubMenu>
 
-              <SubMenu title="Consulenti">
-                <MenuItem><a href="/anagrafica-consulenti">Add Consulente</a></MenuItem>
-                <MenuItem><a href="/consulenti">Lista Consulenti</a></MenuItem>
+              <SubMenu title="Utenti">
+                <MenuItem><a href="/dipendenti"> Dipendenti</a></MenuItem>
+                <MenuItem><a href="/consulenti"> Consulenti</a></MenuItem>
               </SubMenu>
 
-              <SubMenu title="Dipendenti">
-                <MenuItem><a href="/anagrafica-dipendenti">Add Dipendente</a></MenuItem>
-                <MenuItem><a href="/dipendenti">Lista Dipendenti</a></MenuItem>
-              </SubMenu>
 
-              <SubMenu title="Fornitori">
-                <MenuItem><a href="/add-fornitore">Add Fornitore</a></MenuItem>
-                <MenuItem><a href="/fornitori">Lista Fornitori</a></MenuItem>
-              </SubMenu>
             </Menu>
           </ProSidebar>
         </div>

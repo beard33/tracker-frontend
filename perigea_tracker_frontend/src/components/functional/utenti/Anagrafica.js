@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import UploadFileButton from '../structural/UploadFileButton'
+import UploadFileButton from '../../structural/UploadFileButton'
 import { Link } from 'react-router-dom';
 import Ruoli from './Ruoli';
 import { MenuItem } from '@mui/material';
-import { utenteStatus, anagraficaType } from '../enum/AnagraficaEnums';
+import { utenteStatus, anagraficaType } from '../../enum/AnagraficaEnums';
 
 
 

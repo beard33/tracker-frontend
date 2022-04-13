@@ -1,15 +1,14 @@
 import * as React from 'react';
-import AxiosInstance from '../../axios/AxiosInstance';
+import AxiosInstance from '../../../axios/AxiosInstance';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import WelcomeHeader from './WelcomeHeader';
+import WelcomeHeader from '../../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 export default class DipendenteView extends React.Component {
@@ -53,32 +52,32 @@ export default class DipendenteView extends React.Component {
     if (e) {
       return Object.keys(e).map((key) => {
         // console.log(key+ "=>" +e[key])
-        if (key === "ruoli") {
-          return (
-            <div className='muiList'>
-              <List subheader={
-                <ListSubheader>Ruoli</ListSubheader>
-              }>
-                {
-                  Object.values(e[key]).map((ruolo) => {
-                    console.log(ruolo)
-                    return (
-                      <ListItem className='muiListItem'>{" " + ruolo.id + " - " + ruolo.descrizione}</ListItem>
-                    )
-                  })
-                }
-              </List>
-            </div>
-          )
-        } else {
-          return (
-            
+        if (key !== "password") {
+          if (key === "ruoli") {
+            return (
+              <div className='muiList'>
+                <List subheader={
+                  <ListSubheader>Ruoli</ListSubheader>
+                }>
+                  {
+                    Object.values(e[key]).map((ruolo) => {
+                      console.log(ruolo)
+                      return (
+                        <ListItem className='muiListItem'>{" " + ruolo.id + " - " + ruolo.descrizione}</ListItem>
+                      )
+                    })
+                  }
+                </List>
+              </div>
+            )
+          } else {
+            return (
               <TextField
                 label={key}
                 value={e[key]}
               ></TextField>
-            
-          );
+            );
+          }
         }
       });
     };
@@ -91,7 +90,7 @@ export default class DipendenteView extends React.Component {
         <WelcomeHeader
           img="../images/default-profile-picture.png"
           name={this.state.utente.nome + " " + this.state.utente.cognome}
-          admin={false}
+          admin={"Dipendente"}
           userEmail={this.state.utente.username}
           db={true}
         />

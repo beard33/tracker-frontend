@@ -11,8 +11,8 @@ import Form from "react-bootstrap/Form";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
-
-export default class CardGrid extends React.Component {
+let endpoint;
+export default class AziendaGrid extends React.Component {
   constructor(props) {
     super(props);
 
@@ -21,34 +21,48 @@ export default class CardGrid extends React.Component {
       showDeleteModal: false,
       keyCode: "",
       searchValue: "",
-      showSpecificSearches: false
+      showSpecificSearches: false      
     }
   }
 
-
+  
   componentDidMount = () => {
     console.log("componentDidMount start")
+    endpoint = this.checkPropsType()    
+    console.log(endpoint)   
     AxiosInstance({
-      url: "dipendenti/read-all-dipendenti"
+      url: endpoint+"/read-all"
     }).then((response) => {
-      this.loadUtentiResponseIntoGrid(response);
+      this.loadAziendaResponseIntoGrid(response);
     }).catch((error) => {
       console.log("Error into loadUtenti ", error)
     })
   }
 
+  checkPropsType = () => {
+    let endpoint;
+    console.log(this.props.tipo)
+    switch (this.props.tipo) {
+      case "clienti":
+        endpoint = "clienti"
+        break;
+      case "fornitori":
+        endpoint = "fornitori"
+        break;
+    }
+    return endpoint;
+    
+  }
+
   // carica gli utenti all'interno della griglia dalla response backend
-  loadUtentiResponseIntoGrid = (response) => {
+  loadAziendaResponseIntoGrid = (response) => {
     let result = [];
     Object.values(response.data.data).map((element) => {
       result.push({
-        codicePersona: element.codicePersona,
-        nome: element.utente.nome,
-        cognome: element.utente.cognome,
-        mailAziendale: element.utente.mailAziendale,
-        cellulare: element.utente.cellulare,
-        username: element.utente.username,
-
+        codiceAzienda: element.codiceAzienda,
+        ragioneSociale: element.ragioneSociale,
+        partitaIva: element.partitaIva,
+        acronimoCliente: element.acronimoCliente
       })
     });
     console.log("result : ", result)
@@ -56,24 +70,26 @@ export default class CardGrid extends React.Component {
     this.setState({ listCard: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1) })
   }
 
-  deleteDipendente = (codicePersona) => {
+  deleteAzienda = (codiceAzienda) => {
     console.log("delete start")
+    endpoint = this.checkPropsType()    
+    console.log(endpoint)
     AxiosInstance({
       method: 'delete',
-      url: `dipendenti/delete/${codicePersona}`
+      url: `${endpoint}/delete-by-id/${codiceAzienda}`
     }).then((response) => {
-      alert("utente eliminato con successo");
+      alert("azienda eliminata con successo");
     }).catch((error) => {
-      console.log("Error into removeDipendente ", error)
+      console.log("Error into removeAzienda ", error)
     })
   };
 
-  openDeleteModal = (codicePersona) => {
+  openDeleteModal = (codiceAzienda) => {
     this.setState({
       showDeleteModal: true,
-      keyCode: codicePersona
+      keyCode: codiceAzienda      
     })
-
+    console.log(this.state.keyCode)
   };
 
   closeDeleteModal = () => {
@@ -84,7 +100,7 @@ export default class CardGrid extends React.Component {
   ADDEmployeButton = (buttonName) => {
     return (
       <div className="box-card">
-        <Link to={{ pathname: "/anagrafica-dipendenti" }}
+        <Link to={{ pathname: "/add-"+this.props.tipo }}
           style={{ textDecoration: "none" }}>
           <button
             className="add-card-show-button"
@@ -97,17 +113,17 @@ export default class CardGrid extends React.Component {
   }
 
 
-  //possibilità di fare un filtro dinamico -- Facoltativo
+  //possibilità di fare un filtro dinamico 
   dynamicSearch = (e) => {
     if (this.state.listCard) {
       const keyword = e.target.value;
       if (keyword !== '') {
         const results = this.state.listCard.filter((dipendente) => {
-          return dipendente.username.toLowerCase().startsWith(keyword.toLowerCase());
+          return dipendente.partitaIva.toLowerCase().startsWith(keyword.toLowerCase());
         });
         this.setState({ listCard: results })
       }
-       this.setState({ searchValue: keyword })
+      this.setState({ searchValue: keyword })
 
     }
   }
@@ -117,18 +133,18 @@ export default class CardGrid extends React.Component {
     return (
       <React.Fragment>
         <div className="card-grid">
-          
+
           {/*searchBar*/}
           <div className="searchBar">
-            <Form style={{width: "100%"}}>
+            <Form style={{ width: "100%" }}>
               <Form.Row className='searchForm'>
                 <TextField
-                  style={{width: "90%"}}
+                  style={{ width: "90%" }}
                   type="search"
                   value={this.state.searchValue}
                   onChange={this.dynamicSearch}
                   label="Filtro"
-                  placeholder='nome.cognome'
+                  placeholder='ragione sociale'
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -143,16 +159,17 @@ export default class CardGrid extends React.Component {
 
           </div>
 
-          {/* bottone di aggiunta dipendenti */}
-          {this.ADDEmployeButton("AGGIUNGI DIPENDENTE")}
+          {/* bottone di aggiunta azienda */}
+          {this.ADDEmployeButton("AGGIUNGI "+ this.props.tipo.toUpperCase())}
 
           {/* stampa della lista dei dipendenti */}
-          {
+          {            
             Object.values(this.state.listCard).map((item) => {
               return (
                 <React.Fragment>
                   <Card
-                    dipendente={item}
+                    tipo={endpoint}
+                    item={item}
                     showDeleteModal={this.openDeleteModal}
                   ></Card>
                 </React.Fragment>
@@ -171,7 +188,7 @@ export default class CardGrid extends React.Component {
             <button className='modalBackButton' onClick={this.closeDeleteModal}>
               Indietro
             </button>
-            <button className='modalDeleteButton' onClick={() => this.deleteDipendente(this.state.keyCode)}>
+            <button className='modalDeleteButton' onClick={() => this.deleteAzienda(this.state.keyCode)}>
               ELIMINA
             </button>
           </Modal>

@@ -2,77 +2,98 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 
 import { Grid } from "@material-ui/core";
-import AxiosInstance from "../../axios/AxiosInstance";
+import AxiosInstance from "../../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
-import DatiEconomiciConsulente from "./DatiEconomiciConsulente";
+import DatiEconomiciDipendente from "./DatiEconomiciDipendente";
 
 
 
 
-export default class Consulente extends React.Component {
-    state = {
-        utente: {
+export default class Dipendente extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            utente: {
+                codicePersona: '',
+                nome: '',
+                cognome: '',
+                dataNascita: '',
+                luogoNascita: '',
+                codiceFiscale: '',
+                cellulare: '',
+                username: '',
+                avatar: '',
+                provinciaResidenza: '',
+                comuneResidenza: '',
+                indirizzoResidenza: '',
+                provinciaDomicilio: '',
+                comuneDomicilio: '',
+                indirizzoDomicilio: '',
+                mailPrivata: '',
+                mailAziendale: '',
+                nomeContattoEmergenza: '',
+                cellulareContattoEmergenza: '',
+                iban: '',
+                stato: '',
+                tipo: '',
+                codiceAzienda: '',
+                ruoli: [],
+                accountNonLocked: false,
+                accountNonExpired: false,
+                credentialsNonExpired: false,
+                password: ''
+            },
             codicePersona: '',
-            nome: '',
-            cognome: '',
-            dataNascita: '',
-            luogoNascita: '',
-            codiceFiscale: '',
-            cellulare: '',
-            username: '',
-            avatar: '',
-            provinciaResidenza: '',
-            comuneResidenza: '',
-            indirizzoResidenza: '',
-            provinciaDomicilio: '',
-            comuneDomicilio: '',
-            indirizzoDomicilio: '',
-            mailPrivata: '',
-            mailAziendale: '',
-            nomeContattoEmergenza: '',
-            cellulareContattoEmergenza: '',
-            iban: '',
-            stato: '',
             tipo: '',
-            codiceAzienda: '',
-            ruoli: [],
-            accountNonLocked: false,
-            accountNonExpired: false,
-            credentialsNonExpired: false,
-            password: ''
-        },
-        codicePersona: '',
-        tipo: '',
-        dataAssunzione: '',
-        dataCessazione: '',
-        codiceResponsabile: '',
-        partitaIva: '',
-        costo: 0.0,
-        economics: {
-            codicePersona: '',
-            dataIngaggio: '',
-            dataDecorrenzaCosto: '',
-            dataAssegnazioneCentroDiCosto: '',
-            codiceCentroDiCosto: '',
-            tipoIngaggio: '',
-            costoGiornaliero: 0.0,
-            archived: false
-        },
+            dataAssunzione: '',
+            dataCessazione: '',
+            codiceResponsabile: '',
 
-        showComponent: false
+            economics: {
+                codicePersona: '',
+                livelloIniziale: '',
+                tipoContrattoIniziale: '',
+                ralInizile: 0.0,
+                ralAttuale: 0.0,
+                decorrenzaRalAttuale: 0.0,
+                dataAssegnazioneTicket: 0.0,
+                rimborsoGionaliero: 0.0,
+                decorrenzaRimborso: '',
+                livelloAttuale: '',
+                decorrenzaLivello: '',
+                tipoContrattoAttuale: '',
+                jobTitle: '',
+                sceltaTredicesima: '',
+                ultimoPremio: 0.0,
+                dataUltimoPremio: '',
+                modelloAuto: '',
+                rimborsoPerKm: 0.0,
+                kmPerGiorno: 0.0,
+                costoGiornaliero: 0.0,
+                dataDecorrenzaCosto: '',
+                codiceCentroDiCosto: '',
+                decorrenzaAssegnazioneCentroDiCosto: '',
+                decorrenzaKmRimborsabili: '',
+                decorrenzaRimborsiKm: '',
+                decorrenzaTipoContratto: '',
+                archived: false
+            },
+
+            showComponent: false
+
+        };
     }
 
-
-    componentDidMount = () => {
+    componentDidMount = () => {        
         this.setState({
-            tipo: "CONSULENTE",
+            tipo: "DIPENDENTE",
             utente: this.props.location.state.utente,
             codicePersona: this.props.location.state.utente.codicePersona,
             economics: { codicePersona: this.props.location.state.utente.codicePersona }
         })
-
+        
     }
-
     onADDButtonClick = () => {
         this.setState({
             showComponent: true
@@ -81,11 +102,11 @@ export default class Consulente extends React.Component {
 
     updateState = (e) => { this.setState({ economics: e  })}
 
-    saveConsulenteWithoutEconomics = () => {
-        console.log("saveConsulente start ", this.state.codicePersona)
+    saveAnagraficaDipendenteWithoutEconomics = () => {
+        console.log("saveDipendente start ", this.state.codicePersona)
         AxiosInstance({
             method: 'post',
-            url: "consulenti/create",
+            url: "dipendenti/create",
             data: {
                 utente: this.state.utente,
                 codicePersona: this.state.codicePersona,
@@ -93,22 +114,20 @@ export default class Consulente extends React.Component {
                 dataAssunzione: this.state.dataAssunzione,
                 dataCessazione: this.state.dataCessazione,
                 codiceResponsabile: this.state.codiceResponsabile,
-                partitaIva: this.state.partitaIva,
-                costo: this.state.costo
             }
         }).then(() => {
-            alert("Salvataggio del consulente effettuato con successo")
-            console.log("Salvataggio del consulente effettuato con successo", this.data)
+            alert("Salvataggio del dipendente effettuato con successo")
+            console.log("Salvataggio del dipendente effettuato con successo", this.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
     }
 
-    saveConsulenteWithEconomics = () => {
+    saveAnagraficaDipendenteWithEconomics = () => {
         console.log("saveDipendente start ", this.state.codicePersona)
         AxiosInstance({
             method: 'post',
-            url: "consulenti/create",
+            url: "dipendenti/create",
             data: {
                 utente: this.state.utente,
                 codicePersona: this.state.codicePersona,
@@ -116,8 +135,6 @@ export default class Consulente extends React.Component {
                 dataAssunzione: this.state.dataAssunzione,
                 dataCessazione: this.state.dataCessazione,
                 codiceResponsabile: this.state.codiceResponsabile,
-                partitaIva: this.state.partitaIva,
-                costo: this.state.costo,
                 economics: this.state.economics
             }
         }).then(() => {
@@ -128,16 +145,17 @@ export default class Consulente extends React.Component {
         })
     }
 
-
     onSAVEButtonClick = () => {
         if (!this.state.showComponent) {
             console.log(this.state)
-            this.saveConsulenteWithoutEconomics()
+            this.saveAnagraficaDipendenteWithoutEconomics()
         } else {
             console.log(this.state)
-            this.saveConsulenteWithEconomics()
+            this.saveAnagraficaDipendenteWithEconomics()
         }
     }
+
+
 
     render() {
         return (
@@ -178,18 +196,6 @@ export default class Consulente extends React.Component {
                                         onChange={(e) => { this.setState({ codiceResponsabile: e.target.value }) }}
                                         label="Codice Responsabile"
                                     ></TextField>
-                                    <TextField
-                                        style={{ width: "25%" }}
-                                        value={this.state.partitaIva}
-                                        onChange={(e) => { this.setState({ partitaIva: e.target.value }) }}
-                                        label="Partita Iva"
-                                    ></TextField>
-                                    <TextField
-                                        style={{ width: "25%" }}
-                                        value={this.state.costo}
-                                        onChange={(e) => { this.setState({ costo: e.target.value }) }}
-                                        label="Costo"
-                                    ></TextField>
                                 </Form.Row>
                             </Form>
                         </Grid>
@@ -206,7 +212,7 @@ export default class Consulente extends React.Component {
                                 ADD ECONOMICS
                             </button>}
                         {this.state.showComponent ?
-                            <DatiEconomiciConsulente  updateState={this.updateState}/> :
+                            <DatiEconomiciDipendente  updateState={this.updateState}/> :
                             null
                         }
 
@@ -221,5 +227,4 @@ export default class Consulente extends React.Component {
 
         )
     }
-
 }

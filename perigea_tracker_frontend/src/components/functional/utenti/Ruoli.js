@@ -1,6 +1,6 @@
 import { FormControl, InputLabel } from '@mui/material';
 import React from 'react';
-import { ruoli} from '../enum/RuoliEnum'
+import { ruoli} from '../../enum/RuoliEnum'
 import { MenuItem } from '@mui/material';
 
 import Select from '@mui/material/Select';

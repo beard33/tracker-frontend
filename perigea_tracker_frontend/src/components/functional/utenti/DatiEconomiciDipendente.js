@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import { Grid, Input } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import { MenuItem } from '@mui/material';
-import { livelloContratto, contrattoType, jobTitle, sceltaTredicesima } from "../enum/EconomicsEnums";
+import { livelloContratto, contrattoType, jobTitle, sceltaTredicesima } from "../../enum/EconomicsEnums";
 
 
 

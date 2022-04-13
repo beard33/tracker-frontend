@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 
-const admin = false;
+const admin = "dipendente";
 const userEmail = "utenteMock@perigea.it";
 
 const inputs = [

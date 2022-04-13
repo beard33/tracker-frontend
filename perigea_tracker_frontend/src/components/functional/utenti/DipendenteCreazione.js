@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import Anagrafica from './Anagrafica';
-import Title from '../structural/Title'
+import Title from '../../structural/Title'
 
 export default class DipendenteCreazione extends Component {  
   

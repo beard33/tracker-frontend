@@ -12,7 +12,7 @@ export default function CardImage({ cardImage }) {
         transform: "scale(0.50,0.35) translateX(-3.5%) translateY(-130%)",
         borderRadius: "50%",
         marginBottom: "0%",
-        backgroundColor:"#fafafa",
+        backgroundColor:"#333333",
         border: "2px solid #ffd64fe0"
         
       }}></img>

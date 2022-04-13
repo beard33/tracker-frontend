@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Anagrafica from './Anagrafica';
-import Title from '../structural/Title'
+import Title from '../../structural/Title'
 
 export default class ConsulenteCreazione extends React.Component {
   
