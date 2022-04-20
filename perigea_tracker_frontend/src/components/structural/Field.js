@@ -18,7 +18,10 @@ const Field = (props) => {
                     cardImage="../images/comm-fatt.png"
                 />}
 
-                <Link className='view-button' to={{ pathname: "/home" }} >
+                <Link className='view-button' to={{
+                    pathname: "/commessa-fatturabile-view",
+                    codiceCommessa: props.commessa.codiceCommessa
+                }} >
                     <img className="view" src="./images/show-details.png"
                         style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
                     ></img>
@@ -49,7 +52,11 @@ const Field = (props) => {
                     cardImage="../images/comm-noFatt.png"
                 />}
 
-                <Link className='view-button' to={{ pathname: "/home" }} >
+                <Link className='view-button'
+                    to={{
+                        pathname: "/commessa-non-fatturabile-view",
+                        codiceCommessa: props.commessa.codiceCommessa
+                    }} >
                     <img className="view" src="./images/show-details.png"
                         style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
                     ></img>

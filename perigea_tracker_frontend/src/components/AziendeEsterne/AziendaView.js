@@ -62,38 +62,39 @@ export default class AziendaView extends React.Component {
         return tipo;
 
     }
-    
+
 
     render() {
         return (
+            <React.Fragment>
+                <div>
 
-            <div>
-                
-                <WelcomeHeader
-                    img="../images/company.png"
-                    name={this.state.azienda.ragioneSociale}
-                    admin={type}
-                    userEmail={this.state.azienda.partitaIva}
-                    db={true}
-                />
-                <div className='userAccordion'>
-                    <Accordion>
-                        <AccordionSummary
-                            className='accordionSummary'
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                        >
-                            <Typography>Dati Azienda</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails className='accordionDetails'>
-                            {this.getData(this.state.azienda)}
-                        </AccordionDetails>
-                    </Accordion>
+                    <WelcomeHeader
+                        img="../images/company.png"
+                        name={this.state.azienda.ragioneSociale}
+                        admin={type}
+                        userEmail={this.state.azienda.partitaIva}
+                        db={true}
+                    />
+                    <div className='userAccordion'>
+                        <Accordion expanded>
+                            <AccordionSummary
+                                className='accordionSummary'
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                            >
+                                <Typography>Dati Azienda</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails className='accordionDetails'>
+                                {this.getData(this.state.azienda)}
+                            </AccordionDetails>
+                        </Accordion>
 
 
+                    </div>
                 </div>
-            </div>
+            </React.Fragment>
         )
     };
 }
