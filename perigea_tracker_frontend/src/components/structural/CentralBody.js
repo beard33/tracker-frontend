@@ -1,8 +1,8 @@
 //componente generico che contiene Title e Corpo
 
 import React from 'react';
-import AziendaGrid from '../functional/AziendaGrid';
-import UtentiGrid from '../functional/utenti/UtentiGrid';
+import AziendaGrid from '../AziendeEsterne/AziendaGrid';
+import UtentiGrid from '../utenti/UtentiGrid';
 import Title from '../structural/Title';
 
 export default class CentralBody extends React.Component {
@@ -19,7 +19,7 @@ export default class CentralBody extends React.Component {
     tipo = this.props.tipo;
     console.log(tipo)
       return (   
-      <div className={`centralbody${this.props.isMenuOpen === true ? ' open' : ''}`}>
+      <div className={`centralbody${this.props.isMenuOpen ? ' open' : ''}`}>
         <Title />
         <UtentiGrid tipo={tipo} />
       </div>

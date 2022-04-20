@@ -5,17 +5,21 @@ import { withRouter,Switch, Route } from "react-router-dom"
 import Message from '../components/functional/Message';
 import PersonalProfile from '../components/functional/PersonalProfile';
 import View from '../components/structural/View';
-import Cliente from '../components/functional/Cliente';
-import Consulente from '../components/functional/utenti/Consulente';
-import DipendenteCreazione from '../components/functional/utenti/DipendenteCreazione';
-import Fornitore from '../components/functional/Fornitore';
+import Cliente from '../components/AziendeEsterne/Cliente';
+import Consulente from '../components/utenti/Consulente';
+import DipendenteCreazione from '../components/utenti/DipendenteCreazione';
+import Fornitore from '../components/AziendeEsterne/Fornitore';
 import Layout from '../components/structural/Layout';
 import LoginPage from '../components/structural/LoginPage';
-import Dipendente from '../components/functional/utenti/Dipendente';
-import ConsulenteCreazione from '../components/functional/utenti/ConsulenteCreazione';
-import DipendenteView from '../components/functional/utenti/DipendenteView';
-import ConsulenteView from '../components/functional/utenti/ConsulenteView';
-import AziendaView from '../components/functional/AziendaView';
+import Dipendente from '../components/utenti/Dipendente';
+import ConsulenteCreazione from '../components/utenti/ConsulenteCreazione';
+import DipendenteView from '../components/utenti/DipendenteView';
+import ConsulenteView from '../components/utenti/ConsulenteView';
+import AziendaView from '../components/AziendeEsterne/AziendaView';
+import CommessaFatturabile from '../components/commesse/CommessaFatturabile';
+import OrdineCommessa from '../components/commesse/OrdineCommessa';
+import CommessaNonFatturabile from '../components/commesse/CommessaNonFatturabile';
+import CommesseGrid from '../components/commesse/CommesseGrid';
 
 export default function RouterApp() {
   console.log("ROUTERAPP ENTRY");
@@ -46,6 +50,10 @@ export default function RouterApp() {
         <Route path="/dipendenti-view" exact component={DipendenteView} />
         <Route path="/consulenti-view" exact component={ConsulenteView} />
         <Route path="/azienda-view" exact component={AziendaView} />
+        <Route path="/commessa-fatturabile" exact render={() => <CommessaFatturabile />} />
+        <Route path="/ordine-commessa" exact component={OrdineCommessa} />
+        <Route path="/commessa-non-fatturabile" exact render={() => <CommessaNonFatturabile />} />
+        <Route path="/commesse-grid" exact render={() => <CommesseGrid />} />
       </Layout>
     </Switch>
   )

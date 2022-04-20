@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 
 import { Grid } from "@material-ui/core";
-import AxiosInstance from "../../../axios/AxiosInstance";
+import AxiosInstance from "../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
 import DatiEconomiciDipendente from "./DatiEconomiciDipendente";
 
@@ -85,14 +85,15 @@ export default class Dipendente extends React.Component {
         };
     }
 
-    componentDidMount = () => {        
+    componentDidMount = () => {
         this.setState({
             tipo: "DIPENDENTE",
             utente: this.props.location.state.utente,
             codicePersona: this.props.location.state.utente.codicePersona,
             economics: { codicePersona: this.props.location.state.utente.codicePersona }
         })
-        
+        console.log(this.state.codicePersona)
+
     }
     onADDButtonClick = () => {
         this.setState({
@@ -100,7 +101,7 @@ export default class Dipendente extends React.Component {
         })
     }
 
-    updateState = (e) => { this.setState({ economics: e  })}
+    updateState = (e) => { this.setState({ economics: e }) }
 
     saveAnagraficaDipendenteWithoutEconomics = () => {
         console.log("saveDipendente start ", this.state.codicePersona)
@@ -145,13 +146,58 @@ export default class Dipendente extends React.Component {
         })
     }
 
+    updateDipendente = () => {
+        console.log("updateDipendente start ", this.state.codicePersona)
+        AxiosInstance({
+            method: 'put',
+            url: "dipendenti/update",
+            data: {
+                utente: this.state.utente,
+                codicePersona: this.state.codicePersona,
+                tipo: this.state.tipo,
+                dataAssunzione: this.state.dataAssunzione,
+                dataCessazione: this.state.dataCessazione,
+                codiceResponsabile: this.state.codiceResponsabile,
+            }
+        }).then(() => {
+            alert("Update del dipendente effettuato con successo")
+            console.log("Update del dipendente effettuato con successo", this.data)
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+        })
+    }
+
+    updateEconomics = () => {
+        console.log("update dei dati economici start ", this.state.codicePersona)
+        AxiosInstance({
+            method: 'put',
+            url: "dipendenti/update-economics",
+            data: {
+                economics: this.state.economics
+            }
+        }).then(() => {
+            alert("update dei dati economici effettuato con successo")
+            console.log("update dei dati economici effettuato con successo", this.data)
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+        })
+    }
+
     onSAVEButtonClick = () => {
-        if (!this.state.showComponent) {
-            console.log(this.state)
-            this.saveAnagraficaDipendenteWithoutEconomics()
+        if (this.props.location.state.update) {
+            console.log("UPDATE")
+            this.updateDipendente()
+            if (this.state.showComponent) {
+                this.updateEconomics()
+            }
         } else {
-            console.log(this.state)
-            this.saveAnagraficaDipendenteWithEconomics()
+            if (!this.state.showComponent) {
+                console.log(this.state)
+                this.saveAnagraficaDipendenteWithoutEconomics()
+            } else {
+                console.log(this.state)
+                this.saveAnagraficaDipendenteWithEconomics()
+            }
         }
     }
 
@@ -159,14 +205,14 @@ export default class Dipendente extends React.Component {
 
     render() {
         return (
-            <React.Fragment>               
+            <React.Fragment>
                 <div className="postStyleProps">
                     <h3>Dati aziendali </h3>
                     <div className="info">
                         <Grid className="infoGrid"
                             container
                             spacing={20}>
-                            <Form style={{ width: "100%" }}>                           
+                            <Form style={{ width: "100%" }}>
                                 <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
@@ -203,7 +249,7 @@ export default class Dipendente extends React.Component {
 
                     <h3>Dati Economici</h3>
                     <div>
-                        {!this.state.showComponent && 
+                        {!this.state.showComponent &&
                             <button className="button-add"
                                 type="button"
                                 onClick={this.onADDButtonClick}
@@ -212,7 +258,7 @@ export default class Dipendente extends React.Component {
                                 ADD ECONOMICS
                             </button>}
                         {this.state.showComponent ?
-                            <DatiEconomiciDipendente  updateState={this.updateState}/> :
+                            <DatiEconomiciDipendente updateState={this.updateState} /> :
                             null
                         }
 

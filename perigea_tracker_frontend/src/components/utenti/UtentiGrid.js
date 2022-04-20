@@ -1,8 +1,8 @@
 //componente che visualizza la griglia di card
 
 import React from 'react';
-import Card from '../../structural/Card';
-import AxiosInstance from "../../../axios/AxiosInstance";
+import Card from '../structural/Card';
+import AxiosInstance from "../../axios/AxiosInstance";
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import Typography from '@mui/material/Typography';
@@ -11,7 +11,9 @@ import Form from "react-bootstrap/Form";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
+
 let endpoint;
+
 export default class UtentiGrid extends React.Component {
   constructor(props) {
     super(props);
@@ -21,17 +23,17 @@ export default class UtentiGrid extends React.Component {
       showDeleteModal: false,
       keyCode: "",
       searchValue: "",
-      showSpecificSearches: false      
+      showSpecificSearches: false
     }
   }
 
-  
+
   componentDidMount = () => {
     console.log("componentDidMount start")
-    endpoint = this.checkPropsType()    
-    console.log(endpoint)   
+    endpoint = this.checkPropsType()
+    console.log(endpoint)
     AxiosInstance({
-      url: endpoint+"/read-all"
+      url: endpoint + "/read-all"
     }).then((response) => {
       this.loadUtentiResponseIntoGrid(response);
     }).catch((error) => {
@@ -51,7 +53,7 @@ export default class UtentiGrid extends React.Component {
         break;
     }
     return endpoint;
-    
+
   }
 
   // carica gli utenti all'interno della griglia dalla response backend
@@ -74,7 +76,7 @@ export default class UtentiGrid extends React.Component {
 
   deleteDipendente = (codicePersona) => {
     console.log("delete start")
-    endpoint = this.checkPropsType()    
+    endpoint = this.checkPropsType()
     console.log(endpoint)
     AxiosInstance({
       method: 'delete',
@@ -101,7 +103,10 @@ export default class UtentiGrid extends React.Component {
   ADDEmployeButton = (buttonName) => {
     return (
       <div className="box-card">
-        <Link to={{ pathname: "/anagrafica-"+this.props.tipo }}
+        <Link to={{
+          pathname: "/anagrafica-" + this.props.tipo,
+          updateProps: {update: false}
+        }}
           style={{ textDecoration: "none" }}>
           <button
             className="add-card-show-button"
@@ -120,7 +125,7 @@ export default class UtentiGrid extends React.Component {
       const keyword = e.target.value;
       if (keyword !== '') {
         const results = this.state.listCard.filter((dipendente) => {
-          return dipendente.username.toLowerCase().startsWith(keyword.toLowerCase());
+          return dipendente.username.toLowerCase().includes(keyword.toLowerCase());
         });
         this.setState({ listCard: results })
       }
@@ -161,11 +166,11 @@ export default class UtentiGrid extends React.Component {
           </div>
 
           {/* bottone di aggiunta dipendenti */}
-          {this.ADDEmployeButton("AGGIUNGI "+ this.props.tipo.toUpperCase())}
+          {this.ADDEmployeButton("AGGIUNGI " + this.props.tipo.toUpperCase())}
 
           {/* stampa della lista dei dipendenti */}
           {
-            
+
             Object.values(this.state.listCard).map((item) => {
               return (
                 <React.Fragment>

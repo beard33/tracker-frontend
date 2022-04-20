@@ -3,6 +3,8 @@ import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import AxiosInstance from '../../axios/AxiosInstance';
+import { Link } from 'react-router-dom';
+import { pagamentoType } from '../enum/AziendaEnums';
 import { MenuItem } from '@mui/material';
 
 export default class Azienda extends React.Component {
@@ -84,7 +86,16 @@ export default class Azienda extends React.Component {
         })
     }
 
+    saveAzienda = () => {
+        if (this.props.type == "cliente") {
+            this.saveCliente()
+        } else {
+            this.saveFornitore()
+        }
+    }
+
     render() {
+        console.log(this.props.commessaProps)
         return (
             <React.Fragment>
                 <div className="postStyleProps" >
@@ -207,11 +218,19 @@ export default class Azienda extends React.Component {
                                         label="Progressivo Per Commesse"
                                     ></TextField>
                                     <TextField
-                                        style={{ width: "25%" }}
-                                        value={this.state.tipologiaPagamentoType}
-                                        onChange={(e) => { this.setState({ tipologiaPagamentoType: e.target.value }) }}
-                                        label="Tipologia Pagamento"
-                                    ></TextField>
+                                         style={{ width: "25%" }}
+                                         id="select pagamento Type"
+                                         select
+                                         label="tipologia pagamento"
+                                         value={this.state.tipologiaPagamentoType}
+                                         onChange={(e) => { this.setState({ tipologiaPagamentoType: e.target.value }) }}
+                                     >
+                                         {pagamentoType.map((option) => (
+                                             <MenuItem key={option.stato} value={option.stato} >
+                                                 {option.stato + " - " + option.descrizione}
+                                             </MenuItem>
+                                         ))}
+                                    </TextField>
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.notePerLaFatturazione}
@@ -225,16 +244,24 @@ export default class Azienda extends React.Component {
                 </div>
                 <Form>
                     <div>
-                        {this.props.type == "cliente" ?
-                            <button className="button-save"
-                                type="button" 
-                                onClick={this.saveCliente}>
-                                SAVE
-                            </button>
+                        {this.props.commessaProps.commessa ?
+                            <Link to={{
+                                pathname: "/ordine-commessa",
+                                state: {
+                                    commessa: this.props.commessaProps.commessaFatturabile,
+                                    cliente: this.state
+                                }
+                            }}>
+                                <button className="button-save"
+                                    type="button"
+                                >
+                                    AVANTI
+                                </button>
+                            </Link>
                             :
                             <button className="button-save"
-                                type="button" 
-                                onClick={this.saveFornitore}>
+                                type="button"
+                                onClick={this.saveAzienda}>
                                 SAVE
                             </button>
                         }

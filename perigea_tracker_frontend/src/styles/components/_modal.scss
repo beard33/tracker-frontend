@@ -50,6 +50,60 @@
                 height: 10%;
             }
 
+            .modalFatturabileButton {
+                cursor: pointer;
+                background-color: $orangePerigea;
+                color: $greyPerigea;
+                width: 30%;
+                height: 20%;
+                font-weight: bold;
+                border-radius: 10%;
+                margin-top: 5%;
+                margin-right: 10%;
+                float: right;
+
+                .buttonLink {
+                    color: $greyPerigea;
+                    text-decoration: none;
+                }
+            }
+
+            .modalFatturabileButton:hover {
+                background-color: $redPerigea;
+
+                .buttonLink {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+
+            .modalNoFatturabileButton {
+                cursor: pointer;
+                background-color: $orangePerigea;
+                color: $greyPerigea;
+                width: 30%;
+                height: 10%;
+                font-weight: bold;
+                border-radius: 10%;
+                margin-top: 5%;
+                margin-left: 10%;
+                float: left;
+
+                .buttonLink {
+                    color: $greyPerigea;
+                    text-decoration: none;
+                }
+            }
+
+            .modalNoFatturabileButton:hover {
+                background-color: $redPerigea;
+
+                .buttonLink {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+
             .modalDeleteButton {
                 cursor: pointer;
                 background-color: $orangePerigea;
@@ -62,6 +116,7 @@
                 margin-right: 15%;
                 float: right;
             }
+
             .modalDeleteButton:hover {
                 background-color: $redPerigea;
                 color: #fafafa;

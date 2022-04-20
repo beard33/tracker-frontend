@@ -18,6 +18,120 @@
     margin: 0;
     padding: 0;
 
+    .box-field-1 {
+      width: calc(246vw/2.6);
+      height: calc(15vw/2.6);
+
+      border-radius: 10px;
+      background-color: #ffd64fe0;
+      // background: rgb(0,0,0);
+      // background: radial-gradient(circle, #fafafa 9%, #d8ed3c 90%);
+      justify-content: space-around;
+      float: left;
+      margin: 2%;
+      margin-top: 1%;
+      margin-bottom: 0%;
+      border: 1px solid $greyPerigea;
+      // box-shadow: 10px 10px 5px $greyPerigea;
+
+      .view-button {
+        // display:block;
+        float: left;
+        width: calc(10vw/3.5);
+        height: calc(7vw/2.6);
+        font-size: 18px;
+        background-color: transparent;
+        border-color: transparent;
+        color: $orangePerigea;
+        font-weight: bolder;
+        cursor: pointer;
+        margin-bottom: 0%;
+        margin-left: 27%;
+        border-radius: 10px;
+        margin-top: 1.4%;
+        text-align: center;
+        font-size: calc(4.5vw/3.5);
+        position: absolute
+      }
+
+      .delete-button {
+        // display:block;
+        float: right;
+        width: calc(11avw/3.5);
+        height: calc(7vw/2.6);
+        font-size: 18px;
+        background-color: transparent;
+        border-color: transparent;
+        color: $orangePerigea;
+        font-weight: bolder;
+        cursor: pointer;
+        margin-bottom: 0px;
+        margin-left: 30%;
+        border-radius: 10px;
+        margin-top: 1.3%;
+        text-align: center;
+        font-size: calc(4.5vw/3.5);
+        position: absolute
+      }
+    }
+
+    .box-field-2 {
+      width: calc(246vw/2.6);
+      height: calc(15vw/2.6);
+
+      border-radius: 10px;
+      background-color: $lightGreyPerigea;
+      // background: rgb(0,0,0);
+      // background: radial-gradient(circle, #fafafa 9%, #d8ed3c 90%);
+      justify-content: space-around;
+      float: left;
+      margin: 2%;
+      margin-top: 1%;
+      margin-bottom: 0%;
+      border: 1px solid $greyPerigea;
+      // box-shadow: 10px 10px 5px $greyPerigea;
+
+      .view-button {
+        // display:block;
+        float: left;
+        width: calc(10vw/3.5);
+        height: calc(7vw/2.6);
+        font-size: 18px;
+        background-color: transparent;
+        border-color: transparent;
+        color: $orangePerigea;
+        font-weight: bolder;
+        cursor: pointer;
+        margin-bottom: 0%;
+        margin-left: 27%;
+        border-radius: 10px;
+        margin-top: 1.4%;
+        text-align: center;
+        font-size: calc(4.5vw/3.5);
+        position: absolute
+      }
+
+      .delete-button {
+        // display:block;
+        float: right;
+        width: calc(11avw/3.5);
+        height: calc(7vw/2.6);
+        font-size: 18px;
+        background-color: transparent;
+        border-color: transparent;
+        color: $orangePerigea;
+        font-weight: bolder;
+        cursor: pointer;
+        margin-bottom: 0px;
+        margin-left: 30%;
+        border-radius: 10px;
+        margin-top: 1.3%;
+        text-align: center;
+        font-size: calc(4.5vw/3.5);
+        position: absolute
+      }
+    }
+
     .searchBar {
       margin-top: 2%;
       margin-left: 65%;
@@ -33,14 +147,34 @@
         width: 100%;
         margin-top: 1%;
         margin-left: 5%;
+
       }
     }
-
-
 
     .showSpecificSearchesButton:hover {
       background-color: $orangePerigea;
       color: $greyPerigea;
+    }
+
+    .add-field-show-button {
+      border-radius: 100%;
+      font-size: calc(10vw/3.5);
+      font-weight: bolder;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+      background-color: white;
+      color: black;
+      width: calc(14vw/2.6);
+      float: left;
+      margin-left: 11%;
+      height: calc(14vw/2.6);
+      margin-top: 2%;
+    }
+
+    .add-field-show-button:hover {
+      background-color: $lightGreyPerigea;
+      color: black;
     }
 
     .add-card-show-button {
@@ -102,7 +236,7 @@
         margin-bottom: 0%;
         margin-left: 1%;
         border-radius: 10px;
-        margin-top: -28%;
+        margin-top: -27.7%;
         text-align: center;
         font-size: calc(4.5vw/3.5);
         position: absolute
@@ -163,6 +297,143 @@
         width: 100%;
       }
 
+      .add-field-show-button {
+        border-radius: 100%;
+        font-size: calc(10vw/3.5);
+        font-weight: bolder;
+        cursor: pointer;
+        display: block;
+        margin: 0 auto;
+        background-color: white;
+        color: black;
+        width: calc(11vw/2.6);
+        float: left;
+        margin-left: 10.5%;
+        height: calc(11vw/2.6);
+        margin-top: 2%;
+      }
+
+      .add-field-show-button:hover {
+        background-color: $orangePerigea;
+        color: $greyPerigea;
+      }
+
+      .box-field-1 {
+        width: calc(185vw/2.6);
+        height: calc(12vw/2.6);
+
+        border-radius: 10px;
+        background-color: #ffd64fe0;
+        // background: rgb(0,0,0);
+        // background: radial-gradient(circle, #fafafa 9%, #d8ed3c 90%);
+        justify-content: space-around;
+        float: left;
+        margin: 2%;
+        margin-top: 1%;
+        margin-bottom: 0%;
+        border: 1px solid $greyPerigea;
+        // box-shadow: 10px 10px 5px $lightGreyPerigea;
+
+
+        .view-button {
+          // display:block;
+          float: left;
+          width: calc(10vw/3.5);
+          height: calc(7vw/2.6);
+          font-size: 18px;
+          background-color: transparent;
+          border-color: transparent;
+          color: $orangePerigea;
+          font-weight: bolder;
+          cursor: pointer;
+          margin-bottom: 0%;
+          margin-left: 26%;
+          border-radius: 10px;
+          margin-top: 1.4%;
+          text-align: center;
+          font-size: calc(4.5vw/3.5);
+          position: absolute
+        }
+
+        .delete-button {
+          // display:block;
+          float: right;
+          width: calc(11vw/3.5);
+          height: calc(7vw/2.6);
+          font-size: 18px;
+          background-color: transparent;
+          border-color: transparent;
+          color: $orangePerigea;
+          font-weight: bolder;
+          cursor: pointer;
+          margin-bottom: 0px;
+          margin-left: 29%;
+          border-radius: 10px;
+          margin-top: 1.3%;
+          text-align: center;
+          font-size: calc(4.5vw/3.5);
+          position: absolute
+        }
+      }
+
+      .box-field-2 {
+        width: calc(185vw/2.6);
+        height: calc(12vw/2.6);
+
+        border-radius: 10px;
+        background-color: $lightGreyPerigea;
+        // background: rgb(0,0,0);
+        // background: radial-gradient(circle, #fafafa 9%, #d8ed3c 90%);
+        justify-content: space-around;
+        float: left;
+        margin: 2%;
+        margin-top: 1%;
+        margin-bottom: 0%;
+        border: 1px solid $greyPerigea;
+        // box-shadow: 10px 10px 5px $greyPerigea;
+
+
+        .view-button {
+          // display:block;
+          float: left;
+          width: calc(10vw/3.5);
+          height: calc(7vw/2.6);
+          font-size: 18px;
+          background-color: transparent;
+          border-color: transparent;
+          color: $orangePerigea;
+          font-weight: bolder;
+          cursor: pointer;
+          margin-bottom: 0%;
+          margin-left: 26%;
+          border-radius: 10px;
+          margin-top: 1.4%;
+          text-align: center;
+          font-size: calc(4.5vw/3.5);
+          position: absolute
+        }
+
+        .delete-button {
+          // display:block;
+          float: right;
+          width: calc(11vw/3.5);
+          height: calc(7vw/2.6);
+          font-size: 18px;
+          background-color: transparent;
+          border-color: transparent;
+          color: $orangePerigea;
+          font-weight: bolder;
+          cursor: pointer;
+          margin-bottom: 0px;
+          margin-left: 29%;
+          border-radius: 10px;
+          margin-top: 1.3%;
+          text-align: center;
+          font-size: calc(4.5vw/3.5);
+          position: absolute
+        }
+      }
+
       .box-card {
         width: calc(72vw/3.5);
         height: calc(72vw/2.6);
@@ -197,7 +468,7 @@
           margin-bottom: 0%;
           margin-left: 1%;
           border-radius: 10px;
-          margin-top: -35%;
+          margin-top: -34.7%;
           text-align: center;
           position: absolute;
 
@@ -225,6 +496,28 @@
         }
       }
     }
+  }
+
+  .button-update {
+    display: block;
+    float: right;
+    width: 100px;
+    height: 50px;
+    font-size: 18px;
+    background-color: $greyPerigea;
+    color: $orangePerigea;
+    font-weight: bolder;
+    cursor: pointer;
+    margin-bottom: 100px;
+    margin-right: 50px;
+    border-radius: 10px;
+    margin-top: 1%;
+    text-align: center;
+  }
+
+  .button-update:hover {
+    background-color: $lightGreyPerigea;
+    color: black;
   }
 
   .userAccordion {

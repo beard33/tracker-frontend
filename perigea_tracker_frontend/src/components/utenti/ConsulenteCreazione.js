@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Anagrafica from './Anagrafica';
-import Title from '../../structural/Title'
+import Title from '../structural/Title'
 
 export default class ConsulenteCreazione extends React.Component {
   
@@ -11,7 +11,7 @@ export default class ConsulenteCreazione extends React.Component {
       <React.Fragment>
         <Title></Title>
 
-        <Anagrafica personale="consulente">
+        <Anagrafica personale="consulente" updateProps = {this.props.location.updateProps}>
         </Anagrafica>
       </React.Fragment>
     );

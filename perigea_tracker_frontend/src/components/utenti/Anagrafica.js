@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import UploadFileButton from '../../structural/UploadFileButton'
+import UploadFileButton from '../structural/UploadFileButton'
 import { Link } from 'react-router-dom';
 import Ruoli from './Ruoli';
 import { MenuItem } from '@mui/material';
-import { utenteStatus, anagraficaType } from '../../enum/AnagraficaEnums';
+import { utenteStatus, anagraficaType } from '../enum/AnagraficaEnums';
 
 
 
@@ -17,18 +17,18 @@ export default class Anagrafica extends Component {
       codicePersona: '',
       nome: '',
       cognome: '',
-      dataNascita: '',
-      luogoNascita: '',
-      codiceFiscale: '',
+      dataNascita: "",
+      luogoNascita: "",
+      codiceFiscale: "",
       cellulare: '',
       username: '',
-      avatar: '',
-      provinciaResidenza: '',
-      comuneResidenza: '',
-      indirizzoResidenza: '',
-      provinciaDomicilio: '',
-      comuneDomicilio: '',
-      indirizzoDomicilio: '',
+      avatar: "",
+      provinciaResidenza: "",
+      comuneResidenza: "",
+      indirizzoResidenza: "",
+      provinciaDomicilio: "",
+      comuneDomicilio: "",
+      indirizzoDomicilio: "",
       mailPrivata: '',
       mailAziendale: '',
       nomeContattoEmergenza: '',
@@ -36,13 +36,22 @@ export default class Anagrafica extends Component {
       iban: '',
       stato: '',
       tipo: '',
-      codiceAzienda: '',
+      codiceAzienda: "",
       ruoli: [],
       accountNonLocked: false,
       accountNonExpired: false,
       credentialsNonExpired: false,
       password: ''
     };
+  }
+
+
+  componentDidMount = () => {
+    console.log(this.props.updateProps)
+    if (this.props.updateProps.update) {
+      this.setState(this.props.updateProps.utente)
+      console.log(this.state)
+    }
   }
 
 
@@ -268,7 +277,7 @@ export default class Anagrafica extends Component {
                     label="tipo Anagrafica"
                     value={this.state.tipo}
                     onChange={(e) => { this.setState({ tipo: e.target.value }) }}
-                    
+
                   >
                     {anagraficaType.map((option) => (
                       <MenuItem key={option.chiave} value={option.chiave} >
@@ -284,7 +293,7 @@ export default class Anagrafica extends Component {
                     label="stato utente"
                     value={this.state.stato}
                     onChange={(e) => { this.setState({ stato: e.target.value }) }}
-                    
+
                   >
                     {utenteStatus.map((option) => (
                       <MenuItem key={option.stato} value={option.stato} >
@@ -316,20 +325,34 @@ export default class Anagrafica extends Component {
 
           <Form>
             <div className="button-container">
+
               {this.props.personale == "dipendente" ?
-                <Link to={{ pathname: "/dipendente", state: { utente: this.state } }}>
+                <Link to={{
+                  pathname: "/dipendente",
+                  state: {
+                    utente: this.state,
+                    update: this.props.updateProps.update
+                  }
+                }}>
                   <button className="button-avanti"
                     type="button" >
                     AVANTI
                   </button>
                 </Link> :
-                <Link to={{ pathname: "/consulente", state: { utente: this.state } }}>
+                <Link to={{
+                  pathname: "/consulente",
+                  state: {
+                    utente: this.state,
+                    update: this.props.updateProps.update
+                  }
+                }}>
                   <button className="button-avanti"
                     type="button" >
                     AVANTI
                   </button>
                 </Link>
               }
+
 
             </div>
           </Form>

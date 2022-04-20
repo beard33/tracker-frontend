@@ -1,23 +1,21 @@
 @import './base/_settings';
+
 .card-details {
   height: 30px;
-  margin-top: -100%; 
+  margin-top: -100%;
   font-size: 20px;
   color: rgb(0, 0, 0);
   justify-content: space-around;
   text-align: center;
 }
+
+.field-details {
   
-  
-.details-from{
-background-color: white;
+  height: 30px;
+  margin-top: 0%;
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  justify-content: space-around;
+  margin-left: 20%;
 }
-
-
-
-
-
-
-
-
 

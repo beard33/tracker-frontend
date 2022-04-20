@@ -100,7 +100,7 @@ export default class AziendaGrid extends React.Component {
   ADDEmployeButton = (buttonName) => {
     return (
       <div className="box-card">
-        <Link to={{ pathname: "/add-"+this.props.tipo }}
+        <Link to={{ pathname: "/add-"+this.props.tipo, commessaProps:{commessa: false }}}
           style={{ textDecoration: "none" }}>
           <button
             className="add-card-show-button"
@@ -119,7 +119,7 @@ export default class AziendaGrid extends React.Component {
       const keyword = e.target.value;
       if (keyword !== '') {
         const results = this.state.listCard.filter((dipendente) => {
-          return dipendente.partitaIva.toLowerCase().startsWith(keyword.toLowerCase());
+          return dipendente.partitaIva.toLowerCase().includes(keyword.toLowerCase());
         });
         this.setState({ listCard: results })
       }

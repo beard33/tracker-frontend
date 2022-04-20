@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 
 import { Grid } from "@material-ui/core";
-import AxiosInstance from "../../../axios/AxiosInstance";
+import AxiosInstance from "../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
 import DatiEconomiciConsulente from "./DatiEconomiciConsulente";
 
@@ -79,7 +79,7 @@ export default class Consulente extends React.Component {
         })
     }
 
-    updateState = (e) => { this.setState({ economics: e  })}
+    updateState = (e) => { this.setState({ economics: e }) }
 
     saveConsulenteWithoutEconomics = () => {
         console.log("saveConsulente start ", this.state.codicePersona)
@@ -128,27 +128,75 @@ export default class Consulente extends React.Component {
         })
     }
 
+    updateConsulente = () => {
+        console.log("update consulente start ", this.state.codicePersona)
+        AxiosInstance({
+            method: 'put',
+            url: "consulenti/update",
+            data: {
+                utente: this.state.utente,
+                codicePersona: this.state.codicePersona,
+                tipo: this.state.tipo,
+                dataAssunzione: this.state.dataAssunzione,
+                dataCessazione: this.state.dataCessazione,
+                codiceResponsabile: this.state.codiceResponsabile,
+                partitaIva: this.state.partitaIva,
+                costo: this.state.costo
+            }
+        }).then(() => {
+            alert("Update del consulente effettuato con successo")
+            console.log("Update del consulente effettuato con successo", this.data)
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+        })
+    }
+
+    updateEconomics = () => {
+        console.log("update dei dati economici start ", this.state.codicePersona)
+        AxiosInstance({
+            method: 'put',
+            url: "consulenti/update-economics",
+            data: {
+                economics: this.state.economics
+            }
+        }).then(() => {
+            alert("update dei dati economici effettuato con successo")
+            console.log("update dei dati economici effettuato con successo", this.data)
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+        })
+    }
+
+
 
     onSAVEButtonClick = () => {
-        if (!this.state.showComponent) {
-            console.log(this.state)
-            this.saveConsulenteWithoutEconomics()
+        if (this.props.location.state.update) {
+            console.log("UPDATE")
+            this.updateConsulente()
+            if (this.state.showComponent) {
+                this.updateEconomics()
+            }
         } else {
-            console.log(this.state)
-            this.saveConsulenteWithEconomics()
+            if (!this.state.showComponent) {
+                console.log(this.state)
+                this.saveConsulenteWithoutEconomics()
+            } else {
+                console.log(this.state)
+                this.saveConsulenteWithEconomics()
+            }
         }
     }
 
     render() {
         return (
-            <React.Fragment>               
+            <React.Fragment>
                 <div className="postStyleProps">
                     <h3>Dati aziendali </h3>
                     <div className="info">
                         <Grid className="infoGrid"
                             container
                             spacing={20}>
-                            <Form style={{ width: "100%" }}>                           
+                            <Form style={{ width: "100%" }}>
                                 <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
@@ -197,7 +245,7 @@ export default class Consulente extends React.Component {
 
                     <h3>Dati Economici</h3>
                     <div>
-                        {!this.state.showComponent && 
+                        {!this.state.showComponent &&
                             <button className="button-add"
                                 type="button"
                                 onClick={this.onADDButtonClick}
@@ -206,7 +254,7 @@ export default class Consulente extends React.Component {
                                 ADD ECONOMICS
                             </button>}
                         {this.state.showComponent ?
-                            <DatiEconomiciConsulente  updateState={this.updateState}/> :
+                            <DatiEconomiciConsulente updateState={this.updateState} /> :
                             null
                         }
 
