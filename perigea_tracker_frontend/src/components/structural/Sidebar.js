@@ -35,6 +35,11 @@ export default class Sidebar extends React.Component {
                 <MenuItem><a href="/consulenti"> Consulenti</a></MenuItem>
               </SubMenu>
 
+              <SubMenu title="Commesse">
+                <MenuItem><a href="/commesse"> Commesse</a></MenuItem>
+                
+              </SubMenu>
+
 
             </Menu>
           </ProSidebar>

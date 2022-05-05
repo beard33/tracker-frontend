@@ -11,6 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { Link } from 'react-router-dom';
+import Title from '../structural/Title';
 
 export default class ConsulenteView extends React.Component {
   state = {
@@ -91,86 +92,87 @@ export default class ConsulenteView extends React.Component {
 
   render() {
     return (
+      <React.Fragment>
+        <Title></Title>
+        <div>
+          <WelcomeHeader
+            img="../images/default-profile-picture.png"
+            name={this.state.utente.nome + " " + this.state.utente.cognome}
+            admin={"Consulente"}
+            userEmail={this.state.utente.username}
+            db={true}
+          />
+          <div className='userAccordion'>
+            <Accordion>
+              <AccordionSummary
+                className='accordionSummary'
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography>Anagrafica</Typography>
+              </AccordionSummary>
+              <AccordionDetails className='accordionDetails'>
+                {this.getData(this.state.utente)}
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                className='accordionSummary'
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id="panel2a-header"
+              >
+                <Typography>Dati Aziendali</Typography>
+              </AccordionSummary>
+              <AccordionDetails className='accordionDetails'>
+                <div>
+                  <TextField
+                    label={"Tipo Personale"}
+                    value={this.state.tipo}
+                  ></TextField>
+                  <TextField
+                    label={"Data Assunzione"}
+                    value={this.state.dataAssunzione}
+                  ></TextField>
+                  <TextField
+                    label={"Data Cessazione"}
+                    value={this.state.dataCessazione}
+                  ></TextField>
+                  <TextField
+                    label={"Codice Responsabile"}
+                    value={this.state.codiceResponsabile}
+                  ></TextField>
+                  <TextField
+                    label={"Partita Iva"}
+                    value={this.state.partitaIva}
+                  ></TextField>
+                  <TextField
+                    label={"Costo"}
+                    value={this.state.costo}
+                  ></TextField>
+                </div>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary
+                className='accordionSummary'
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel3a-content"
+                id="panel3a-header"
+              >
+                <Typography>Dati Economici</Typography>
+              </AccordionSummary>
+              <AccordionDetails className='accordionDetails'>
+                {this.getData(this.state.economics)}
+              </AccordionDetails>
+            </Accordion>
+          </div>
 
-      <div>
-        <WelcomeHeader
-          img="../images/default-profile-picture.png"
-          name={this.state.utente.nome + " " + this.state.utente.cognome}
-          admin={"Consulente"}
-          userEmail={this.state.utente.username}
-          db={true}
-        />
-        <div className='userAccordion'>
-          <Accordion>
-            <AccordionSummary
-              className='accordionSummary'
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography>Anagrafica</Typography>
-            </AccordionSummary>
-            <AccordionDetails className='accordionDetails'>
-              {this.getData(this.state.utente)}
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              className='accordionSummary'
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel2a-content"
-              id="panel2a-header"
-            >
-              <Typography>Dati Aziendali</Typography>
-            </AccordionSummary>
-            <AccordionDetails className='accordionDetails'>
-              <div>
-                <TextField
-                  label={"Tipo Personale"}
-                  value={this.state.tipo}
-                ></TextField>
-                <TextField
-                  label={"Data Assunzione"}
-                  value={this.state.dataAssunzione}
-                ></TextField>
-                <TextField
-                  label={"Data Cessazione"}
-                  value={this.state.dataCessazione}
-                ></TextField>
-                <TextField
-                  label={"Codice Responsabile"}
-                  value={this.state.codiceResponsabile}
-                ></TextField>
-                <TextField
-                  label={"Partita Iva"}
-                  value={this.state.partitaIva}
-                ></TextField>
-                <TextField
-                  label={"Costo"}
-                  value={this.state.costo}
-                ></TextField>
-              </div>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              className='accordionSummary'
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel3a-content"
-              id="panel3a-header"
-            >
-              <Typography>Dati Economici</Typography>
-            </AccordionSummary>
-            <AccordionDetails className='accordionDetails'>
-              {this.getData(this.state.economics)}
-            </AccordionDetails>
-          </Accordion>
-        </div>
-
-        <Link to={{
+          <Link to={{
             pathname: "/anagrafica-consulenti",
             updateProps: {
-              update: true,              
+              update: true,
             }
           }}>
 
@@ -180,7 +182,8 @@ export default class ConsulenteView extends React.Component {
             </button>
           </Link>
 
-      </div>
+        </div>
+      </React.Fragment>
     )
   };
 }

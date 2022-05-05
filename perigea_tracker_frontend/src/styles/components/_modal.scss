@@ -23,7 +23,7 @@
             border: 1px solid $greyPerigea;
             box-shadow: -2rem 2rem 2rem $greyPerigea;
             opacity: 3;
-            visibility: visible;
+            display: block;
             margin: auto;
             border: 3px;
             padding: 20px;
@@ -45,9 +45,11 @@
                 margin-left: 15%;
                 margin-top: 5%;
                 margin-right: 0%;
-                border-radius: 10%;
+                padding-bottom: 4%;
+                border-radius: 10px;
                 float: left;
                 height: 10%;
+                text-align: center;
             }
 
             .modalFatturabileButton {
@@ -111,7 +113,8 @@
                 width: 30%;
                 height: 10%;
                 font-weight: bold;
-                border-radius: 10%;
+                padding-bottom: 4%;
+                border-radius: 10px;
                 margin-top: 5%;
                 margin-right: 15%;
                 float: right;

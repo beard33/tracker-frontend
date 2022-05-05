@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
+import Title from '../structural/Title';
 
 let type = "";
 export default class AziendaView extends React.Component {
@@ -67,6 +68,7 @@ export default class AziendaView extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Title></Title>
                 <div>
 
                     <WelcomeHeader

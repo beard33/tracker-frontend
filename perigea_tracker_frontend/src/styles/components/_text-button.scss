@@ -3,15 +3,18 @@
   text-align: center;
   padding: 10px;
   margin:3px auto;
-  width: 60px;
+  width: 20%;
   background-color: $orangePerigea;
+  font-family: 'Helvetica', sans-serif;;
   border:2px solid rgb(0, 0, 0);
-  border-radius: 5px;
+  border-radius: 20%;
 }
 
 .text-button:hover{
   cursor:pointer;
-  background-color: $orangePerigea;
+  background-color: $lightGreyPerigea;
+  color: black;
+  font-weight: bold;
 }
 
 @keyframes slideInFromLeft {

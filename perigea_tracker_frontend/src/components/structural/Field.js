@@ -22,7 +22,7 @@ const Field = (props) => {
                     pathname: "/commessa-fatturabile-view",
                     codiceCommessa: props.commessa.codiceCommessa
                 }} >
-                    <img className="view" src="./images/show-details.png"
+                    <img className="view-image" src="./images/show-details.png"
                         style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
                     ></img>
                 </Link>
@@ -57,7 +57,7 @@ const Field = (props) => {
                         pathname: "/commessa-non-fatturabile-view",
                         codiceCommessa: props.commessa.codiceCommessa
                     }} >
-                    <img className="view" src="./images/show-details.png"
+                    <img className="view-image" src="./images/show-details.png"
                         style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
                     ></img>
                 </Link>

@@ -21,7 +21,7 @@ const Card = (props) => {
         />}
 
         <Link className='view-button' to={{ pathname: "/" + props.tipo + "-view", codicePersona: props.item.codicePersona }} >
-          <img className="view" src="./images/show-details.png"
+          <img className="view-image" src="./images/show-details.png"
             style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
           ></img>
         </Link>
@@ -54,7 +54,7 @@ const Card = (props) => {
         />}
 
         <Link className='view-button' to={{ pathname: "/azienda-view", aziendaProps:{codiceAzienda: props.item.codiceAzienda, tipo: props.tipo} }} >
-          <img className="view" src="./images/show-details.png"
+          <img className="view-image" src="./images/show-details.png"
             style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
           ></img>
         </Link>

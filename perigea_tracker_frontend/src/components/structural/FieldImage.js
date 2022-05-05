@@ -4,7 +4,7 @@ export default function FieldImage({ cardImage }) {
   return (
     <img className="card-image" src={cardImage}
       style={{
-        height: "60%",
+        height: "65%",
         width: "60%",
         bottom: 0,
         transform: "scale(0.095,1.4) translateX(-310%) translateY(18%)",

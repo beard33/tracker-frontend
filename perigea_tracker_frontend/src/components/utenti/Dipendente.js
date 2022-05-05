@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 import AxiosInstance from "../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
 import DatiEconomiciDipendente from "./DatiEconomiciDipendente";
+import Title from "../structural/Title";
 
 
 
@@ -206,6 +207,7 @@ export default class Dipendente extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Title></Title>
                 <div className="postStyleProps">
                     <h3>Dati aziendali </h3>
                     <div className="info">

@@ -11,6 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { Link } from 'react-router-dom';
+import Title from '../structural/Title';
 
 
 export default class DipendenteView extends React.Component {
@@ -92,6 +93,7 @@ export default class DipendenteView extends React.Component {
   render() {
     return (
       <React.Fragment>
+        <Title></Title>
         <div>
           <WelcomeHeader
             img="../images/default-profile-picture.png"

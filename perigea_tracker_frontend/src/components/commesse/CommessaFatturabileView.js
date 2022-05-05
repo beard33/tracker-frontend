@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
+import Title from '../structural/Title';
 
 
 export default class CommessaFatturabileView extends React.Component {
@@ -90,6 +91,7 @@ export default class CommessaFatturabileView extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Title></Title>
                 <div>
                     <WelcomeHeader
                         img="../images/comm-fatt.png"

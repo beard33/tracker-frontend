@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import AxiosInstance from '../../axios/AxiosInstance';
+import Title from '../structural/Title';
 
 export default class OrdineCommessa extends React.Component {
     state = {
@@ -65,6 +66,7 @@ export default class OrdineCommessa extends React.Component {
         return (
 
             <React.Fragment>
+                <Title></Title>
                 <div className='postStyleProps'>
                     <h3>Info Ordine Commessa</h3>
                     <div className="info">

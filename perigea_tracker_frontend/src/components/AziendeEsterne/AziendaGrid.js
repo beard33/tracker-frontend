@@ -183,7 +183,7 @@ export default class AziendaGrid extends React.Component {
             isOpen={this.state.showDeleteModal}
           >
             <Typography className='modalText'>
-              Desideri eliminare il seguente utente?
+              Desideri eliminare la seguente Azienda?
             </Typography>
             <button className='modalBackButton' onClick={this.closeDeleteModal}>
               Indietro

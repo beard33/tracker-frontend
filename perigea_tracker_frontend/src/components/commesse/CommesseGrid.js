@@ -9,6 +9,7 @@ import Form from "react-bootstrap/Form";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import Field from '../structural/Field';
+import Title from '../structural/Title';
 
 
 
@@ -134,6 +135,7 @@ export default class CommesseGrid extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Title></Title>
                 <div className="card-grid">
 
                     {/*searchBar*/}
@@ -165,7 +167,7 @@ export default class CommesseGrid extends React.Component {
                         className="add-field-show-button"
                         onClick={this.openADDModal}
                     >
-                        +
+                        AGGIUNGI COMMESSA
                     </button>
 
                     {

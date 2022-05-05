@@ -11,7 +11,7 @@ export default class Message extends React.Component {
     render() {
         return (
             <div>
-                <h1>PAGINA ROUTER</h1>
+                <h1>WORK IN PROGRESS</h1>
             </div>
         )
     }

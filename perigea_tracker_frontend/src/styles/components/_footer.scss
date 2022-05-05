@@ -1,16 +1,18 @@
 @import '../base/_base';
 
 .footer {
-  margin-bottom: 0px;
-  margin-top: 10%;
+  margin-bottom: auto;
+  margin-top: auto;
   background-color: $greyPerigea;
   height: 57.4px;
   display: inline-block;
   position: relative;
   width: 100%;
-  left:0;
-  bottom:0;
-  right:0;
+  // left:0;
+  // bottom:0;
+  // right:0;
+  margin-top: 12.5%;
+  
 }
 
 .footer-text {

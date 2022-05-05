@@ -1,21 +1,23 @@
 .postStyleProps {
-  height:90%;
+  height: 90%;
+  
 
   h3 {
     text-align: left;
     font-family: 'Helvetica', sans-serif;
     color: $greyPerigea;
-    vertical-align:middle;
+    vertical-align: middle;
     font-size: 22px;
-    margin-left: 2%; 
+    margin-left: 2%;
     margin-bottom: -2%;
     background-color: $orangePerigea;
-    padding: 10px;   
+    padding: 10px;
     display: inline-block;
-    border-top-left-radius: 10% ;
+    border-top-left-radius: 10%;
     border-top-right-radius: 10%;
     border: 1px solid $greyPerigea;
     box-shadow: 10px 0.75px 5px $lightGreyPerigea;
+    font-weight: bold;
   }
 
   h5 {
@@ -23,21 +25,21 @@
     text-align: left;
     font-family: 'Helvetica', sans-serif;
     color: $orangePerigea;
-    vertical-align:middle;
+    vertical-align: middle;
     // line-height: 50px;
-    font-size: 12px; 
-    margin-right: 3.8%;
-    background-color: $greyPerigea; 
-    padding: 10px;   
+    font-size: 12px;
+    margin-right: 4%;
+    background-color: $greyPerigea;
+    padding: 10px;
     // display: inline-block;
     float: right;
     border-bottom-left-radius: 10%;
     margin-top: 0%;
-    border-top-right-radius: 16%;      
+    border-top-right-radius: 16%;
   }
 
   .info {
-    margin-top: 2%;
+    margin-top: 1.9%;
     margin-left: 2%;
     margin-right: 2%;
     margin-bottom: 2%;
@@ -45,12 +47,25 @@
     padding-right: 2%;
     padding-top: 2%;
     padding-bottom: 2%;
-    width:90%;
+    width: 94%;
     background-color: white;
     border-radius: 10px;
     box-shadow: 10px 10px 5px $lightGreyPerigea;
     border: 1px solid $greyPerigea;
     border-top-left-radius: 0%;
+
+    .entry-button {
+      background-color: $greyPerigea;
+      color: $orangePerigea;
+      cursor: pointer;
+      border: solid $greyPerigea 1px;
+      margin-top: 3%;
+    }
+    .entry-button:hover{
+      background-color: $lightGreyPerigea;
+      color: black;
+      font-weight: bold;
+    }
   }
 
   .infoGrid {
@@ -59,26 +74,26 @@
   }
 
   .infoForm {
-    display:flex;
+    display: flex;
     justify-content: space-around;
-    height:75px;
-    width:100%;
+    height: 75px;
+    width: 100%;
     margin-top: 1%;
   }
 
   .button-container {
-    width:100%;
+    width: 100%;
     height: 50px;
     justify-content: center;
     align-items: center;
-    text-align: center;  
+    text-align: center;
     margin-bottom: 50px;
     border: 0cm;
     font-weight: lighter;
   }
 
   .button-avanti {
-    display:block;
+    display: block;
     float: right;
     width: 100px;
     height: 50px;
@@ -88,11 +103,12 @@
     font-weight: bolder;
     cursor: pointer;
     margin-bottom: 100px;
-    margin-right: 50px;
+    margin-right: 4%;
     border-radius: 10px;
     margin-top: 1%;
-    text-align: center;    
+    text-align: center;
   }
+
   .button-avanti:hover {
     color: black;
     background-color: $lightGreyPerigea;
@@ -106,7 +122,7 @@
 .button-upload {
   margin-left: 3%;
   float: left;
-  display:block;
+  display: block;
   width: 230px;
   height: 50px;
   font-size: 18px;
@@ -119,14 +135,15 @@
   margin-top: 1%;
   cursor: pointer;
 }
+
 .button-upload:hover {
   color: black;
   background-color: $lightGreyPerigea;
 }
 
 .button-search {
-  margin:0 auto;
-  display:block;
+  margin: 0 auto;
+  display: block;
   width: 300px;
   height: 25px;
   font-size: 18px;
@@ -135,8 +152,8 @@
 }
 
 .button-add {
-  margin:0 auto;
-  display:block;
+  margin: 0 auto;
+  display: block;
   float: left;
   width: 200px;
   height: 50px;
@@ -151,13 +168,14 @@
   margin-top: 5%;
   cursor: pointer;
 }
+
 .button-add:hover {
   color: black;
   background-color: $lightGreyPerigea;
 }
 
-.button-save {  
-  display:block;
+.button-save {
+  display: block;
   float: right;
   width: 100px;
   height: 50px;
@@ -167,14 +185,13 @@
   font-weight: bolder;
   cursor: pointer;
   margin-bottom: 100px;
-  margin-right: 50px;
+  margin-right: 4%;
   border-radius: 10px;
   margin-top: 5%;
-  text-align: center;  
+  text-align: center;
 }
+
 .button-save:hover {
   color: black;
   background-color: $lightGreyPerigea;
 }
-
-

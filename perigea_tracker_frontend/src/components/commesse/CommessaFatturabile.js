@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 import { MenuItem } from '@mui/material';
 import { commessaFatturabileType, commessaType } from '../enum/CommesseEnums';
+import Title from '../structural/Title';
 
 
 
@@ -47,6 +48,7 @@ export default class CommessaFatturabile extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Title></Title>
                 <div className="postStyleProps" >
                     <h3>Info Commessa</h3>
                     <div className="info">

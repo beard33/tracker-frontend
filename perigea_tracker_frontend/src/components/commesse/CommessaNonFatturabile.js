@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { MenuItem } from '@mui/material';
 import { commessaType } from '../enum/CommesseEnums';
 import AxiosInstance from '../../axios/AxiosInstance';
+import Title from '../structural/Title';
+
 
 export default class CommessaNonFatturabile extends React.Component {
     state = {
@@ -38,6 +40,7 @@ export default class CommessaNonFatturabile extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Title></Title>
                 <div className="postStyleProps" >
                     <h3>Info Commessa</h3>
                     <div className="info">
