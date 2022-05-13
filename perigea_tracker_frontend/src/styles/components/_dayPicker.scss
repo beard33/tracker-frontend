@@ -293,6 +293,8 @@
   
   .rdp-day_today:not(.rdp-day_outside) {
     font-weight: bold;
+    
+    background-color: $whitePerigea;
   }
   
   .rdp-day_selected:not([disabled]),
@@ -301,6 +303,7 @@
   .rdp-day_selected:hover:not([disabled]) {
     color: white;
     background-color: $lightGreyPerigea;
+    border: 2px solid $greyPerigea;
   }
   
   .rdp-day_selected:focus:not([disabled]) {

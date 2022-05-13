@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getEventListeners } from 'events';
+import NoteSpese from './NoteSpese';
+import { MenuItem } from '@mui/material';
+import NoteSpeseTable from './NoteSpeseTable';
 
 
 
@@ -17,15 +19,27 @@ export default function EntriesImpl(props) {
         trasferta: false,
         tipoCommessa: '',
         descrizioneCommessa: '',
-        ragioneSociale: '',
-        noteSpese: []
-    })    
-    let commesse = []
-    let aziende = []
+        ragioneSociale: ''
+    })
+    const [noteSpese, setNoteSpese] = useState([])
+    const [showNoteSpeseFields, setShowNoteSpeseFields] = useState(false);
+    const [aziende, setAziende] = useState([])
+    const [commesse, setCommesse] = useState([])
+
 
     const handleChange = (e) => {
-        setEntryFields({...entryFields,[e.target.name]: e.target.value })
+        setEntryFields({ ...entryFields, [e.target.name]: e.target.value })
         console.log(entryFields)
+    }
+
+    const insertCommessa = (e) => {
+        const commessa = commesse.find(el => el.descrizioneCommessa === e.target.value)
+        setEntryFields({
+            ...entryFields,
+            descrizioneCommessa: commessa.descrizioneCommessa,
+            tipoCommessa: commessa.tipoCommessa,
+            codiceCommessa: commessa.codiceCommessa
+        })
     }
 
     useEffect(() => {
@@ -53,7 +67,7 @@ export default function EntriesImpl(props) {
             })
         })
         console.log(results)
-        commesse = results
+        setCommesse(results)
         console.log(commesse)
     }
 
@@ -75,13 +89,29 @@ export default function EntriesImpl(props) {
                 ragioneSociale: element.ragioneSociale,
             })
         })
-        console.log(results)
-        aziende = results
+        setAziende(results)
         console.log(aziende)
     }
 
+    const addNoteSpese = (nota) => {
+        setNoteSpese(prevNoteSpese => [...prevNoteSpese, nota])
+        console.log(noteSpese)
+        setShowNoteSpeseFields(false)
+    }
+
+
+    const showNoteSpese = () => {
+        setShowNoteSpeseFields(true);
+    }
+
+    const removeNotaSpese = (type) => {
+        console.log(type)
+        setNoteSpese(noteSpese.filter((nota) => nota.costoNotaSpeseType !== type))
+    }
+
+
     const addEntries = () => {
-        props.addEntries(entryFields)
+        props.addEntries(entryFields, noteSpese)
         setEntryFields({
             codiceCommessa: '',
             giorno: 0,
@@ -89,14 +119,14 @@ export default function EntriesImpl(props) {
             trasferta: false,
             tipoCommessa: '',
             descrizioneCommessa: '',
-            ragioneSociale: '',
-            noteSpese: []
+            ragioneSociale: ''
         })
     }
 
+    
     return (
         <React.Fragment>
-            <Col xs={7}>
+            <Col xl={props.columns}>
 
                 <Form
                     className='postStyleProps'
@@ -104,14 +134,6 @@ export default function EntriesImpl(props) {
                 >
                     <h3>Dati Giornalieri</h3>
                     <div className='info'>
-                        {/* <Form.Group style={{ width: "100%" }}>
-                            <TextField
-                                style={{ width: "100%" }}
-                                label="giorno"
-                                value={entryFields.giorno}
-                                onChange={handleChange}
-                            ></TextField>
-                        </Form.Group> */}
                         <Form.Group style={{ width: "100%" }}>
                             <TextField
                                 style={{ width: "100%" }}
@@ -125,7 +147,7 @@ export default function EntriesImpl(props) {
                             <TextField
                                 style={{ width: "100%" }}
                                 label="trasferta"
-                                name='trasferta'                                
+                                name='trasferta'
                                 value={entryFields.trasferta}
                                 onChange={handleChange}
                             ></TextField>
@@ -133,11 +155,20 @@ export default function EntriesImpl(props) {
                         <Form.Group style={{ width: "100%" }}>
                             <TextField
                                 style={{ width: "100%" }}
-                                label="Descrizione Commessa"
+                                id="select stato"
+                                select
                                 name='descrizioneCommessa'
+                                label="Descrizione Commessa"
                                 value={entryFields.descrizioneCommessa}
-                                onChange={handleChange}
-                            ></TextField>
+                                required
+                                onChange={insertCommessa}
+                            >
+                                {commesse.map((option) => (
+                                    <MenuItem value={option.descrizioneCommessa} >
+                                        {option.descrizioneCommessa}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
                         </Form.Group>
                         <Form.Group style={{ width: "100%" }}>
                             <TextField
@@ -145,7 +176,6 @@ export default function EntriesImpl(props) {
                                 label="Tipo Commessa"
                                 name='tipoCommessa'
                                 value={entryFields.tipoCommessa}
-                                onChange={handleChange}
                             ></TextField>
                         </Form.Group>
                         <Form.Group style={{ width: "100%" }}>
@@ -154,37 +184,59 @@ export default function EntriesImpl(props) {
                                 label="codice Commessa"
                                 name='codiceCommessa'
                                 value={entryFields.codiceCommessa}
-                                onChange={handleChange}
                             ></TextField>
                         </Form.Group>
                         <Form.Group style={{ width: "100%" }}>
                             <TextField
                                 style={{ width: "100%" }}
-                                label="Ragione Sociale"
-                                name='ragioneSociale'
-                                value={entryFields.ragioneSociale}
-                                onChange={handleChange}
-                            ></TextField>
-                            {/* <TextField
-                                style={{ width: "100%" }}
                                 id="select stato"
                                 select
+                                name='ragioneSociale'
                                 label="Ragione Sociale"
                                 value={entryFields.ragioneSociale}
                                 onChange={handleChange}
                             >
                                 {aziende.map((option) => (
-                                    
-                                    <MenuItem value={option} >
+                                    <MenuItem value={option.ragioneSociale} >
                                         {option.ragioneSociale}
                                     </MenuItem>
                                 ))}
-                            </TextField> */}
+                            </TextField>
                         </Form.Group>
-                        <Button className='entry-button'
-                        onClick={addEntries}>
-                            Conferma Dati
-                        </Button>
+                        <Form.Group>
+                            {entryFields.tipoCommessa === "F" &&
+                                <NoteSpeseTable
+                                    noteSpese={noteSpese}
+                                    removePermission={true}
+                                    onRemove={removeNotaSpese}
+                                />
+                            }
+                        </Form.Group>
+                        <Form.Group>
+                            {!showNoteSpeseFields && entryFields.tipoCommessa === "F" &&
+                                <Button className='noteSpese-button'
+                                    onClick={showNoteSpese}
+                                >
+                                    ADD NOTA SPESE
+                                </Button>
+                            }
+                            {showNoteSpeseFields &&
+                                <NoteSpese
+                                    anno={props.anno}
+                                    mese={props.mese}
+                                    codicePersona={props.codicePersona}
+                                    codiceCommessa={entryFields.codiceCommessa}
+                                    addNoteSpese={addNoteSpese}
+                                />
+                            }
+
+                        </Form.Group>
+                        
+                            <Button className='entry-button'
+                                onClick={addEntries}
+                            >
+                                Conferma Dati
+                            </Button> 
                     </div>
                 </Form>
             </Col>

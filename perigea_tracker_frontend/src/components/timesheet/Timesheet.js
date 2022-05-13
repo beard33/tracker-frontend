@@ -7,7 +7,7 @@ const Timesheet = () => {
     return (
         <React.Fragment>
              <Title></Title>
-            <Container fluid="md">                
+            <Container fluid="xl">                
                 <TimesheetCreazione
                     codicePersona="04ed7cba-88ec-44b6-a325-d0fa34987516"
                     anno={2022}

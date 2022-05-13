@@ -1,6 +1,6 @@
 .postStyleProps {
   height: 90%;
-  
+
 
   h3 {
     text-align: left;
@@ -60,13 +60,53 @@
       cursor: pointer;
       border: solid $greyPerigea 1px;
       margin-top: 3%;
+      margin-left: 79%;
     }
-    .entry-button:hover{
+
+    .entry-button:hover {
       background-color: $lightGreyPerigea;
       color: black;
       font-weight: bold;
     }
+
+    .noteSpese-button {
+      background-color: $greyPerigea;
+      color: $orangePerigea;
+      cursor: pointer;
+      border: solid $greyPerigea 1px;
+      margin-top: 3%;
+      margin-left: 38%
+    }
+
+    .noteSpese-button:hover {
+      background-color: $lightGreyPerigea;
+      color: black;
+      font-weight: bold;
+    }
+
+    .table-button {
+      cursor: pointer;
+      background-color: $orangePerigea;
+      color: $greyPerigea;
+      border: 1px solid $orangePerigea;
+      width: 41%;
+      height: 10%;
+      font-weight: bold;
+      padding-bottom: 1%;
+      padding-top: 1%;
+      border-radius: 10px;
+      margin-top: 0%;
+      margin-right: 28%;
+      float: right;
+    }
+
+    .table-button:hover {
+      background-color: $redPerigea;
+      color: #fafafa;
+    }
   }
+
+
 
   .infoGrid {
     margin-left: 30;
