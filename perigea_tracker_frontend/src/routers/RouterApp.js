@@ -1,7 +1,7 @@
 //componente che smista le varie pagine in base all'indirizzo
 
 import React from 'react';
-import { withRouter,Switch, Route } from "react-router-dom"
+import { withRouter, Switch, Route } from "react-router-dom"
 import Message from '../components/functional/Message';
 import PersonalProfile from '../components/functional/PersonalProfile';
 import View from '../components/structural/View';
@@ -23,13 +23,14 @@ import CommesseGrid from '../components/commesse/CommesseGrid';
 import CommessaNonFatturabileView from '../components/commesse/CommessaNonFatturabileView';
 import CommessaFatturabileView from '../components/commesse/CommessaFatturabileView';
 import Timesheet from '../components/timesheet/Timesheet';
+import Calendar from '../components/timesheet/TimesheetView';
 
 export default function RouterApp() {
   console.log("ROUTERAPP ENTRY");
   return (
     <Switch>
-    <Route path="/" exact component={LoginPage} />
-      <Layout style={{height:"100%"}}>
+      <Route path="/" exact component={LoginPage} />
+      <Layout style={{ height: "100%" }}>
         <Route path="/home" exact component={PersonalProfile} />
         <Route path="/message" exact component={Message} />
         <Route path="/inbox" exact component={Message} />
@@ -60,6 +61,8 @@ export default function RouterApp() {
         <Route path="/commessa-non-fatturabile-view" exact component={CommessaNonFatturabileView} />
         <Route path="/commessa-fatturabile-view" exact component={CommessaFatturabileView} />
         <Route path="/timesheet" exact component={Timesheet} />
+        <Route path="/timesheet-view" exact component={Calendar} />
+
 
 
       </Layout>

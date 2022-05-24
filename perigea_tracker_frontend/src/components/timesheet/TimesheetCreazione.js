@@ -16,6 +16,7 @@ export default class TimesheetCreazione extends React.Component {
         anno: 0,
         mese: 0,
         days: [],
+        confirmedDates: [],
         entries: [],
         modifiedDays: [],
         showEntryModal: false,
@@ -37,12 +38,12 @@ export default class TimesheetCreazione extends React.Component {
             method: 'post',
             url: "timesheet/create",
             data: {
-               timesheet: {
-                   codicePersona: this.state.codicePersona,
-                   anno: this.state.anno,
-                   mese: this.state.mese
-               },
-               entries: this.state.entries
+                timesheet: {
+                    codicePersona: this.state.codicePersona,
+                    anno: this.state.anno,
+                    mese: this.state.mese
+                },
+                entries: this.state.entries
             }
 
         }).then(() => {
@@ -53,7 +54,7 @@ export default class TimesheetCreazione extends React.Component {
             alert("Errore nella creazione", error)
         })
     }
-    
+
 
     onSaveClick = () => {
         console.log(this.state)
@@ -64,7 +65,10 @@ export default class TimesheetCreazione extends React.Component {
     addDays = (giorni) => {
         console.log(giorni)
         if (giorni != undefined && giorni.length > 0) {
-            this.setState({ days: giorni })
+            this.setState({
+                days: giorni,
+                confirmedDates: giorni
+            })
 
         } else {
             console.log("vuoto")
@@ -89,9 +93,9 @@ export default class TimesheetCreazione extends React.Component {
 
     setNoteSpeseDay = (day, note) => {
         let noteSpese = []
-        let notaSpesa
+        let notaSpese
         note.map((item) => {
-            notaSpesa = {
+            notaSpese = {
                 anno: item.anno,
                 mese: item.mese,
                 giorno: day,
@@ -100,7 +104,7 @@ export default class TimesheetCreazione extends React.Component {
                 costoNotaSpeseType: item.costoNotaSpeseType,
                 importo: item.importo
             }
-            noteSpese.push(notaSpesa)
+            noteSpese.push(notaSpese)
         })
         return noteSpese;
     }
@@ -124,7 +128,7 @@ export default class TimesheetCreazione extends React.Component {
                     tipoCommessa: entryfields.tipoCommessa,
                     descrizioneCommessa: entryfields.descrizioneCommessa,
                     ragioneSociale: entryfields.ragioneSociale,
-                    noteSpese: noteSpese
+                    noteSpesa: noteSpese
                 }
                 console.log(entry)
                 this.handleAddEntry(entry)
@@ -137,7 +141,7 @@ export default class TimesheetCreazione extends React.Component {
     adjustEntries = (entryfields, note) => {
         this.setState({ entries: this.state.entries.filter((entry) => entry.codiceCommessa !== entryfields.codiceCommessa) })
         this.addEntries(entryfields, note)
-        alert("campi del giorno"+ entryfields.giorno +"/"+entryfields.mese + " sono stati modificato con successo")
+        alert("campi del giorno" + entryfields.giorno + "/" + entryfields.mese + " sono stati modificato con successo")
     }
 
     entryView = (day) => {
@@ -145,7 +149,7 @@ export default class TimesheetCreazione extends React.Component {
             entriesView: this.state.entries.filter(el => el.giorno === day.getDate()),
             days: prevState.days.concat(day)
         }))
-        console.log(this.state)        
+        console.log(this.state)
         this.setState({ showEntryModal: true })
     }
 
@@ -153,7 +157,7 @@ export default class TimesheetCreazione extends React.Component {
         this.setState({
             showEntryModal: false,
             adjustmentEntryModal: false,
-            addNoteSpeseModal: false
+
         })
     }
 
@@ -209,6 +213,7 @@ export default class TimesheetCreazione extends React.Component {
                         addDays={this.addDays}
                         modifiedDays={this.state.modifiedDays}
                         entryView={this.entryView}
+                        confirmedDates={this.state.confirmedDates}
                     ></DayPickerGrid>
 
                     <EntriesImpl

@@ -4,8 +4,8 @@ import { Button } from 'react-bootstrap';
 
 
 export default function NoteSpeseTable(props) {
-    let noteSpese = props.noteSpese
-    console.log(noteSpese)
+    let noteSpesa = props.noteSpese
+    console.log(noteSpesa)
     let listItems;
 
     const removeNota = (type) => {
@@ -14,7 +14,7 @@ export default function NoteSpeseTable(props) {
     }
 
     if (props.removePermission) {
-        listItems = noteSpese.map((val) =>
+        listItems = noteSpesa.map((val) =>
             <tr>
                 <td>{val.costoNotaSpeseType}</td>
                 <td>{val.importo}</td>
@@ -24,7 +24,7 @@ export default function NoteSpeseTable(props) {
                 
         
     } else {
-        listItems = noteSpese.map((val) =>
+        listItems = noteSpesa.map((val) =>
             <tr>
                 <td>{val.costoNotaSpeseType}</td>
                 <td>{val.importo}</td>

@@ -40,7 +40,7 @@ export default function EntryView(props) {
                                     value={entry.trasferta} />
                             </Form.Row>
                             <Form.Row>
-                                <NoteSpeseTable noteSpese={entry.noteSpese} removePermission={false} />
+                                <NoteSpeseTable noteSpese={entry.noteSpesa} removePermission={false} />
                             </Form.Row>
 
                             <button

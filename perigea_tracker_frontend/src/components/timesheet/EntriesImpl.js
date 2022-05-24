@@ -119,7 +119,8 @@ export default function EntriesImpl(props) {
             trasferta: false,
             tipoCommessa: '',
             descrizioneCommessa: '',
-            ragioneSociale: ''
+            ragioneSociale: '',
+            
         })
     }
 

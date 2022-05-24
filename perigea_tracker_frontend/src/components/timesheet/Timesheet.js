@@ -5,21 +5,37 @@ import TimesheetCreazione from './TimesheetCreazione';
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import { Button, Form, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 
 class Timesheet extends React.Component {
     state = {
+        data: "",
         anno: 0,
         mese: 0,
         checkRef: false
     }
 
-    setRef = () => {
-        this.setState({checkRef: true})
+    checkRefs = () => {
+        this.setState({ checkRef: true })
         console.log(this.state)
-        
+
     }
 
+    setRefs = (arg) => {
+        console.log(arg)
+        this.setState({data: arg})
+        const date = arg.split("-")
+        const month = date[1].split("")
+        this.setState({anno: date[0]})
+        if(month[0]==="0") {
+            this.setState({mese: month[1]})
+        } else {
+            this.setState({mese: date[1]})
+        }
+        console.log(this.state)        
+    }
+ 
     render() {
         return (
             <React.Fragment>
@@ -33,24 +49,34 @@ class Timesheet extends React.Component {
                                 spacing={20}
                             >
                                 <Form style={{ width: "100%" }}>
-                                    <Form.Row className="infoForm">
+                                    <Form.Row className="infoForm">                                        
                                         <TextField
-                                            style={{ width: "40%" }}
-                                            label="anno"
-                                            value={this.state.anno}
-                                            onChange={(e) => { this.setState({ anno: e.target.value }) }}
-                                        ></TextField>
-                                        <TextField
-                                            style={{ width: "40%" }}
-                                            label="mese"                                            
-                                            value={this.state.mese}
-                                            onChange={(e) => { this.setState({ mese: e.target.value }) }}
+                                            style={{ width: "60%" }}
+                                            label="mese"
+                                            type="month"
+                                            value={this.state.data}
+                                            onChange={(e) => { this.setRefs(e.target.value) }}
                                         ></TextField>
                                     </Form.Row>
                                 </Form>
                             </Grid>
                         </div>
-                        <button className='button-avanti' onClick={this.setRef}>AVANTI</button>
+
+                        <Link to={{
+                            pathname: "/timesheet-view",
+                            state: {
+                                mese:this.state.mese,
+                                anno:this.state.anno,
+                                codicePersona: "04ed7cba-88ec-44b6-a325-d0fa34987516",
+                                username: "sampei.genta"
+                            }
+                        }}>
+                            <button className="button-visualizza"
+                                type="button" >
+                                VISUALIZZA
+                            </button>
+                        </Link>
+                        <button className='button-avanti' onClick={this.checkRefs}>CREA</button>
                     </div>
                 }
                 {this.state.checkRef &&

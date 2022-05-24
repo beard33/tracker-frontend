@@ -1,0 +1,251 @@
+@import '../base/settings';
+
+
+
+.container {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 3%;
+    border-radius: 10px;
+    padding: 0%;
+
+    .col-sm-6.col-md-6.col-lg-6 {
+        .page-title {
+            text-align: left;
+            font-family: 'Helvetica', sans-serif;
+            color: $greyPerigea;
+            vertical-align: middle;
+            font-size: 22px;
+            margin-left: 0%;
+            margin-bottom: -0.27%;
+            background-color: $orangePerigea;
+            padding: 10px;
+            display: inline-block;
+            border-top-left-radius: 10%;
+            border-top-right-radius: 10%;
+            border: 1px solid $greyPerigea;
+            box-shadow: 10px 0.75px 5px $lightGreyPerigea;
+            font-weight: bold;
+        }
+    }
+
+
+    .card {
+        margin-top: 0.1%;
+        width: 96.9%;
+        height: 99.5%;
+        position: relative;
+        padding: 0%;
+        display: flex;
+        flex-direction: column;
+        word-wrap: break-word;
+        background-color: white;
+        border: 1px solid $greyPerigea;
+        border-radius: 10px;
+        box-shadow: 10px 10px 5px $lightGreyPerigea;
+
+        .card-body {
+            flex: 1 1 auto;
+            padding: 0%;
+            border: 1px solid $greyPerigea;
+            border-radius: 10px;
+            border-top-left-radius: 0px;
+
+
+            .row {
+                display: flex;
+                flex-wrap: wrap;
+                --bs-gutter-x: 0;
+                --bs-gutter-y: 0;
+
+                .col-sm-4.col-md-4.col-lg-4 {
+                    border-top-left-radius: 0px;
+                    border-bottom-left-radius: 10px;
+                    background-color: $whitePerigea;
+                    border: 1px solid $greyPerigea;
+
+                }
+
+                .col-sm-8.col-md-8.col-lg-8 {
+
+                    .fc {
+                        display: flex;
+                        flex-direction: column;
+                        font-size: 100%;
+                        width: 100%;
+                        margin-left: 0%;
+                        border: 1px solid #333333;
+                        border-top-right-radius: 10px;
+                        border-bottom-right-radius: 10px;
+                        text-decoration: none;
+
+                        .fc-day-today {
+                            background-color: rgb(255, 255, 255);
+                            border: solid 3px $greyPerigea;
+
+                            .fc-daygrid-day-number {
+                                padding: 5%;
+                                font-weight: bold;
+                                background-color: $lightOrangePerigea;
+                                border-radius: 100%;
+                            }
+                        }
+
+                        .fc-day-sat {
+                            .fc-daygrid-day-number {
+                                padding: 5%;
+                                font-weight: bold;
+                                color: red;
+                            }
+                        }
+
+                        .fc-day-sun {
+                            .fc-daygrid-day-number {
+                                padding: 5%;
+                                font-weight: bold;
+                                color: red;
+                            }
+                        }
+
+                        * {
+                            text-decoration: none;
+                        }
+
+                        td {
+                            border: 1px solid #333333;
+                        }
+
+                        .fc-daygrid-day-frame {
+                            cursor: pointer;
+
+                            .fc-event-F {
+                                background-color: $orangePerigea;
+                                border: 1px solid $greyPerigea;
+                                color: black;
+                                font-weight: bolder;
+
+                                .fc-event-main {
+                                    color: $greyPerigea;
+                                    font-size: 90%;
+                                }
+                            }
+
+                            .fc-event-S {
+                                background-color: $lightGreyPerigea;
+                                border: 1px solid $greyPerigea;
+                                color: white;
+                                font-weight: bolder;
+
+
+                            }
+
+                            .fc-daygrid-day-number {
+                                padding: 5%;
+                                font-weight: bold;
+                            }
+                        }
+
+                        .fc-daygrid-day-frame:hover {
+                            background-color: $whitePerigea;
+
+                            .fc-daygrid-day-number {
+                                padding: 5%;
+                                font-weight: bold;
+                            }
+
+
+                        }
+
+                        table {
+                            width: 100.1%;
+                            margin-left: -0.1%;
+
+                            thead {
+                                border: 1px solid #333333;
+                                background-color: #333333;
+                                padding: 1%;
+                                color: white;
+                                text-transform: uppercase;
+                                text-decoration: none;
+
+                            }
+
+                            tbody {
+                                border: 1px solid #333333;
+                            }
+                        }
+
+
+                        .fc-toolbar.fc-header-toolbar {
+                            border: 1px solid $greyPerigea;
+                            padding: 2%;
+                            border-top-right-radius: 10px;
+                            background-color: $orangePerigea;
+                            display: flex;
+                            width: 100.1%;
+                            margin-left: -0.1%;
+                            justify-content: space-around;
+                            align-items: center;
+                            margin-bottom: 0%;
+
+                            .fc-today-button{
+                                background-color: #333333;
+                                border-color: transparent;
+                                font-weight: bold;
+                                color: $orangePerigea;
+                                border-radius: 20%;                                
+                                font-size: 100%;
+                                border: 1px solid $orangePerigea;
+                            }
+
+                            .btn-group{
+                                
+                            .fc-prev-button{
+                                background-color: #333333;
+                                border-color: transparent;
+                                font-weight: bold;
+                                color: $orangePerigea;
+                                border-top-left-radius: 20%;
+                                border-bottom-left-radius: 20%;
+                                font-size: 100%;
+                                border: 1px solid $orangePerigea;
+                            }
+                            .fc-prev-button:hover{
+                                background-color: $lightGreyPerigea;
+                                color: #333333;
+                            }
+
+                           
+
+                            .fc-next-button{
+                                background-color: #333333;
+                                border-color: transparent;
+                                font-weight: bold;
+                                color: $orangePerigea;
+                                border-top-right-radius: 20%;
+                                border-bottom-right-radius: 20%;
+                                font-size: 100%;
+                                border: 1px solid $orangePerigea;
+                            }
+
+                            .fc-next-button:hover{
+                                background-color: $lightGreyPerigea;
+                                color: #333333;
+                            }
+
+                        }
+
+                            .fc-toolbar-title {
+                                text-transform: uppercase;
+                                font-weight: bold;
+                                margin-left: 0;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}

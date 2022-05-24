@@ -12,6 +12,7 @@ export default function DayPickerGrid(props) {
     const defaultMonth = new Date(props.anno, props.mese)
     let modifiedDays = [];
     let weekendDays = [];
+    let confirmedDates = [];
     
     const monthsWithThirtyDays = [4, 6, 9, 11]
      const footer =
@@ -21,6 +22,11 @@ export default function DayPickerGrid(props) {
             <p>Seleziona 1 o più date</p>
         );
         
+    const confirmedDatesStyle = {
+        backgroundColor: "#dd4125",
+        color: "white",
+        border: "solid 2px #333333"
+    }
 
     const modifiedDaysStyle = {
         backgroundColor: "#f1b126",
@@ -49,20 +55,27 @@ export default function DayPickerGrid(props) {
                 weekendDays.push(date)
             }
         }
-        console.log(weekendDays)
+        
     }
 
+   
+    
     
     const addDays = () => {
-        props.addDays(days)
+        props.addDays(days)        
         setDays([])
         alert("date selezionate, inserire dati")
     }
 
     const setModified = () => {
-        modifiedDays = props.modifiedDays        
-        console.log(modifiedDays)
-        console.log(days)
+        modifiedDays = props.modifiedDays
+        confirmedDates = props.confirmedDates
+        console.log(confirmedDates)         
+        modifiedDays.map((day)=>{
+            if(confirmedDates.find(el => el.getDate() === day.getDate())) {
+                confirmedDates = confirmedDates.filter(el => el.getDate() !== day.getDate())
+            }
+        })                
     }
 
     const onDayClick = (day, modifiers) => {
@@ -76,6 +89,7 @@ export default function DayPickerGrid(props) {
                     dates.splice(currentValue.indexOf(day), 1);
                 } else {
                     dates.push(day)
+                    
                 }
                 return dates;
             });
@@ -103,18 +117,20 @@ export default function DayPickerGrid(props) {
                         footer={footer}
                         modifiers={{
                             modifiedDays: modifiedDays,
-                            weekend: weekendDays
+                            weekend: weekendDays,
+                            confirmedDates: confirmedDates
                         }}
                         modifiersStyles={{
                             modifiedDays: modifiedDaysStyle,
-                            weekend: weekendStyle
+                            weekend: weekendStyle,
+                            confirmedDates: confirmedDatesStyle
                         }}
                     />
                     <Button
                         className='buttonDates'
                         onClick={addDays}
                     >
-                        Conferma Selezione Date
+                        Conferma Date
                     </Button>
                 </Form>
             </Col>
