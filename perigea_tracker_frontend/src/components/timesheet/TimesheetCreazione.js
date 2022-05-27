@@ -2,8 +2,8 @@ import * as React from 'react';
 import AxiosInstance from '../../axios/AxiosInstance';
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import { Button, Form, Row } from 'react-bootstrap';
-import Modal from 'react-modal';
+import { Button, Form, Row, Container } from 'react-bootstrap';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import DayPickerGrid from './DayPickerGrid';
 import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
@@ -26,9 +26,9 @@ export default class TimesheetCreazione extends React.Component {
 
     componentWillMount() {
         this.setState({
-            codicePersona: this.props.codicePersona,
-            anno: this.props.anno,
-            mese: this.props.mese
+            codicePersona: this.props.location.state.codicePersona,
+            anno: this.props.location.state.anno,
+            mese: this.props.location.state.mese
         })
     }
 
@@ -101,7 +101,7 @@ export default class TimesheetCreazione extends React.Component {
                 giorno: day,
                 codicePersona: item.codicePersona,
                 codiceCommessa: item.codiceCommessa,
-                costoNotaSpeseType: item.costoNotaSpeseType,
+                costoNotaSpese: item.costoNotaSpese,
                 importo: item.importo
             }
             noteSpese.push(notaSpese)
@@ -139,9 +139,34 @@ export default class TimesheetCreazione extends React.Component {
     }
 
     adjustEntries = (entryfields, note) => {
-        this.setState({ entries: this.state.entries.filter((entry) => entry.codiceCommessa !== entryfields.codiceCommessa) })
+        this.setState({
+            entries: this.state.entries.filter((entry) => entry.codiceCommessa !== entryfields.codiceCommessa),
+            adjustmentEntryModal: false,
+            showEntryModal: false
+        })
         this.addEntries(entryfields, note)
-        alert("campi del giorno" + entryfields.giorno + "/" + entryfields.mese + " sono stati modificato con successo")
+        
+    }
+
+    removeEntries = (entries) => {
+        let day;
+        entries.map((entry) => {
+            day = entry.giorno
+            this.removeEntry(entry)
+        })
+        this.setState({
+            showEntryModal: false,
+            modifiedDays: this.state.modifiedDays.filter((date) => date.getDate() !== day),
+            confirmedDates: this.state.confirmedDates.filter((date) => date.getDate() !== day)
+        })
+    }
+
+    removeEntry = (entryData) => {
+        this.setState({
+            entries: this.state.entries.filter((entry) => entry.codiceCommessa !== entryData.codiceCommessa),
+            entriesView: this.state.entriesView.filter((entry) => entry !== entryData)
+        })
+
     }
 
     entryView = (day) => {
@@ -173,73 +198,107 @@ export default class TimesheetCreazione extends React.Component {
 
         return (
             <React.Fragment>
-
-                <div className="postStyleProps" style={{ marginLeft: "0%", width: "103.5%" }} >
-                    <h3>Timesheet References</h3>
-                    <div className="info" >
-                        <Grid className="infoGrid"
-                            container
-                            spacing={20}
-                        >
-                            <Form style={{ width: "100%" }}>
-                                <Form.Row className="infoForm">
-                                    <TextField
-                                        style={{ width: "27%" }}
-                                        label="codice Persona"
-                                        value={this.state.codicePersona}
-                                        onChange={(e) => { this.setState({ codicePersona: e.target.value }) }}
-                                    ></TextField>
-                                    <TextField
-                                        style={{ width: "27%" }}
-                                        label="anno"
-                                        value={this.state.anno}
-                                    ></TextField>
-                                    <TextField
-                                        style={{ width: "27%" }}
-                                        label="mese"
-                                        value={this.state.mese}
-                                    ></TextField>
-                                </Form.Row>
-                            </Form>
-                        </Grid>
+                <Container fluid="xl">
+                    <div className="postStyleProps" style={{ marginLeft: "0%", width: "102%" }} >
+                        <h3>Timesheet References</h3>
+                        <div className="info" >
+                            <Grid className="infoGrid"
+                                container
+                                spacing={20}
+                            >
+                                <Form style={{ width: "100%" }}>
+                                    <Form.Row className="infoForm">
+                                        <TextField
+                                            style={{ width: "27%" }}
+                                            label="codice Persona"
+                                            value={this.state.codicePersona}
+                                            onChange={(e) => { this.setState({ codicePersona: e.target.value }) }}
+                                        ></TextField>
+                                        <TextField
+                                            style={{ width: "27%" }}
+                                            label="anno"
+                                            value={this.state.anno}
+                                        ></TextField>
+                                        <TextField
+                                            style={{ width: "27%" }}
+                                            label="mese"
+                                            value={this.state.mese}
+                                        ></TextField>
+                                    </Form.Row>
+                                </Form>
+                            </Grid>
+                        </div>
                     </div>
-                </div>
 
 
-                <Row>
-                    <DayPickerGrid
-                        anno={this.state.anno}
-                        mese={this.state.mese - 1}
-                        addDays={this.addDays}
-                        modifiedDays={this.state.modifiedDays}
-                        entryView={this.entryView}
-                        confirmedDates={this.state.confirmedDates}
-                    ></DayPickerGrid>
+                    <Row>
+                        <DayPickerGrid
+                            anno={this.state.anno}
+                            mese={this.state.mese - 1}
+                            addDays={this.addDays}
+                            modifiedDays={this.state.modifiedDays}
+                            entryView={this.entryView}
+                            confirmedDates={this.state.confirmedDates}
+                        ></DayPickerGrid>
 
-                    <EntriesImpl
-                        columns={7}
-                        addEntries={this.addEntries}
-                        anno={this.props.anno}
-                        mese={this.props.mese}
-                        codicePersona={this.props.codicePersona}
-                        adjustment={false}
-                    />
-                </Row>
+                        <EntriesImpl
+                            columns={7}
+                            addEntries={this.addEntries}
+                            anno={this.props.location.state.anno}
+                            mese={this.props.location.state.mese}
+                            codicePersona={this.props.location.state.codicePersona}
+                            adjustment={false}
+                        />
+                    </Row>
 
-                <Button className='ButtonSave' onClick={this.onSaveClick}>
-                    SAVE
-                </Button>
+                    <Button className='ButtonSave' onClick={this.onSaveClick} title="Salva timesheet">
+                        <img className="menu" src="./images/save.png"></img>
+                    </Button>
+                </Container>
 
-                <Modal
+                <Modal className="modal-lg" isOpen={this.state.showEntryModal}>
+                    <div className="modal-header">
+                        <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5>
+                        <button onClick={() => this.setState({ showEntryModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <ModalBody className="postPropsStyle">
+                        <div className='postStyleProps'>
+                            {!this.state.adjustmentEntryModal &&
+                                <EntryView anno={this.props.location.state.anno}
+                                    mese={this.props.location.state.mese}
+                                    entries={this.state.entriesView}
+                                    adjustmentEntryModal={this.adjustmentEntryModal}
+                                    removeEntry={this.removeEntry}
+                                    removeAll={this.removeEntries} />
+                            }
+
+                            {this.state.adjustmentEntryModal &&
+                                <div className='postStylePropsModal'>
+                                    <EntriesImpl
+                                        columns={12}
+                                        addEntries={this.adjustEntries}
+                                        anno={this.props.location.state.anno}
+                                        mese={this.props.location.state.mese}
+                                        codicePersona={this.props.location.state.codicePersona}
+                                        adjustment={true} />
+                                </div>}
+                        </div>
+                    </ModalBody>
+                </Modal>
+                {/* <Modal
                     className="modal"
                     isOpen={this.state.showEntryModal}
                     style={{ height: "50%" }}
                 >
                     {!this.state.adjustmentEntryModal &&
-                        <EntryView anno={this.props.anno}
-                            mese={this.props.mese}
+                        <EntryView anno={this.props.location.state.anno}
+                            mese={this.props.location.state.mese}
                             entries={this.state.entriesView}
-                            adjustmentEntryModal={this.adjustmentEntryModal} />
+                            adjustmentEntryModal={this.adjustmentEntryModal}
+                            removeEntry={this.removeEntry}
+                            removeAll={this.removeEntries} />
                     }
 
                     {this.state.adjustmentEntryModal &&
@@ -247,9 +306,10 @@ export default class TimesheetCreazione extends React.Component {
                             <EntriesImpl
                                 columns={12}
                                 addEntries={this.adjustEntries}
-                                anno={this.props.anno}
-                                mese={this.props.mese}
-                                codicePersona={this.props.codicePersona} />
+                                anno={this.props.location.state.anno}
+                                mese={this.props.location.state.mese}
+                                codicePersona={this.props.location.state.codicePersona}
+                                adjustment={true} />
                         </div>}
 
                     <button className='modalBackButton' onClick={this.closeEntryModal}>
@@ -257,7 +317,7 @@ export default class TimesheetCreazione extends React.Component {
                     </button>
 
 
-                </Modal>
+                </Modal> */}
 
             </React.Fragment>
         )

@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NoteSpese from './NoteSpese';
 import { MenuItem } from '@mui/material';
 import NoteSpeseTable from './NoteSpeseTable';
+import { entries } from 'lodash';
 
 
 
@@ -97,6 +98,7 @@ export default function EntriesImpl(props) {
         setNoteSpese(prevNoteSpese => [...prevNoteSpese, nota])
         console.log(noteSpese)
         setShowNoteSpeseFields(false)
+
     }
 
 
@@ -111,6 +113,7 @@ export default function EntriesImpl(props) {
 
 
     const addEntries = () => {
+        console.log(entryFields, noteSpese)
         props.addEntries(entryFields, noteSpese)
         setEntryFields({
             codiceCommessa: '',
@@ -119,21 +122,22 @@ export default function EntriesImpl(props) {
             trasferta: false,
             tipoCommessa: '',
             descrizioneCommessa: '',
-            ragioneSociale: '',
-            
+            ragioneSociale: ''
         })
+        setNoteSpese([])
     }
 
-    
+
     return (
         <React.Fragment>
             <Col xl={props.columns}>
 
                 <Form
                     className='postStyleProps'
-                    style={{ width: "100%", marginLeft: "2.5%", marginTop: "6.5%" }}
+                    style={{ width: "100%", marginLeft: "0.5%", marginTop: "6.5%" }}
                 >
-                    <h3>Dati Giornalieri</h3>
+                    {!props.adjustment && <h3>Dati Giornalieri</h3>}
+                    {props.adjustment && <h5>Nuovi Dati</h5>}
                     <div className='info'>
                         <Form.Group style={{ width: "100%" }}>
                             <TextField
@@ -217,8 +221,9 @@ export default function EntriesImpl(props) {
                             {!showNoteSpeseFields && entryFields.tipoCommessa === "F" &&
                                 <Button className='noteSpese-button'
                                     onClick={showNoteSpese}
+                                    title="add nota spese"
                                 >
-                                    ADD NOTA SPESE
+                                    <img className="menu" src="./images/add.png"></img>
                                 </Button>
                             }
                             {showNoteSpeseFields &&
@@ -232,12 +237,13 @@ export default function EntriesImpl(props) {
                             }
 
                         </Form.Group>
-                        
-                            <Button className='entry-button'
-                                onClick={addEntries}
-                            >
-                                Conferma Dati
-                            </Button> 
+
+                        <Button className='new-entry-button'
+                            onClick={addEntries}
+                            title="Conferma Dati"
+                        >
+                            <img className="menu" src="./images/conferma.png"></img>
+                        </Button>
                     </div>
                 </Form>
             </Col>

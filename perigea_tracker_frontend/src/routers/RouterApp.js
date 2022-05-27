@@ -23,7 +23,9 @@ import CommesseGrid from '../components/commesse/CommesseGrid';
 import CommessaNonFatturabileView from '../components/commesse/CommessaNonFatturabileView';
 import CommessaFatturabileView from '../components/commesse/CommessaFatturabileView';
 import Timesheet from '../components/timesheet/Timesheet';
-import Calendar from '../components/timesheet/TimesheetView';
+import TimesheetCreazione from '../components/timesheet/TimesheetCreazione';
+import TimesheetView from '../components/timesheet/TimesheetView';
+
 
 export default function RouterApp() {
   console.log("ROUTERAPP ENTRY");
@@ -61,8 +63,9 @@ export default function RouterApp() {
         <Route path="/commessa-non-fatturabile-view" exact component={CommessaNonFatturabileView} />
         <Route path="/commessa-fatturabile-view" exact component={CommessaFatturabileView} />
         <Route path="/timesheet" exact component={Timesheet} />
-        <Route path="/timesheet-view" exact component={Calendar} />
-
+        <Route path="/timesheet-create" exact component={TimesheetCreazione} />
+        <Route path="/timesheet-view" exact component={TimesheetView} />
+       
 
 
       </Layout>

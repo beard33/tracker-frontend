@@ -13,15 +13,16 @@ export default function DayPickerGrid(props) {
     let modifiedDays = [];
     let weekendDays = [];
     let confirmedDates = [];
-    
+
     const monthsWithThirtyDays = [4, 6, 9, 11]
-     const footer =
+    const footer =
         days && days.length > 0 ? (
             <p>Conferma le date selezionate</p>
         ) : (
-            <p>Seleziona 1 o più date</p>
+
+            <p>seleziona 1 o più date</p>
         );
-        
+
     const confirmedDatesStyle = {
         backgroundColor: "#dd4125",
         color: "white",
@@ -36,7 +37,7 @@ export default function DayPickerGrid(props) {
     const weekendStyle = {
         color: "red"
     }
-   
+
 
     const getWeekendDays = () => {
         let endDay;
@@ -55,27 +56,26 @@ export default function DayPickerGrid(props) {
                 weekendDays.push(date)
             }
         }
-        
+
     }
 
-   
-    
-    
+
+
+
     const addDays = () => {
-        props.addDays(days)        
-        setDays([])
-        alert("date selezionate, inserire dati")
+        props.addDays(days)
+        setDays([])        
     }
 
     const setModified = () => {
         modifiedDays = props.modifiedDays
         confirmedDates = props.confirmedDates
-        console.log(confirmedDates)         
-        modifiedDays.map((day)=>{
-            if(confirmedDates.find(el => el.getDate() === day.getDate())) {
+        console.log(confirmedDates)
+        modifiedDays.map((day) => {
+            if (confirmedDates.find(el => el.getDate() === day.getDate())) {
                 confirmedDates = confirmedDates.filter(el => el.getDate() !== day.getDate())
             }
-        })                
+        })
     }
 
     const onDayClick = (day, modifiers) => {
@@ -89,7 +89,7 @@ export default function DayPickerGrid(props) {
                     dates.splice(currentValue.indexOf(day), 1);
                 } else {
                     dates.push(day)
-                    
+
                 }
                 return dates;
             });
@@ -129,8 +129,9 @@ export default function DayPickerGrid(props) {
                     <Button
                         className='buttonDates'
                         onClick={addDays}
+                        title='Coferma Date'
                     >
-                        Conferma Date
+                         <img className="menu" src="./images/conferma.png"></img>
                     </Button>
                 </Form>
             </Col>

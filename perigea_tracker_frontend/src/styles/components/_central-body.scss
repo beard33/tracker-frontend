@@ -191,6 +191,8 @@
       border: 2px $greyPerigea solid;
       //height: 57.4px;
       height: 100%;
+      text-rendering: auto;
+
       //margin-top: 50%;
       //margin-bottom: 50%;
     }
@@ -292,20 +294,25 @@
 
     .buttonDates {
       position: absolute;
-      background-color: $greyPerigea;
-      color: $orangePerigea;
+      background-color: transparent;
+      color: #f1b126;
       cursor: pointer;
-      border: solid $greyPerigea 1px;
-      margin-top: -6%;
-      margin-left: 23%;
-      float: right;
+      border: solid transparent 1px;
+      bottom: 5%;
+      left: 13%;
+
     }
-  
+
     .buttonDates:hover {
-      background-color: $lightGreyPerigea;
+      background-color: transparent;
       color: black;
-      border: solid $greyPerigea 1px;
+      border: solid transparent 1px;
       font-weight: bold;
+
+      .menu {
+        width: 43px;
+        height: 39px;
+      }
     }
 
     .page-titles {
@@ -576,40 +583,53 @@
 
   .buttonDates {
     position: absolute;
-    background-color: $greyPerigea;
-    color: $orangePerigea;
+    background-color: transparent;
+    color: #f1b126;
     cursor: pointer;
-    border: solid $greyPerigea 1px;
-    margin-top: -4.7%;
-    margin-left: 19%;
+    border: solid transparent 1px;
+    bottom: 1%;
+    left: 36%;
   }
 
   .buttonDates:hover {
-    background-color: $lightGreyPerigea;
+    background-color: transparent;
     color: black;
     font-weight: bold;
-    border: solid $greyPerigea 1px;
+    border: solid transparent 1px;
+
+    .menu {
+      width: 43px;
+      height: 39px;
+    }
   }
 
   .ButtonSave {
     font-size: 130%;
-    width: 8%;
-    height: 3%;
+    width: 5%;
+    height: 5%;
     float: right;
     font-weight: bold;
-    background-color: $greyPerigea;
+    background-color: transparent;
     color: $orangePerigea;
     cursor: pointer;
-    border: solid $greyPerigea 2px;
+    border: solid transparent 2px;
     margin-top: 5%;
     margin-right: 5%;
+    .menu {
+      height: 45px;
+      width: 45px;
+    }
   }
 
   .ButtonSave:hover {
-    background-color: $lightGreyPerigea;
+    background-color: transparent;
     color: black;
     font-weight: bold;
-    border: solid $greyPerigea 2px;
+    border: solid transparent 2px;
+    .menu {
+      height: 55px;
+      width: 55px;
+    }
   }
 
 }

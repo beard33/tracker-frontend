@@ -16,19 +16,23 @@ export default function NoteSpeseTable(props) {
     if (props.removePermission) {
         listItems = noteSpesa.map((val) =>
             <tr>
-                <td>{val.costoNotaSpeseType}</td>
+                <td>{val.costoNotaSpese}</td>
                 <td>{val.importo}</td>
-                <td><Button className='table-button' onClick={() => {removeNota(val.costoNotaSpeseType)}}>Remove</Button></td>                
+                <td>
+                    <Button className='table-button' title='rimuovi nota' onClick={() => { removeNota(val.costoNotaSpese) }}>
+                        <img className="menu" src="./images/clear-white.png"></img>
+                    </Button>
+                </td>
             </tr>)
-            
-                
-        
+
+
+
     } else {
         listItems = noteSpesa.map((val) =>
             <tr>
-                <td>{val.costoNotaSpeseType}</td>
+                <td>{val.costoNotaSpese}</td>
                 <td>{val.importo}</td>
-               
+
             </tr>)
     }
     return (

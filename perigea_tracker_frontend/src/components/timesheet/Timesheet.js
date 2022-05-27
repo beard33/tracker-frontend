@@ -24,24 +24,24 @@ class Timesheet extends React.Component {
 
     setRefs = (arg) => {
         console.log(arg)
-        this.setState({data: arg})
+        this.setState({ data: arg })
         const date = arg.split("-")
         const month = date[1].split("")
-        this.setState({anno: date[0]})
-        if(month[0]==="0") {
-            this.setState({mese: month[1]})
+        this.setState({ anno: date[0] })
+        if (month[0] === "0") {
+            this.setState({ mese: month[1] })
         } else {
-            this.setState({mese: date[1]})
+            this.setState({ mese: date[1] })
         }
-        console.log(this.state)        
+        console.log(this.state)
     }
- 
+
     render() {
         return (
             <React.Fragment>
                 <Title></Title>
                 {!this.state.checkRef &&
-                    <div className="postStyleProps" style={{ marginLeft: "0%", width: "103.5%" }} >
+                    <div className="postStyleProps" style={{ marginLeft: "1%", width: "98%" }} >
                         <h3>Timesheet References</h3>
                         <div className="info" >
                             <Grid className="infoGrid"
@@ -49,7 +49,7 @@ class Timesheet extends React.Component {
                                 spacing={20}
                             >
                                 <Form style={{ width: "100%" }}>
-                                    <Form.Row className="infoForm">                                        
+                                    <Form.Row className="infoForm">
                                         <TextField
                                             style={{ width: "60%" }}
                                             label="mese"
@@ -60,35 +60,40 @@ class Timesheet extends React.Component {
                                     </Form.Row>
                                 </Form>
                             </Grid>
+                            <Link to={{
+                                pathname: "/timesheet-view",
+                                state: {
+                                    mese: this.state.mese,
+                                    anno: this.state.anno,
+                                    codicePersona: "bd4ab626-b96c-4a02-935c-eeca878f6b57",
+                                    username: "sampei.genta"
+                                }
+                            }}>
+                                <button className="button-visualizza"
+                                    type="button" title='visualizza'>
+                                     <img className="menu" src="./images/view.png"></img>
+                                </button>
+                            </Link>
+                            <Link to={{
+                                pathname: "/timesheet-create",
+                                state: {
+                                    mese: this.state.mese,
+                                    anno: this.state.anno,
+                                    codicePersona: "bd4ab626-b96c-4a02-935c-eeca878f6b57",
+                                    username: "sampei.genta"
+                                }
+                            }}>
+                                <button className='button-create' onClick={this.checkRefs} title='crea timesheet mensile'>
+                                <img className="menu" src="./images/add.png"></img>
+                                    </button>
+                            </Link>
                         </div>
-
-                        <Link to={{
-                            pathname: "/timesheet-view",
-                            state: {
-                                mese:this.state.mese,
-                                anno:this.state.anno,
-                                codicePersona: "04ed7cba-88ec-44b6-a325-d0fa34987516",
-                                username: "sampei.genta"
-                            }
-                        }}>
-                            <button className="button-visualizza"
-                                type="button" >
-                                VISUALIZZA
-                            </button>
-                        </Link>
-                        <button className='button-avanti' onClick={this.checkRefs}>CREA</button>
                     </div>
-                }
-                {this.state.checkRef &&
-                    <Container fluid="xl">
-                        <TimesheetCreazione
-                            codicePersona="04ed7cba-88ec-44b6-a325-d0fa34987516"
-                            anno={this.state.anno}
-                            mese={this.state.mese}></TimesheetCreazione>
-                    </Container>
+
+
                 }
 
-            </React.Fragment>
+            </React.Fragment >
         )
     }
 }

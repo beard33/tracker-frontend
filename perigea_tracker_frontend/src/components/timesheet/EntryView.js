@@ -1,17 +1,28 @@
 import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import NoteSpeseTable from './NoteSpeseTable';
 
 
 export default function EntryView(props) {
 
+    const removeEntry = (entry) => {
+        props.removeEntry(entry)
+    }
+
+    const removeAllEntries = (entries) => {
+        props.removeAll(entries)
+    }
+
+    const entries = props.entries
+
+
     return (
         <React.Fragment>
-            { props.entries.map((entry) => {
-            console.log(entry)  
-            return(                          
-                
+            {entries.map((entry) => {
+                console.log(entry)
+                return (
+
                     <Form className='postStylePropsModal' style={{ width: "100%" }}>
                         <div className='info'>
                             <Form.Row>
@@ -39,25 +50,40 @@ export default function EntryView(props) {
                                 <TextField className='modal-text-field' label="trasferta"
                                     value={entry.trasferta} />
                             </Form.Row>
-                            <Form.Row>
-                                <NoteSpeseTable noteSpese={entry.noteSpesa} removePermission={false} />
-                            </Form.Row>
-
+                            {entry.tipoCommessa === "F" &&
+                                <Form.Row>
+                                    <NoteSpeseTable noteSpese={entry.noteSpesa} removePermission={false} />
+                                </Form.Row>
+                            }
+                            <Button className='modal-delete-button'
+                                onClick={() => { removeEntry(entry) }}
+                                title='Rimuovi singola entry'>
+                                 <img className="menu" src="./images/clear.png"></img>
+                            </Button>
                             <button
                                 className='entry-button'
-                                onClick={props.adjustmentEntryModal}>
-                                MODIFICA
+                                onClick={props.adjustmentEntryModal}
+                                title='modifica dati'>
+                                 <img className="menu" src="./images/update.png"></img>
                             </button>
                         </div>
-                        
+
                     </Form>
-               
-            )
-        })}
+
+                )
+            })}
+            <button
+                className='modal-remove-button'
+                onClick={() =>{removeAllEntries(entries)}}
+                title='rimuovi tutti i dati'
+                >
+                <img className="menu" src="./images/clear-all.png"></img>
+            </button>
             <button
                 className='modal-generic-button'
-                onClick={props.adjustmentEntryModal}>
-                AGGIUNGI DATI
+                onClick={props.adjustmentEntryModal}
+                title="aggiungi dati ">
+                 <img className="menu" src="./images/add.png"></img>
             </button>
 
         </React.Fragment>

@@ -11,7 +11,7 @@ export default function NoteSpese(props) {
         mese: 0,
         codicePersona: "",
         codiceCommessa: "",
-        costoNotaSpeseType: "",
+        costoNotaSpese: "",
         importo: 0.0
     })
 
@@ -35,6 +35,12 @@ export default function NoteSpese(props) {
     const addNota = () => {
         console.log(noteSpesa)
         props.addNoteSpese(noteSpesa)
+        setNoteSpesa({anno: 0,
+            mese: 0,
+            codicePersona: "",
+            codiceCommessa: "",
+            costoNotaSpese: "",
+            importo: 0.0})
     }
 
     return (
@@ -59,9 +65,9 @@ export default function NoteSpese(props) {
                             style={{ width: "100%" }}
                             id="select stato"
                             select
-                            name='costoNotaSpeseType'
+                            name='costoNotaSpese'
                             label="Tipo costo note spesa"
-                            value={noteSpesa.costoNotaSpeseType}
+                            value={noteSpesa.costoNotaSpese}
                             onChange={handleChange}
                         >
                             {costoNoteSpesaType.map((option) => (
@@ -74,8 +80,9 @@ export default function NoteSpese(props) {
                     <Form.Group>
                         <Button className='noteSpese-button'
                             onClick={addNota}
+                            title="add nota"
                         >
-                            ADD NOTA SPESE
+                            <img className="menu" src="./images/add.png"></img>
                         </Button>
                     </Form.Group>
                 </div>

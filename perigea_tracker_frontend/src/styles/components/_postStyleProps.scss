@@ -54,41 +54,60 @@
     border: 1px solid $greyPerigea;
     border-top-left-radius: 0%;
 
-    .entry-button {
-      background-color: $greyPerigea;
-      color: $orangePerigea;
-      cursor: pointer;
-      border: solid $greyPerigea 1px;
+    .new-entry-button {
+      background-color: transparent;
+      color: #f1b126;
+      // border-radius: 10px;
+      border: 1px solid transparent;
+      padding: 1%;
+      margin-left: 92%;
+      margin-bottom: -1%;
+      width: 6%;
       margin-top: 3%;
-      margin-left: 79%;
     }
 
-    .entry-button:hover {
-      background-color: $lightGreyPerigea;
-      color: black;
+    .new-entry-button:hover {
+      background-color: transparent;
+      color: #333333;
       font-weight: bold;
+
+      .menu {
+        width: 43px;
+        height: 39px;
+      }
     }
 
     .noteSpese-button {
-      background-color: $greyPerigea;
+      background-color: transparent;
       color: $orangePerigea;
       cursor: pointer;
-      border: solid $greyPerigea 1px;
-      margin-top: 3%;
-      margin-left: 38%
+      border: solid transparent 1px;
+      margin-top: 0%;
+      margin-left: 47%;
+
+      .menu {
+        width: 35px;
+        height: 35px;
+      }
+
     }
 
     .noteSpese-button:hover {
-      background-color: $lightGreyPerigea;
+      background-color: transparent;
       color: black;
       font-weight: bold;
+
+      .menu {
+        width: 45px;
+        height: 45px;
+      }
     }
 
     .table-button {
       cursor: pointer;
-      background-color: $orangePerigea;
-      color: $greyPerigea;
-      border: 1px solid $orangePerigea;
+      background-color: transparent;
+      color: #333333;
+      border: 1px solid transparent;
       width: 41%;
       height: 10%;
       font-weight: bold;
@@ -101,8 +120,9 @@
     }
 
     .table-button:hover {
-      background-color: $redPerigea;
+      background-color: transparent;
       color: #fafafa;
+
     }
   }
 
@@ -155,28 +175,76 @@
     font-weight: bold;
   }
 
-  .button-visualizza {
+  .button-create {
     display: block;
     float: right;
-    width: 120px;
+    width: 50px;
     height: 50px;
     font-size: 18px;
-    background-color: $greyPerigea;
+    background-color: transparent;
     color: $orangePerigea;
     font-weight: bolder;
     cursor: pointer;
-    margin-bottom: 100px;
-    margin-right: 4%;
+    margin-right: 0%;
     border-radius: 10px;
-    margin-top: 1%;
+    margin-bottom: 10%;
+    margin-top: -2%;
     text-align: center;
     text-decoration: none;
+    border: transparent;
+
+    .menu {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .button-create:hover {
+    color: black;
+    background-color: transparent;
+    font-weight: bold;
+
+    .menu {
+      width: 45px;
+      height: 45px;
+    }
+  }
+
+
+  .button-visualizza {
+    display: block;
+    float: right;
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    background-color: transparent;
+    color: $orangePerigea;
+    font-weight: bolder;
+    cursor: pointer;
+    margin-right: 0%;
+    border-radius: 10px;
+    margin-top: -2%;
+    text-align: center;
+    text-decoration: none;
+    border: transparent;
+
+
+
+    .menu {
+      width: 40px;
+      height: 40px;
+    }
   }
 
   .button-visualizza:hover {
     color: black;
-    background-color: $lightGreyPerigea;
+    background-color: transparent;
     font-weight: bold;
+
+    .menu {
+      width: 45px;
+      height: 45px;
+    }
   }
 
   .anagraficaModal {

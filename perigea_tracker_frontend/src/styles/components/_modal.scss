@@ -44,14 +44,12 @@
                 cursor: pointer;
                 background-color: #fafafa;
                 width: 20%;
-                margin-left: 10%;
-                margin-top: 5%;
+                margin-left: 2%;
+                margin-top: 7%;
                 margin-right: 0%;
-                padding-bottom: 0.1%;
-                padding-top: 0.1%;
                 border-radius: 10px;
                 float: left;
-                height: 7%;
+                height: 6%;
                 text-align: center;
             }
 
@@ -153,6 +151,27 @@
                 color: #fafafa;
             }
 
+            .modal-remove-button {
+                cursor: pointer;
+                background-color: #333333;
+                color: #f1b126;
+                border: solid #333333 1px;
+                margin-top: 5%;
+                margin-left: -14%;
+                margin-right: 4%;
+                margin-bottom: 0%;
+                border-radius: 10px;
+                padding: 1.5%;
+                width: 19%;
+                float: right;
+            }
+
+            .modal-remove-button:hover {
+                background-color: $redPerigea;
+                color: white;
+                font-weight: bold;
+            }
+
 
             .postStylePropsModal {
                 width: 100%;
@@ -180,7 +199,7 @@
                         cursor: pointer;
                         border: solid $greyPerigea 1px;
                         margin-top: 3%;
-                        margin-left: 79%;
+                        margin-left: 78%;
                         border-radius: 10px;
                         padding: 1%;
                         width: 20%;
@@ -192,7 +211,30 @@
                         color: black;
                         font-weight: bold;
                     }
+
+                    .modal-delete-button {
+                        cursor: pointer;
+                        background-color: #333333;
+                        color: #f1b126;
+                        border: solid #333333 1px;
+                        margin-top: 3%;
+                        margin-left: 1%;
+                        margin-bottom: -10%;
+                        border-radius: 10px;
+                        padding: 1%;
+                        width: 14%;
+                        float: left;
+                    }
+
+                    .modal-delete-button:hover {
+                        background-color: $redPerigea;
+                        color: white;
+                        font-weight: bold;
+                    }
+
                 }
+
+
 
                 .modal-generic-button {
                     cursor: pointer;
