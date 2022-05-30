@@ -11,15 +11,20 @@
             border-bottom: 2px solid $greyPerigea;
 
             .button-close {
-                background-color: #333333;
+                background-color: transparent;
                 color: $orangePerigea;
+                border: transparent;
                 font-weight: bold;
             }
 
             .button-close:hover {
-                background-color: $lightGreyPerigea;
+                background-color: transparent;
                 color: $greyPerigea;
                 font-weight: bold;
+                .menu {
+                    width: 40px;
+                    height: 35px;
+                }
             }
         }
 
@@ -282,11 +287,15 @@
                         align-self: center;
                         position: absolute;
                     }
+                    .menu {
+                        width: 35px;
+                        height: 32px;
+                    }
 
                     .richiesta-button:hover {
                         .menu {
                             width: 40px;
-                            height: 35px;
+                            height: 37px;
                         }
                     }
 

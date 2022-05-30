@@ -60,34 +60,41 @@ class Timesheet extends React.Component {
                                     </Form.Row>
                                 </Form>
                             </Grid>
-                            <Link to={{
-                                pathname: "/timesheet-view",
-                                state: {
-                                    mese: this.state.mese,
-                                    anno: this.state.anno,
-                                    codicePersona: "bd4ab626-b96c-4a02-935c-eeca878f6b57",
-                                    username: "sampei.genta"
-                                }
-                            }}>
-                                <button className="button-visualizza"
-                                    type="button" title='visualizza'>
-                                     <img className="menu" src="./images/view.png"></img>
-                                </button>
-                            </Link>
-                            <Link to={{
-                                pathname: "/timesheet-create",
-                                state: {
-                                    mese: this.state.mese,
-                                    anno: this.state.anno,
-                                    codicePersona: "bd4ab626-b96c-4a02-935c-eeca878f6b57",
-                                    username: "sampei.genta"
-                                }
-                            }}>
-                                <button className='button-create' onClick={this.checkRefs} title='crea timesheet mensile'>
-                                <img className="menu" src="./images/add.png"></img>
-                                    </button>
-                            </Link>
+                            
+                                <div>
+                                    <Link to={{
+                                        pathname: "/timesheet-view",
+                                        state: {
+                                            responsabile: false,
+                                            mese: this.state.mese,
+                                            anno: this.state.anno,
+                                            codicePersona: "bd4ab626-b96c-4a02-935c-eeca878f6b57",
+                                            username: "sampei.genta"
+                                        }
+                                    }}>
+                                        <button className="button-visualizza"
+                                            type="button" title='visualizza'>
+                                            <img className="menu" src="./images/view.png"></img>
+                                        </button>
+                                    </Link>
+                                    <Link to={{
+                                        pathname: "/timesheet-create",
+                                        state: {
+                                            mese: this.state.mese,
+                                            anno: this.state.anno,
+                                            codicePersona: "bd4ab626-b96c-4a02-935c-eeca878f6b57",
+                                            username: "sampei.genta"
+                                        }
+                                    }}>
+                                        <button className='button-create' onClick={this.checkRefs} title='crea timesheet mensile'>
+                                            <img className="menu" src="./images/add.png"></img>
+                                        </button>
+                                    </Link>
+                                </div>
+                            
                         </div>
+
+
                     </div>
 
 

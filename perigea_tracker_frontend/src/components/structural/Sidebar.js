@@ -3,6 +3,7 @@
 import { color } from '@mui/system';
 import { white } from 'material-ui/styles/colors';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 
 export default class Sidebar extends React.Component {
@@ -37,7 +38,11 @@ export default class Sidebar extends React.Component {
 
               <SubMenu title="Commesse">
                 <MenuItem><a href="/commesse"> Commesse</a></MenuItem>
-                
+              </SubMenu>
+
+              <SubMenu title="Timesheet">
+                <MenuItem><a href="/timesheet"> Timesheet</a></MenuItem>
+                <MenuItem><a href="/timesheet-grid">Timesheets Grid </a></MenuItem>
               </SubMenu>
 
 

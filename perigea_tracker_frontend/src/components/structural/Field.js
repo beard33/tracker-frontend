@@ -37,6 +37,7 @@ const Field = (props) => {
                 </button>
 
                 <FieldDetails
+                    tipoDato={"commessa"}
                     tipoCommessa={props.commessa.tipoCommessa}
                     descrizioneCommessa={props.commessa.descrizioneCommessa}
                 />
@@ -44,7 +45,7 @@ const Field = (props) => {
             </Box>
 
         )
-    } else {
+    } else if (props.tipo === "S") {
         return (
             <Box className="field-2">
 
@@ -72,8 +73,46 @@ const Field = (props) => {
                 </button>
 
                 <FieldDetails
+                    tipoDato={"commessa"}
                     tipoCommessa={props.commessa.tipoCommessa}
                     descrizioneCommessa={props.commessa.descrizioneCommessa}
+                />
+
+            </Box>
+
+        )
+    } else if (props.tipo === "T") {
+        return (
+            <Box className="field-1">
+
+                {<FieldImage className="image"
+                    cardImage="../images/fotoProfiloGenerica.png"
+                />}
+
+                <Link className='view-button' to={{
+                    pathname: "/timesheet-view",
+                    state: {
+                        responsabile: true,
+                        anno: props.timesheet.anno,
+                        mese: props.timesheet.mese,
+                        codicePersona: props.timesheet.codicePersona,
+                        username: `${props.timesheet.nome}.${props.timesheet.cognome}`,
+                        contattoResponsabile: props.contattoResponsabile
+                    }
+                }} >
+                    <img className="view-image" title='vedi dettagli' src="./images/show-details.png"
+                        style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
+                    ></img>
+                </Link>
+
+                <FieldDetails
+                    tipoDato={"timesheet"}
+                    nome={props.timesheet.nome}
+                    cognome={props.timesheet.cognome}
+                    anno={props.timesheet.anno}
+                    mese={props.timesheet.mese}
+                    approvalStatus={props.timesheet.approvalStatus}
+                    
                 />
 
             </Box>

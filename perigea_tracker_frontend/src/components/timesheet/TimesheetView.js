@@ -5,18 +5,23 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import BootstrapTheme from '@fullcalendar/bootstrap';
 import AxiosInstance from '../../axios/AxiosInstance';
+import CalendarAxiosInstance from '../../axios/CalendarAxiosInstance';
 import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
 import MonthTotalsTable from './MonthTotalsTable';
 import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import TextField from '@material-ui/core/TextField';
+import { MenuItem } from '@mui/material';
+import { approvalStatus } from '../enum/TimesheetEnums';
 import FileSaver from 'file-saver';
 
 
 let entries = []
 let counter = 0;
 let getControl = false
-let ore = 0
+
+
 class TimesheetView extends Component {
     constructor(props) {
         super(props);
@@ -34,7 +39,10 @@ class TimesheetView extends Component {
             counter: 0,
             commesse: [],
             getTotals: false,
-            showDeleteModal: false
+            showDeleteModal: false,
+            approvalStatus: "",
+            calendarResponse: "",
+            approvalControl: false
         }
         this.calendarComponentRef = React.createRef();
     }
@@ -49,9 +57,8 @@ class TimesheetView extends Component {
             mese: this.props.location.state.mese
         })
         this.getTimesheets(this.props.location.state.anno, this.props.location.state.mese)
+
     }
-
-
 
     componentDidUpdate() {
         if (counter < 1) {
@@ -74,6 +81,36 @@ class TimesheetView extends Component {
         }).catch((error) => {
             console.log("Error into delete ", error)
         })
+    }
+
+    updateTimesheetStatus = () => {
+        console.log(this.state.calendarResponse)
+        AxiosInstance({
+            method: 'put',
+            url: `timesheet/update-status/${this.state.approvalStatus}`,
+            data: this.state.calendarResponse
+        }).then((response) => {
+            alert("Stato di approvazione del timesheet aggiornato con successo")
+        }).catch((error) => {
+            console.log("Error into loadTimesheet ", error)
+            alert("errore nello scarico")
+        })
+    }
+
+    approveTimesheet = async () => {
+        await CalendarAxiosInstance({
+            method: "get",
+            url: `timesheet/get-last-by-refs/${this.state.anno}/${this.state.mese}/${this.state.codicePersona}`,
+        }).then((response) => {
+            console.log(response)
+            this.loadTimesheetEvent(response)
+        }).catch((error) => {
+            console.log("Error into loadTimesheet ", error)
+        })
+    }
+    loadTimesheetEvent = (arg) => {
+        this.setState({ calendarResponse: arg.data.data })
+        this.updateTimesheetStatus()
     }
 
     downloadExcel = async () => {
@@ -155,7 +192,6 @@ class TimesheetView extends Component {
                 },
                 entries: entries
             }
-
         }).then(() => {
             alert("update di un timesheet mensile effettuata con successo")
             console.log("update di un timesheet mensile effettuata con successo", this.data)
@@ -166,10 +202,9 @@ class TimesheetView extends Component {
     }
 
 
-    getTimesheets = (anno, mese) => {
+    getTimesheets = async (anno, mese) => {
         // if (counter < 0.1) {
-
-        AxiosInstance({
+        await AxiosInstance({
             method: "get",
             url: `timesheet/read/${anno}/${mese}/${this.props.location.state.codicePersona}`,
         }).then((response) => {
@@ -192,6 +227,7 @@ class TimesheetView extends Component {
             mese: arg.data.data.mese,
         })
         this.setEventList()
+        this.approvalControl()
     }
 
     sendTimesheetRequest = async () => {
@@ -222,8 +258,6 @@ class TimesheetView extends Component {
         })
         return oreCommessa
     }
-
-
 
     setEventList = () => {
         let event = {}
@@ -265,6 +299,12 @@ class TimesheetView extends Component {
         this.setState({ getTotals: true })
     }
 
+    approvalControl = () => {
+        if (this.state.timesheet.statoRichiesta === "APPROVED") {
+            this.setState({ approvalControl: true })
+        }
+    }
+
     getMonthTotalsTable = () => {
         return (
             <React.Fragment>
@@ -276,6 +316,7 @@ class TimesheetView extends Component {
                         codicePersona={this.state.codicePersona}
                         commesse={this.state.commesse}
                         oreTotali={this.state.timesheet.oreTotali}
+                        approvalStatus= {this.state.timesheet.statoRichiesta}
                     />
                 }
             </React.Fragment>
@@ -295,8 +336,6 @@ class TimesheetView extends Component {
         }
     }
 
-
-
     updateModal = () => {
         this.setState({ adjustmentEntryModal: true })
     }
@@ -306,12 +345,12 @@ class TimesheetView extends Component {
         const today = new Date(new Date().getFullYear(), new Date().getMonth())
         const date = element.start.getDate()
         if (date === 1) {
-            this.setState({ mese: element.start.getMonth() + 1, anno: element.start.getFullYear() })
+            this.setState({ mese: element.start.getMonth() + 1, anno: element.start.getFullYear(), approvalControl: false })
         } else {
             if (element.start.getMonth() === 11) {
-                this.setState({ mese: 1 })
+                this.setState({ mese: 1, anno: element.start.getFullYear(), approvalControl: false })
             } else {
-                this.setState({ mese: element.start.getMonth() + 2, anno: element.start.getFullYear() })
+                this.setState({ mese: element.start.getMonth() + 2, anno: element.start.getFullYear(), approvalControl: false })
             }
         }
         console.log(date, today)
@@ -432,7 +471,14 @@ class TimesheetView extends Component {
 
     openDeleteModal = () => {
         this.setState({ showDeleteModal: true })
+    }
 
+    openApprovalModal = () => {
+        this.setState({ approvalModal: true })
+    }
+
+    setApprovalStatus = (e) => {
+        this.setState({ approvalStatus: e.target.value })
     }
 
     updateEntries = (entryfields, note) => {
@@ -494,9 +540,11 @@ class TimesheetView extends Component {
 
                                             {!getControl &&
                                                 <div>
-                                                    <button className='delete-button' title='elimina il timesheet' onClick={this.openDeleteModal}>
-                                                        <img className="menu" src="./images/bin.png"></img>
-                                                    </button>
+                                                    {!this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                        <button className='delete-button' title='elimina il timesheet' onClick={this.openDeleteModal}>
+                                                            <img className="menu" src="./images/bin.png"></img>
+                                                        </button>
+                                                    }
 
 
                                                     <button className='excel-button' title='scarica rapportino excel' onClick={this.downloadExcel}>
@@ -504,20 +552,29 @@ class TimesheetView extends Component {
                                                             <img className="menu" src="./images/excel.png"></img>
                                                         </a>
                                                     </button>
+                                                    {!this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                        <button className='richiesta-button' title='invio richiesta approvazione' onClick={this.sendTimesheetRequest}>
+                                                            <img className="menu" src="./images/richiesta.png"></img>
+                                                        </button>
+                                                    }
+                                                    {
+                                                        this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                        <button className='richiesta-button' title='approva timesheet' onClick={this.openApprovalModal}>
+                                                            <img className="menu" src="./images/approve.png"></img>
+                                                        </button>
 
-                                                    <button className='richiesta-button' title='invio richiesta approvazione' onClick={this.sendTimesheetRequest}>
-                                                        <img className="menu" src="./images/richiesta.png"></img>
-                                                    </button>
+                                                    }
+
                                                 </div>
                                             }
                                             {
-                                                getControl &&
+                                                getControl && !this.props.location.state.responsabile &&
                                                 <Link to={{
                                                     pathname: "/timesheet-create",
                                                     state: {
                                                         mese: this.state.mese,
                                                         anno: this.state.anno,
-                                                        codicePersona: this.state.codicePersona,                                                        
+                                                        codicePersona: this.state.codicePersona,
                                                     }
                                                 }}>
                                                     <button className='add-button' title='aggiungi timesheet'>
@@ -527,7 +584,6 @@ class TimesheetView extends Component {
                                             }
                                         </Col>
                                         <Col lg={8} sm={8} md={8}>
-
                                             <FullCalendar ref={this.calendarComponentRef} defaultView="dayGridMonth" plugins={[BootstrapTheme, dayGridPlugin, interactionPlugin]}
                                                 initialDate={new Date(this.props.location.state.anno, this.props.location.state.mese - 1)}
                                                 // initialDate={new Date(2022, 4)}
@@ -562,7 +618,6 @@ class TimesheetView extends Component {
                                                 events={this.state.calendarEvents}
                                                 id="calendar"
                                             />
-
                                         </Col>
                                     </Row>
                                 </CardBody>
@@ -570,8 +625,8 @@ class TimesheetView extends Component {
                             <Modal className="modal-lg" isOpen={this.state.modalIsOpen} toggle={this.modal} >
                                 <div className="modal-header">
                                     <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5>
-                                    <button onClick={() => this.setState({ modalIsOpen: false, adjustmentEntryModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <button title='esci' onClick={() => this.setState({ modalIsOpen: false, adjustmentEntryModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
+                                        <img className="menu" src="./images/exit.png"></img>
                                     </button>
                                 </div>
 
@@ -583,10 +638,11 @@ class TimesheetView extends Component {
                                                 entries={this.state.entriesView}
                                                 adjustmentEntryModal={this.updateModal}
                                                 removeEntry={this.removeEntry}
-                                                removeAll={this.removeDailyEntries} />
+                                                removeAll={this.removeDailyEntries}
+                                                updateControl={this.state.approvalControl} />
                                         }
 
-                                        {this.state.adjustmentEntryModal &&
+                                        {this.state.adjustmentEntryModal && !this.state.approvalControl &&
                                             <div className='postStylePropsModal'>
                                                 <EntriesImpl
                                                     columns={12}
@@ -594,23 +650,19 @@ class TimesheetView extends Component {
                                                     anno={this.props.anno}
                                                     mese={this.props.mese}
                                                     codicePersona={this.props.location.codicePersona}
-                                                    adjustment={true} />
+                                                    adjustment={true}
+                                                />
                                             </div>
                                         }
 
                                     </div>
                                 </ModalBody>
-                                {/* {this.state.showDeleteModal &&
-                                    <ModalFooter>
-
-                                    </ModalFooter>
-                                } */}
                             </Modal>
                             <Modal className="modal-lg" isOpen={this.state.showDeleteModal} toggle={this.openDeleteModal} >
                                 <div className="modal-header">
                                     {/* <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5> */}
-                                    <button onClick={() => this.setState({ showDeleteModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <button onClick={() => this.setState({ showDeleteModal: false })} className="button-close" title='esci' >
+                                        <img className="menu" src="./images/exit.png"></img>
                                     </button>
                                 </div>
                                 <ModalBody className="postPropsStyle">
@@ -626,6 +678,40 @@ class TimesheetView extends Component {
                                         <a href="/timesheet" >
                                             <img className="menu" src="./images/conferma.png"></img>
                                         </a>
+                                    </button>
+                                </ModalFooter>
+                            </Modal>
+                            <Modal className="modal-lg" isOpen={this.state.approvalModal} toggle={this.openApprovalModal} >
+                                <div className="modal-header">
+                                    <h5 className="modal-title mt-0" id="myLargeModalLabel">Stato di Approvazione</h5>
+                                    <button title='esci' onClick={() => this.setState({ approvalModal: false })} className="button-close">
+                                        <img className="menu" src="./images/exit.png"></img>
+                                    </button>
+                                </div>
+                                <ModalBody className="postPropsStyle">
+                                    <TextField
+                                        style={{ width: "100%" }}
+                                        id="select stato"
+                                        select
+                                        name='approvalStatus'
+                                        label="Stato di Approvazione"
+                                        value={this.state.approvalStatus}
+                                        required
+                                        onChange={this.setApprovalStatus}
+                                    >
+                                        {approvalStatus.map((option) => (
+                                            <MenuItem value={option.value} >
+                                                {option.value}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                </ModalBody>
+                                <ModalFooter>
+                                    <button className='modalDeleteButton' title='conferma' onClick={() => {
+                                        this.approveTimesheet()
+                                        this.setState({ approvalModal: false })
+                                    }}>
+                                        <img className="menu" src="./images/conferma.png"></img>
                                     </button>
                                 </ModalFooter>
                             </Modal>

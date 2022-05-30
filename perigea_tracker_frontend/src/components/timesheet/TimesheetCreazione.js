@@ -45,7 +45,6 @@ export default class TimesheetCreazione extends React.Component {
                 },
                 entries: this.state.entries
             }
-
         }).then(() => {
             alert("Creazione di un timesheet mensile effettuata con successo")
             console.log("Creazione di un timesheet mensile effettuata con successo", this.data)
@@ -55,12 +54,10 @@ export default class TimesheetCreazione extends React.Component {
         })
     }
 
-
     onSaveClick = () => {
         console.log(this.state)
         this.createTimesheetMensile()
     }
-
 
     addDays = (giorni) => {
         console.log(giorni)
@@ -69,7 +66,6 @@ export default class TimesheetCreazione extends React.Component {
                 days: giorni,
                 confirmedDates: giorni
             })
-
         } else {
             console.log("vuoto")
         }
@@ -145,7 +141,6 @@ export default class TimesheetCreazione extends React.Component {
             showEntryModal: false
         })
         this.addEntries(entryfields, note)
-        
     }
 
     removeEntries = (entries) => {
@@ -166,7 +161,6 @@ export default class TimesheetCreazione extends React.Component {
             entries: this.state.entries.filter((entry) => entry.codiceCommessa !== entryData.codiceCommessa),
             entriesView: this.state.entriesView.filter((entry) => entry !== entryData)
         })
-
     }
 
     entryView = (day) => {
@@ -181,8 +175,7 @@ export default class TimesheetCreazione extends React.Component {
     closeEntryModal = () => {
         this.setState({
             showEntryModal: false,
-            adjustmentEntryModal: false,
-
+            adjustmentEntryModal: false
         })
     }
 
@@ -190,12 +183,7 @@ export default class TimesheetCreazione extends React.Component {
         this.setState({ adjustmentEntryModal: true })
     }
 
-
-
-
-
     render() {
-
         return (
             <React.Fragment>
                 <Container fluid="xl">
@@ -230,7 +218,6 @@ export default class TimesheetCreazione extends React.Component {
                         </div>
                     </div>
 
-
                     <Row>
                         <DayPickerGrid
                             anno={this.state.anno}
@@ -254,6 +241,7 @@ export default class TimesheetCreazione extends React.Component {
                     <Button className='ButtonSave' onClick={this.onSaveClick} title="Salva timesheet">
                         <img className="menu" src="./images/save.png"></img>
                     </Button>
+
                 </Container>
 
                 <Modal className="modal-lg" isOpen={this.state.showEntryModal}>
@@ -271,9 +259,10 @@ export default class TimesheetCreazione extends React.Component {
                                     entries={this.state.entriesView}
                                     adjustmentEntryModal={this.adjustmentEntryModal}
                                     removeEntry={this.removeEntry}
-                                    removeAll={this.removeEntries} />
+                                    removeAll={this.removeEntries}
+                                    updateControl={false}
+                                />
                             }
-
                             {this.state.adjustmentEntryModal &&
                                 <div className='postStylePropsModal'>
                                     <EntriesImpl
@@ -287,42 +276,9 @@ export default class TimesheetCreazione extends React.Component {
                         </div>
                     </ModalBody>
                 </Modal>
-                {/* <Modal
-                    className="modal"
-                    isOpen={this.state.showEntryModal}
-                    style={{ height: "50%" }}
-                >
-                    {!this.state.adjustmentEntryModal &&
-                        <EntryView anno={this.props.location.state.anno}
-                            mese={this.props.location.state.mese}
-                            entries={this.state.entriesView}
-                            adjustmentEntryModal={this.adjustmentEntryModal}
-                            removeEntry={this.removeEntry}
-                            removeAll={this.removeEntries} />
-                    }
-
-                    {this.state.adjustmentEntryModal &&
-                        <div className='postStylePropsModal'>
-                            <EntriesImpl
-                                columns={12}
-                                addEntries={this.adjustEntries}
-                                anno={this.props.location.state.anno}
-                                mese={this.props.location.state.mese}
-                                codicePersona={this.props.location.state.codicePersona}
-                                adjustment={true} />
-                        </div>}
-
-                    <button className='modalBackButton' onClick={this.closeEntryModal}>
-                        Indietro
-                    </button>
-
-
-                </Modal> */}
-
             </React.Fragment>
         )
     }
-
 }
 
 

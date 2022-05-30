@@ -108,7 +108,7 @@ export default function EntriesImpl(props) {
 
     const removeNotaSpese = (type) => {
         console.log(type)
-        setNoteSpese(noteSpese.filter((nota) => nota.costoNotaSpeseType !== type))
+        setNoteSpese(noteSpese.filter((nota) => nota.costoNotaSpese !== type))
     }
 
 

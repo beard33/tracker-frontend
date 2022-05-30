@@ -44,6 +44,10 @@ export default function MonthTotalsTable(props) {
                         <td>Giorni Totali</td>
                         <td>{giorni}</td>
                     </tr>
+                    <tr>
+                        <td>Stato Approvazione</td>
+                        <td>{props.approvalStatus}</td>
+                    </tr>
                 </tbody>
             </Table>
         </React.Fragment>

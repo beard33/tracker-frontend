@@ -25,7 +25,7 @@ import CommessaFatturabileView from '../components/commesse/CommessaFatturabileV
 import Timesheet from '../components/timesheet/Timesheet';
 import TimesheetCreazione from '../components/timesheet/TimesheetCreazione';
 import TimesheetView from '../components/timesheet/TimesheetView';
-
+import TimesheetGrid from '../components/timesheet/TimesheetGrid';
 
 export default function RouterApp() {
   console.log("ROUTERAPP ENTRY");
@@ -65,6 +65,7 @@ export default function RouterApp() {
         <Route path="/timesheet" exact component={Timesheet} />
         <Route path="/timesheet-create" exact component={TimesheetCreazione} />
         <Route path="/timesheet-view" exact component={TimesheetView} />
+        <Route path="/timesheet-grid" exact component={TimesheetGrid} />
        
 
 

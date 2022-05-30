@@ -55,37 +55,43 @@ export default function EntryView(props) {
                                     <NoteSpeseTable noteSpese={entry.noteSpesa} removePermission={false} />
                                 </Form.Row>
                             }
-                            <Button className='modal-delete-button'
-                                onClick={() => { removeEntry(entry) }}
-                                title='Rimuovi singola entry'>
-                                 <img className="menu" src="./images/clear.png"></img>
-                            </Button>
-                            <button
-                                className='entry-button'
-                                onClick={props.adjustmentEntryModal}
-                                title='modifica dati'>
-                                 <img className="menu" src="./images/update.png"></img>
-                            </button>
+                            {!props.updateControl &&
+                                <div>
+                                    <Button className='modal-delete-button'
+                                        onClick={() => { removeEntry(entry) }}
+                                        title='Rimuovi singola entry'>
+                                        <img className="menu" src="./images/clear.png"></img>
+                                    </Button>
+                                    <button
+                                        className='entry-button'
+                                        onClick={props.adjustmentEntryModal}
+                                        title='modifica dati'>
+                                        <img className="menu" src="./images/update.png"></img>
+                                    </button>
+                                </div>
+                            }
                         </div>
-
                     </Form>
 
                 )
             })}
-            <button
-                className='modal-remove-button'
-                onClick={() =>{removeAllEntries(entries)}}
-                title='rimuovi tutti i dati'
-                >
-                <img className="menu" src="./images/clear-all.png"></img>
-            </button>
-            <button
-                className='modal-generic-button'
-                onClick={props.adjustmentEntryModal}
-                title="aggiungi dati ">
-                 <img className="menu" src="./images/add.png"></img>
-            </button>
-
+            {!props.updateControl &&
+                <div>
+                    <button
+                        className='modal-remove-button'
+                        onClick={() => { removeAllEntries(entries) }}
+                        title='rimuovi tutti i dati'
+                    >
+                        <img className="menu" src="./images/clear-all.png"></img>
+                    </button>
+                    <button
+                        className='modal-generic-button'
+                        onClick={props.adjustmentEntryModal}
+                        title="aggiungi dati ">
+                        <img className="menu" src="./images/add.png"></img>
+                    </button>
+                </div>
+            }
         </React.Fragment>
     )
 }
