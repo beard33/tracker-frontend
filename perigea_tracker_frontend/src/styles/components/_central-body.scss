@@ -18,6 +18,74 @@
     margin: 0;
     padding: 0;
 
+    .box-field-1-cliente{
+      width: calc(168vw/2.6);
+      height: calc(15vw/2.6);
+
+      border-radius: 10px;
+      background-color: #ffd64fe0;
+      // background: rgb(0,0,0);
+      // background: radial-gradient(circle, #fafafa 9%, #d8ed3c 90%);
+      justify-content: space-around;
+      float: left;
+      margin: 2%;
+      margin-top: 1%;
+      margin-bottom: 0%;
+      border: 1px solid $greyPerigea;
+      // box-shadow: 10px 10px 5px $greyPerigea;
+
+      .card-image{
+        height: 65%;
+        width: 60%;
+        bottom: 0;
+        transform: scale(0.13, 1.4) translateX(-240%) translateY(18%);
+        border-radius: 50%;
+        margin-bottom: 0%;
+        background-color:#333333;
+        border: 2px solid #333333;
+      }
+
+      .view-button {
+        // display:block;
+        float: left;
+        width: calc(10vw/3.5);
+        height: calc(7vw/2.6);
+        font-size: 18px;
+        background-color: transparent;
+        border-color: transparent;
+        color: $orangePerigea;
+        font-weight: bolder;
+        cursor: pointer;
+        margin-bottom: 0%;
+        margin-left: 24%;
+        border-radius: 10px;
+        margin-top: 2.4%;
+        text-align: center;
+        font-size: calc(4.5vw/3.5);
+        position: absolute
+      }
+
+      .delete-button {
+        // display:block;
+        float: right;
+        width: calc(11avw/3.5);
+        height: calc(7vw/2.6);
+        font-size: 18px;
+        background-color: transparent;
+        border-color: transparent;
+        color: $orangePerigea;
+        font-weight: bolder;
+        cursor: pointer;
+        margin-bottom: 0px;
+        margin-left: 28%;
+        border-radius: 10px;
+        margin-top: 2.0%;
+        text-align: center;
+        font-size: calc(4.5vw/3.5);
+        position: absolute
+      }
+    }
+
     .box-field-1 {
       width: calc(246vw/2.6);
       height: calc(15vw/2.6);
@@ -33,6 +101,17 @@
       margin-bottom: 0%;
       border: 1px solid $greyPerigea;
       // box-shadow: 10px 10px 5px $greyPerigea;
+
+      .card-image{
+        height: 65%;
+        width: 60%;
+        bottom: 0;
+        transform: scale(0.095,1.4) translateX(-310%) translateY(18%);
+        border-radius: 50%;
+        margin-bottom: 0%;
+        background-color:#333333;
+        border: 2px solid #333333;
+      }
 
       .view-button {
         // display:block;
@@ -91,6 +170,17 @@
       border: 1px solid $greyPerigea;
       // box-shadow: 10px 10px 5px $greyPerigea;
 
+      .card-image{
+        height: 65%;
+        width: 60%;
+        bottom: 0;
+        transform: scale(0.095,1.4) translateX(-310%) translateY(18%);
+        border-radius: 50%;
+        margin-bottom: 0%;
+        background-color:#333333;
+        border: 2px solid #333333;
+      }
+
       .view-button {
         // display:block;
         float: left;
@@ -133,7 +223,7 @@
     }
 
     .searchBar {
-      margin-top: -5%;
+      margin-top: 1%;
       margin-left: 65%;
       width: 30%;
       height: 50%;
@@ -162,20 +252,29 @@
       font-weight: bolder;
       cursor: pointer;
       display: block;
-      background-color: white;
+      border: transparent;
+      background-color: transparent;
       color: $greyPerigea;
       width: 10;
       float: left;
       margin-left: 2%;
       height: 10%;
-      margin-top: 2%;
+      margin-top: 0%;
       justify-content: space-around;
       padding: 1.5%;
+      .menu{
+        width: 50px;
+        height: 50px;
+      }
     }
 
     .add-field-show-button:hover {
-      background-color: $lightGreyPerigea;
+      background-color: transparent;
       color: black;
+      .menu{
+        width: 60px;
+        height: 60px;
+      }
     }
 
     .add-card-show-button {
@@ -333,7 +432,7 @@
         font-weight: bolder;
         cursor: pointer;
         display: block;
-        background-color: white;
+        background-color: transparent;
         color: $greyPerigea;
         width: 10;
         float: left;
@@ -345,8 +444,76 @@
       }
 
       .add-field-show-button:hover {
-        background-color: $lightGreyPerigea;
+        background-color: transparent;
         color: black;
+      }
+
+      .box-field-1-cliente{
+        width: calc(127vw/2.6);
+        height: calc(15vw/2.6);
+  
+        border-radius: 10px;
+        background-color: #ffd64fe0;
+        // background: rgb(0,0,0);
+        // background: radial-gradient(circle, #fafafa 9%, #d8ed3c 90%);
+        justify-content: space-around;
+        float: left;
+        margin: 2%;
+        margin-top: 1%;
+        margin-bottom: 0%;
+        border: 1px solid $greyPerigea;
+        // box-shadow: 10px 10px 5px $greyPerigea;
+  
+        .card-image{
+          height: 65%;
+          width: 60%;
+          bottom: 0;
+          transform: scale(0.16, 1.4) translateX(-192%) translateY(18%);
+          border-radius: 50%;
+          margin-bottom: 0%;
+          background-color:#333333;
+          border: 2px solid #333333;
+        }
+  
+        .view-button {
+          // display:block;
+          float: left;
+          width: calc(10vw/3.5);
+          height: calc(7vw/2.6);
+          font-size: 18px;
+          background-color: transparent;
+          border-color: transparent;
+          color: $orangePerigea;
+          font-weight: bolder;
+          cursor: pointer;
+          margin-bottom: 0%;
+          margin-left: 24%;
+          border-radius: 10px;
+          margin-top: 3.4%;
+          text-align: center;
+          font-size: calc(4.5vw/3.5);
+          position: absolute
+        }
+  
+        .delete-button {
+          // display:block;
+          float: right;
+          width: calc(11avw/3.5);
+          height: calc(7vw/2.6);
+          font-size: 18px;
+          background-color: transparent;
+          border-color: transparent;
+          color: $orangePerigea;
+          font-weight: bolder;
+          cursor: pointer;
+          margin-bottom: 0px;
+          margin-left: 28%;
+          border-radius: 10px;
+          margin-top: 2.7%;
+          text-align: center;
+          font-size: calc(4.5vw/3.5);
+          position: absolute
+        }
       }
 
       .box-field-1 {
@@ -365,6 +532,16 @@
         border: 1px solid $greyPerigea;
         // box-shadow: 10px 10px 5px $lightGreyPerigea;
 
+        .card-image{
+          height: 65%;
+          width: 60%;
+          bottom: 0;
+          transform: scale(0.095,1.4) translateX(-310%) translateY(18%);
+          border-radius: 50%;
+          margin-bottom: 0%;
+          background-color:#333333;
+          border: 2px solid #333333;
+        }
 
         .view-button {
           // display:block;
@@ -423,6 +600,17 @@
         border: 1px solid $greyPerigea;
         // box-shadow: 10px 10px 5px $greyPerigea;
 
+
+        .card-image{
+          height: 65%;
+          width: 60%;
+          bottom: 0;
+          transform: scale(0.095,1.4) translateX(-310%) translateY(18%);
+          border-radius: 50%;
+          margin-bottom: 0%;
+          background-color:#333333;
+          border: 2px solid #333333;
+        }
 
         .view-button {
           // display:block;
@@ -497,7 +685,7 @@
           font-weight: bolder;
           cursor: pointer;
           margin-bottom: 0%;
-          margin-left: -26%;
+          margin-left: calc(-67vw/3.5);
           border-radius: 10px;
           margin-top: 1%;
           text-align: center;
@@ -532,28 +720,34 @@
   .button-update {
     display: block;
     float: right;
-    width: 100px;
+    width: 40px;
     height: 50px;
     font-size: 18px;
-    background-color: $greyPerigea;
+    background-color: transparent;
     color: $orangePerigea;
     font-weight: bolder;
     cursor: pointer;
-    margin-bottom: 100px;
-    margin-right: 50px;
+    margin-bottom: 10px;
+    margin-right: 20px;
     border-radius: 10px;
     margin-top: 1%;
     text-align: center;
+    border: transparent;
+    .menu  {
+      width: 50px;
+      height: 50px;
+      margin-left: 5px;
+    }
   }
 
   .button-update:hover {
-    background-color: $lightGreyPerigea;
-    color: black;
+    background-color: transparent;
+    color: black;    
   }
 
   .userAccordion {
-    max-width: 50%;
-    margin-left: 25%;
+    max-width: 70%;
+    margin-left: 16%;
     box-shadow: 10px 10px 5px $lightGreyPerigea;
     border: 1px solid $lightGreyPerigea;
     margin-top: 3.5%;
@@ -562,10 +756,20 @@
       background-color: $orangePerigea;
       font-size: 30%;
       color: $greyPerigea;
+      
+      .accordion-text{
+        font-weight: bold;
+      }
     }
 
     .accordionDetails {
       justify-content: space-around;
+
+      .table-button{
+        background-color: transparent;
+        margin-left: 30%;
+        border: transparent;
+      }
 
       .MuiTextField-root {
         margin-left: 5%;

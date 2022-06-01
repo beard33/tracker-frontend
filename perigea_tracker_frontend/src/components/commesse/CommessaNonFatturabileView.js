@@ -77,7 +77,7 @@ export default class CommessaNonFatturabileView extends React.Component {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography>Dati Commessa</Typography>
+                                <Typography className='accordion-text'>Dati Commessa</Typography>
                             </AccordionSummary>
                             <AccordionDetails className='accordionDetails'>
                                 {this.getData(this.state.commessaNonFatturabile)}

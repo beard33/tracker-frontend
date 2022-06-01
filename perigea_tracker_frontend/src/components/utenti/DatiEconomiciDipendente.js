@@ -75,7 +75,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.decorrenzaLivello}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ decorrenzaLivello: e.target.value })
                                             this.updateDipendenteState()
@@ -138,7 +138,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.decorrenzaTipoContratto}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ decorrenzaTipoContratto: e.target.value })
                                             this.updateDipendenteState()
@@ -188,7 +188,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.decorrenzaRalAttuale}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ decorrenzaRalAttuale: e.target.value })
                                             this.updateDipendenteState()
@@ -228,7 +228,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "40%" }}
                                         value={this.state.decorrenzaAssegnazioneCentroDiCosto}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ decorrenzaAssegnazioneCentroDiCosto: e.target.value })
                                             this.updateDipendenteState()
@@ -279,7 +279,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.decorrenzaKmRimborsabili}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ decorrenzaKmRimborsabili: e.target.value })
                                             this.updateDipendenteState()
@@ -289,7 +289,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.decorrenzaRimborsiKm}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ decorrenzaRimborsiKm: e.target.value })
                                             this.updateDipendenteState()
@@ -320,7 +320,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.decorrenzaRimborso}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ decorrenzaRimborso: e.target.value })
                                             this.updateDipendenteState()
@@ -341,7 +341,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataDecorrenzaCosto}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ dataDecorrenzaCosto: e.target.value })
                                             this.updateDipendenteState()
@@ -380,7 +380,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataAssegnazioneTicket}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ dataAssegnazioneTicket: e.target.value })
                                             this.updateDipendenteState()
@@ -401,7 +401,7 @@ export default class DatiEconomiciDipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataUltimoPremio}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ dataUltimoPremio: e.target.value })
                                             this.updateDipendenteState()

@@ -30,7 +30,6 @@ export default class TimesheetGrid extends React.Component {
             mese: 0,
             checkRef: false,
             contattoResponsabile: ""
-
         }
     }
 

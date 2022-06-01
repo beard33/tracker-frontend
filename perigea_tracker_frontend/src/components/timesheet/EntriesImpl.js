@@ -98,9 +98,7 @@ export default function EntriesImpl(props) {
         setNoteSpese(prevNoteSpese => [...prevNoteSpese, nota])
         console.log(noteSpese)
         setShowNoteSpeseFields(false)
-
     }
-
 
     const showNoteSpese = () => {
         setShowNoteSpeseFields(true);

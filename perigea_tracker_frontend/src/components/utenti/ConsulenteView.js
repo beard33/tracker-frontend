@@ -23,7 +23,8 @@ export default class ConsulenteView extends React.Component {
     codiceResponsabile: "",
     partitaIva: '',
     costo: "",
-    economics: ""
+    economics: "",
+    usernameResponsabile: ""
   }
 
   componentDidMount = () => {
@@ -52,6 +53,24 @@ export default class ConsulenteView extends React.Component {
       economics: response.data.data.economics
     })
     console.log(this.state)
+    this.getUsernameResponsabile()
+  }
+
+  getUsernameResponsabile = () => {    
+    AxiosInstance({
+      method: "get",
+      url: `dipendenti/read/${this.state.personale.codiceResponsabile}`
+    }).then((response) => {
+      console.log(response)
+      this.loadUsernameResponsabile(response.data.data);
+
+    }).catch((error) => {
+      console.log("Error into loadUtenti ", error)
+    })
+  }
+  loadUsernameResponsabile = (response) => {
+    this.setState({ usernameResponsabile: response.utente.username })
+    console.log(this.state.usernameResponsabile)
   }
 
   getData = (e) => {
@@ -110,7 +129,7 @@ export default class ConsulenteView extends React.Component {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography>Anagrafica</Typography>
+                <Typography className='accordion-text'>Anagrafica</Typography>
               </AccordionSummary>
               <AccordionDetails className='accordionDetails'>
                 {this.getData(this.state.utente)}
@@ -123,7 +142,7 @@ export default class ConsulenteView extends React.Component {
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
-                <Typography>Dati Aziendali</Typography>
+                <Typography className='accordion-text'>Dati Aziendali</Typography>
               </AccordionSummary>
               <AccordionDetails className='accordionDetails'>
                 <div>
@@ -140,8 +159,8 @@ export default class ConsulenteView extends React.Component {
                     value={this.state.dataCessazione}
                   ></TextField>
                   <TextField
-                    label={"Codice Responsabile"}
-                    value={this.state.codiceResponsabile}
+                    label={"Responsabile"}
+                    value={this.state.usernameResponsabile}
                   ></TextField>
                   <TextField
                     label={"Partita Iva"}
@@ -161,26 +180,41 @@ export default class ConsulenteView extends React.Component {
                 aria-controls="panel3a-content"
                 id="panel3a-header"
               >
-                <Typography>Dati Economici</Typography>
+                <Typography className='accordion-text'>Dati Economici</Typography>
               </AccordionSummary>
               <AccordionDetails className='accordionDetails'>
                 {this.getData(this.state.economics)}
               </AccordionDetails>
             </Accordion>
+            <Accordion expanded>
+              <AccordionSummary
+                // className='accordionSummary'
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel3a-content"
+                id="panel3a-header"
+
+              >
+                <Typography></Typography>
+              </AccordionSummary>
+              <AccordionDetails className='accordionDetails'>
+                <Link to={{
+                  pathname: "/anagrafica-consulenti",
+                  updateProps: {
+                    update: true,
+                    user: this.state
+                  }
+                }}>
+
+                  <button className="button-update"
+                    type="button" >
+                    <img className="menu" src="./images/update.png"></img>
+                  </button>
+                </Link>
+              </AccordionDetails>
+            </Accordion>
           </div>
 
-          <Link to={{
-            pathname: "/anagrafica-consulenti",
-            updateProps: {
-              update: true,
-            }
-          }}>
 
-            <button className="button-update"
-              type="button" >
-              UPDATE
-            </button>
-          </Link>
 
         </div>
       </React.Fragment>

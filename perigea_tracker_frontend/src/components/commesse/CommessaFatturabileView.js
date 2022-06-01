@@ -8,16 +8,26 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
 import Title from '../structural/Title';
-
+import EstensioniTable from './EstensioniTable';
+import EstensioneCommessaCreate from './EstensioneCommessaCreazione';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 export default class CommessaFatturabileView extends React.Component {
     state = {
-        commessaFatturabile: ""
+        commessaFatturabile: "",
+        estensioniCommessa: [],
+        modalIsOpen: false
     }
 
     componentDidMount = () => {
         console.log("componentDidMount start")
-        AxiosInstance({
+        this.getCommessa()
+        this.getEstensioniCommessa()
+    }
+
+    getCommessa = async () => {
+        await AxiosInstance({
             method: "get",
             url: `commesse/read-commessa-fatturabile/${this.props.location.codiceCommessa}`
         }).then((response) => {
@@ -26,7 +36,6 @@ export default class CommessaFatturabileView extends React.Component {
             console.log("Error into loadUtenti ", error)
         })
     }
-
     loadCommessa = (response) => {
         console.log(response.data.data)
         this.setState({
@@ -34,6 +43,53 @@ export default class CommessaFatturabileView extends React.Component {
         })
         console.log(this.state.commessaFatturabile.commessa.codiceCommessa)
     }
+
+    getEstensioniCommessa = async () => {
+        await AxiosInstance({
+            method: "get",
+            url: `commesse/read-estensione-commessa/${this.props.location.codiceCommessa}`
+        }).then((response) => {
+            this.loadEstensioni(response)
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+        })
+    }
+    loadEstensioni = (response) => {
+        console.log(response.data.data)
+        let result = []
+        Object.values(response.data.data).map((element) => {
+            result.push({
+                dataEstensione: element.dataEstensione,
+                importoInternoEstensione: element.importoInternoEstensione,
+                dataFineEstensione: element.dataFineEstensione
+            })
+        })
+        console.log(result)
+        this.setState({ estensioniCommessa: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1) })
+    }
+
+    closeModal = () => {
+        this.setState({modalIsOpen: false})
+    }
+
+
+    deleteEstensioneCommessa = (codiceCommessa, dataEstensione) => {
+        this.setState({ estensioniCommessa: this.state.estensioniCommessa.filter((el) => el.dataEstensione !== dataEstensione) })
+        AxiosInstance({
+            method: "delete",
+            url: `commesse/delete-estensione-commessa/${codiceCommessa}/${dataEstensione}`
+        }).then((response) => {
+            alert("estensione eliminata con successo")
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+            alert("errore nella cancellazione", error)
+        })
+    }
+
+    openModalEstensioni = () => {
+        this.setState({ modalIsOpen: true })
+    }
+
 
     getDatiCommessa = (e) => {
         if (e) {
@@ -108,7 +164,7 @@ export default class CommessaFatturabileView extends React.Component {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography>Dati Commessa</Typography>
+                                <Typography className='accordion-text'>Dati Commessa</Typography>
                             </AccordionSummary>
                             <AccordionDetails className='accordionDetails'>
                                 {this.getDatiCommessa(this.state.commessaFatturabile)}
@@ -121,18 +177,78 @@ export default class CommessaFatturabileView extends React.Component {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography>Dati Numerici</Typography>
+                                <Typography className='accordion-text'>Dati Numerici</Typography>
                             </AccordionSummary>
                             <AccordionDetails className='accordionDetails'>
                                 {this.getDatiNumerici(this.state.commessaFatturabile)}
                             </AccordionDetails>
                         </Accordion>
+                        <Accordion>
+                            <AccordionSummary
+                                className='accordionSummary'
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                            >
+                                <Typography className='accordion-text'>Estensioni Commessa</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails className='accordionDetails'>
+                                <EstensioniTable
+                                    estensioni={this.state.estensioniCommessa}
+                                    codiceCommessa={this.props.location.codiceCommessa}
+                                    deleteEstensione={this.deleteEstensioneCommessa}
+                                />
+
+                                <button className="button-update"
+                                    title='estendi commessa'
+                                    type="button"
+                                    onClick={this.openModalEstensioni}
+                                >
+                                    <img className="menu" src="./images/estensione.png"></img>
+                                </button>
+                            </AccordionDetails>
+                        </Accordion>
+                        <Accordion expanded>
+                            <AccordionSummary
+                                // className='accordionSummary'
+                                // expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel3a-content"
+                                id="panel3a-header"
+
+                            >
+                                <Typography></Typography>
+                            </AccordionSummary>
+                            <AccordionDetails className='accordionDetails'>
+                                {/* <Link to={{
+                                    pathname: "/anagrafica-consulenti",
+                                    updateProps: {
+                                        update: true,
+                                        user: this.state
+                                    }
+                                }}> */}
+                                <button className="button-update" title='modifica commessa'
+                                    type="button" >
+                                    <img className="menu" src="./images/update.png"></img>
+                                </button>
+                                {/* </Link> */}
 
 
+                            </AccordionDetails>
+                        </Accordion>
                     </div>
-
-
                 </div>
+                <Modal className="modal-lg" isOpen={this.state.modalIsOpen} >
+                    <div className="modal-header">
+                        <h5 className="modal-title mt-0" id="myLargeModalLabel">Creazione Estensione Commessa</h5>
+                        <button title='esci' onClick={this.closeModal} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
+                            <img className="menu" src="./images/exit.png"></img>
+                        </button>
+                    </div>
+                    <ModalBody className="postPropsStyle">
+                        <EstensioneCommessaCreate codiceCommessa={this.props.location.codiceCommessa} closeModal={this.closeModal} />
+                    </ModalBody>
+                </Modal>
+
             </React.Fragment>
         )
     }

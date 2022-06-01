@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { Link } from 'react-router-dom';
 import Title from '../structural/Title';
+import RuoliTable from './RuoliTable';
 
 
 export default class DipendenteView extends React.Component {
@@ -24,11 +25,13 @@ export default class DipendenteView extends React.Component {
       dataCessazione: "",
       codiceResponsabile: "",
       economics: ""
-    }
+    },
+    usernameResponsabile: ""
   }
 
   componentDidMount = () => {
     console.log("componentDidMount start")
+
     AxiosInstance({
       method: "get",
       url: `dipendenti/read/${this.props.location.codicePersona}`
@@ -38,7 +41,6 @@ export default class DipendenteView extends React.Component {
       console.log("Error into loadUtenti ", error)
     })
   }
-
   loadUtente = (response) => {
     console.log(response)
     this.setState({
@@ -53,7 +55,30 @@ export default class DipendenteView extends React.Component {
       }
     })
     console.log(this.state)
+    this.getUsernameResponsabile()
   }
+
+  
+
+  getUsernameResponsabile = () => {    
+    AxiosInstance({
+      method: "get",
+      url: `dipendenti/read/${this.state.personale.codiceResponsabile}`
+    }).then((response) => {
+      console.log(response)
+      this.loadUsernameResponsabile(response.data.data);
+
+    }).catch((error) => {
+      console.log("Error into loadUtenti ", error)
+    })
+  }
+  loadUsernameResponsabile = (response) => {
+    this.setState({ usernameResponsabile: response.utente.username })
+    console.log(this.state.usernameResponsabile)
+  }
+
+
+
 
   getData = (e) => {
     if (e) {
@@ -70,7 +95,7 @@ export default class DipendenteView extends React.Component {
                     Object.values(e[key]).map((ruolo) => {
                       console.log(ruolo)
                       return (
-                        <ListItem className='muiListItem'>{" " + ruolo.id + " - " + ruolo.descrizione}</ListItem>
+                        <RuoliTable ruoli={this.state.utente.ruoli} removePermission={false} />
                       )
                     })
                   }
@@ -84,6 +109,7 @@ export default class DipendenteView extends React.Component {
                 value={e[key]}
               ></TextField>
             );
+
           }
         }
       });
@@ -140,8 +166,8 @@ export default class DipendenteView extends React.Component {
                     value={this.state.personale.dataCessazione}
                   ></TextField>
                   <TextField
-                    label={"Codice Responsabile"}
-                    value={this.state.personale.codiceResponsabile}
+                    label={"Responsabile"}
+                    value={this.state.usernameResponsabile}
                   ></TextField>
                 </div>
               </AccordionDetails>
@@ -159,20 +185,31 @@ export default class DipendenteView extends React.Component {
                 {this.getData(this.state.personale.economics)}
               </AccordionDetails>
             </Accordion>
+            <Accordion expanded >
+              <AccordionSummary
+                // className='accordionSummary'
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel3a-content"
+                id="panel3a-header"
+              >
+                <Typography></Typography>
+              </AccordionSummary>
+              <AccordionDetails className='accordionDetails'>
+                <Link to={{
+                  pathname: "/anagrafica-dipendenti",
+                  updateProps: {
+                    update: true,
+                    user:this.state
+                  }
+                }}>
+                  <button className="button-update" title='modifica dipendente'
+                    type="button" >
+                    <img className="menu" src="./images/update.png"></img>
+                  </button>
+                </Link>
+              </AccordionDetails>
+            </Accordion>
           </div>
-
-          <Link to={{
-            pathname: "/anagrafica-dipendenti",
-            updateProps: {
-              update: true,
-            }
-          }}>
-            <button className="button-update"
-              type="button" >
-              UPDATE
-            </button>
-          </Link>
-
         </div>
       </React.Fragment>
     )

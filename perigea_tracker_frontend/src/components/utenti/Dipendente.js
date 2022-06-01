@@ -87,13 +87,23 @@ export default class Dipendente extends React.Component {
     }
 
     componentDidMount = () => {
-        this.setState({
-            tipo: "DIPENDENTE",
-            utente: this.props.location.state.utente,
-            codicePersona: this.props.location.state.utente.codicePersona,
-            economics: { codicePersona: this.props.location.state.utente.codicePersona }
-        })
-        console.log(this.state.codicePersona)
+        if (this.props.location.state.update.update) {
+            this.setState({
+                tipo: "DIPENDENTE",
+                utente: this.props.location.state.utente,
+                codicePersona: this.props.location.state.utente.codicePersona,
+                codiceResponsabile: this.props.location.state.update.user.personale.codiceResponsabile,
+                dataAssunzione: this.props.location.state.update.user.personale.dataAssunzione,
+                economics: this.props.location.state.update.user.economics
+            })
+        } else {
+            this.setState({
+                tipo: "DIPENDENTE",
+                utente: this.props.location.state.utente,
+                codicePersona: this.props.location.state.utente.codicePersona,
+                economics: { codicePersona: this.props.location.state.utente.codicePersona }
+            })
+        }
 
     }
     onADDButtonClick = () => {
@@ -185,6 +195,7 @@ export default class Dipendente extends React.Component {
     }
 
     onSAVEButtonClick = () => {
+        console.log(this.state)
         if (this.props.location.state.update) {
             console.log("UPDATE")
             this.updateDipendente()
@@ -219,14 +230,14 @@ export default class Dipendente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataAssunzione}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => { this.setState({ dataAssunzione: e.target.value }) }}
                                         label="Data Assunzione"
                                     ></TextField>
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataCessazione}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => { this.setState({ dataCessazione: e.target.value }) }}
                                         label="Data Cessazione"
                                     ></TextField>
@@ -252,20 +263,23 @@ export default class Dipendente extends React.Component {
                     <h3>Dati Economici</h3>
                     <div>
                         {!this.state.showComponent &&
-                            <button className="button-add"
-                                type="button"
-                                onClick={this.onADDButtonClick}
-                                disabled={this.state.showComponent}
-                            >
-                                ADD ECONOMICS
-                            </button>}
+                            <div className="info">
+                                <button className="button-add"
+                                    type="button"
+                                    onClick={this.onADDButtonClick}
+                                    disabled={this.state.showComponent}
+                                >
+                                    ADD ECONOMICS
+                                </button>
+                            </div>
+                        }
                         {this.state.showComponent ?
                             <DatiEconomiciDipendente updateState={this.updateState} /> :
                             null
                         }
 
-                        <button className="button-save" type="button" onClick={this.onSAVEButtonClick} >
-                            SAVE
+                        <button className="ButtonSave" type="button" onClick={this.onSAVEButtonClick} title="SALVA">
+                            <img className="menu" src="./images/save.png"></img>
                         </button>
 
                     </div>

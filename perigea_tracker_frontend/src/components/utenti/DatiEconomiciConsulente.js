@@ -52,7 +52,7 @@ export default class DatiEconomiciConsulente extends React.Component {
                                     <TextField
                                         style={{ width: "40%" }}
                                         value={this.state.dataIngaggio}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ dataIngaggio: e.target.value })
                                             this.updateConsulenteState()
@@ -83,7 +83,7 @@ export default class DatiEconomiciConsulente extends React.Component {
                                     <TextField
                                         style={{ width: "40%" }}
                                         value={this.state.dataDecorrenzaCosto}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ dataDecorrenzaCosto: e.target.value })
                                             this.updateConsulenteState()
@@ -114,7 +114,7 @@ export default class DatiEconomiciConsulente extends React.Component {
                                     <TextField
                                         style={{ width: "40%" }}
                                         value={this.state.decorrenzaAssegnazioneCentroDiCosto}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => {
                                             this.setState({ decorrenzaAssegnazioneCentroDiCosto: e.target.value })
                                             this.updateConsulenteState()

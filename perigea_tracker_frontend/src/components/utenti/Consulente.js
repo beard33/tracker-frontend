@@ -65,13 +65,23 @@ export default class Consulente extends React.Component {
 
 
     componentDidMount = () => {
-        this.setState({
-            tipo: "CONSULENTE",
+        if (this.props.location.state.update.update) {
+            this.setState({ tipo: "CONSULENTE",
             utente: this.props.location.state.utente,
             codicePersona: this.props.location.state.utente.codicePersona,
-            economics: { codicePersona: this.props.location.state.utente.codicePersona }
-        })
-
+            codiceResponsabile: this.props.location.state.update.user.codiceResponsabile,
+            dataAssunzione: this.props.location.state.update.user.dataAssunzione,
+            partitaIva: this.props.location.state.update.user.partitaIva,
+            costo: this.props.location.state.update.user.costo,
+            economics: this.props.location.state.update.user.economics})
+        } else {
+            this.setState({
+                tipo: "CONSULENTE",
+                utente: this.props.location.state.utente,
+                codicePersona: this.props.location.state.utente.codicePersona,
+                economics: { codicePersona: this.props.location.state.utente.codicePersona }
+            })
+        }
     }
 
     onADDButtonClick = () => {
@@ -190,9 +200,9 @@ export default class Consulente extends React.Component {
 
     render() {
         return (
-           
+
             <React.Fragment>
-                 <Title></Title>
+                <Title></Title>
                 <div className="postStyleProps">
                     <h3>Dati aziendali </h3>
                     <div className="info">
@@ -204,14 +214,14 @@ export default class Consulente extends React.Component {
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataAssunzione}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => { this.setState({ dataAssunzione: e.target.value }) }}
                                         label="Data Assunzione"
                                     ></TextField>
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.dataCessazione}
-                                        placeholder="yyyy-mm-dd"
+                                        type="date"
                                         onChange={(e) => { this.setState({ dataCessazione: e.target.value }) }}
                                         label="Data Cessazione"
                                     ></TextField>
@@ -261,8 +271,8 @@ export default class Consulente extends React.Component {
                             null
                         }
 
-                        <button className="button-save" type="button" onClick={this.onSAVEButtonClick} >
-                            SAVE
+                        <button className="ButtonSave" type="button" onClick={this.onSAVEButtonClick} title="SALVA">
+                            <img className="menu" src="./images/save.png"></img>
                         </button>
 
                     </div>

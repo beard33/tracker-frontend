@@ -674,7 +674,7 @@ class TimesheetView extends Component {
                                     <button className='modalBackButton' title='annulla' onClick={() => this.setState({ showDeleteModal: false })}>
                                         <img className="menu" src="./images/annulla.png"></img>
                                     </button>
-                                    <button className='modalDeleteButton' title='conferma' onClick={() => { this.removeEntry() }}>
+                                    <button className='modalDeleteButton' title='conferma' onClick={() => { this.removeTimesheet() }}>
                                         <a href="/timesheet" >
                                             <img className="menu" src="./images/conferma.png"></img>
                                         </a>

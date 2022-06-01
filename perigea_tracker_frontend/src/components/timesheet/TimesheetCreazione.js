@@ -248,7 +248,7 @@ export default class TimesheetCreazione extends React.Component {
                     <div className="modal-header">
                         <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5>
                         <button onClick={() => this.setState({ showEntryModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                        <img className="menu" src="./images/exit.png"></img>
                         </button>
                     </div>
                     <ModalBody className="postPropsStyle">

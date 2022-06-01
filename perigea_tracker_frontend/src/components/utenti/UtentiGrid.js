@@ -4,11 +4,11 @@ import React from 'react';
 import Card from '../structural/Card';
 import AxiosInstance from "../../axios/AxiosInstance";
 import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
 import Typography from '@mui/material/Typography';
 import TextField from '@material-ui/core/TextField';
 import Form from "react-bootstrap/Form";
 import InputAdornment from '@material-ui/core/InputAdornment';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
 
@@ -105,12 +105,12 @@ export default class UtentiGrid extends React.Component {
       <div className="box-card">
         <Link to={{
           pathname: "/anagrafica-" + this.props.tipo,
-          updateProps: {update: false}
+          updateProps: { update: false }
         }}
           style={{ textDecoration: "none" }}>
           <button
             className="add-card-show-button"
-            
+
           >
             {buttonName}
           </button>
@@ -185,20 +185,26 @@ export default class UtentiGrid extends React.Component {
             })
           }
 
-          {/* modale per la cancellazione di un dipendente */}
-          <Modal
-            className="modal"
-            isOpen={this.state.showDeleteModal}
-          >
-            <Typography className='modalText'>
-              Desideri eliminare il seguente utente?
-            </Typography>
-            <button className='modalBackButton' onClick={this.closeDeleteModal}>
-              Indietro
-            </button>
-            <button className='modalDeleteButton' onClick={() => this.deleteDipendente(this.state.keyCode)}>
-              ELIMINA
-            </button>
+          <Modal className="modal-lg" isOpen={this.state.showDeleteModal} toggle={this.openDeleteModal} >
+            <div className="modal-header">
+              <h5 className="modal-title mt-0" id="myLargeModalLabel">Eliminazione utente</h5>
+              <button onClick={this.closeDeleteModal} className="button-close" title='esci' >
+                <img className="menu" src="./images/exit.png"></img>
+              </button>
+            </div>
+            <ModalBody className="postPropsStyle">
+              <Typography className='modalText' style={{ fontSize: "150%" }}>
+                Desideri eliminare il seguente utente?
+              </Typography>
+            </ModalBody>
+            <ModalFooter>
+              <button className='modalBackButton' title='annulla' onClick={() => this.setState({ showDeleteModal: false })}>
+                <img className="menu" src="./images/annulla.png"></img>
+              </button>
+              <button className='modalDeleteButton' title='conferma' onClick={() => { this.deleteDipendente(this.state.keyCode) }}>
+                <img className="menu" src="./images/conferma.png"></img>
+              </button>
+            </ModalFooter>
           </Modal>
 
         </div>

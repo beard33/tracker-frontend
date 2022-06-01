@@ -12,7 +12,7 @@ import FieldDetails from './FIeldDetails';
 const Field = (props) => {
     if (props.tipo === "F") {
         return (
-            <Box className="field-1">
+        <Box className={!props.cliente ? "field-1": "field-1-cliente"}>
 
                 {<FieldImage className="image"
                     cardImage="../images/comm-fatt.png"
@@ -22,12 +22,12 @@ const Field = (props) => {
                     pathname: "/commessa-fatturabile-view",
                     codiceCommessa: props.commessa.codiceCommessa
                 }} >
-                    <img className="view-image" src="./images/show-details.png"
+                    <img className="view-image" src="./images/show-details.png" title='vedi dettagli'
                         style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
                     ></img>
                 </Link>
 
-                <button className='delete-button'
+                <button className='delete-button' title='elimina commessa'
                     onClick={() => {
                         props.showDeleteModal(props.commessa.codiceCommessa, props.commessa.tipoCommessa)
                     }}>
@@ -58,12 +58,12 @@ const Field = (props) => {
                         pathname: "/commessa-non-fatturabile-view",
                         codiceCommessa: props.commessa.codiceCommessa
                     }} >
-                    <img className="view-image" src="./images/show-details.png"
+                    <img className="view-image" src="./images/show-details.png" title='vedi dettagli'
                         style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
                     ></img>
                 </Link>
 
-                <button className='delete-button'
+                <button className='delete-button' title='elimina commessa'
                     onClick={() => {
                         props.showDeleteModal(props.commessa.codiceCommessa, props.commessa.tipoCommessa)
                     }}>

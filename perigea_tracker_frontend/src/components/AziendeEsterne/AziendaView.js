@@ -8,6 +8,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
 import Title from '../structural/Title';
+import { Button, Form, Row, Container } from 'react-bootstrap';
+import CommesseGrid from '../commesse/CommesseGrid'
 
 let type = "";
 export default class AziendaView extends React.Component {
@@ -68,7 +70,6 @@ export default class AziendaView extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Title></Title>
                 <div>
 
                     <WelcomeHeader
@@ -77,6 +78,7 @@ export default class AziendaView extends React.Component {
                         admin={type}
                         userEmail={this.state.azienda.partitaIva}
                         db={true}
+
                     />
                     <div className='userAccordion'>
                         <Accordion expanded>
@@ -86,17 +88,33 @@ export default class AziendaView extends React.Component {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography>Dati Azienda</Typography>
+                                <Typography className='accordion-text'>Dati Azienda</Typography>
                             </AccordionSummary>
                             <AccordionDetails className='accordionDetails'>
                                 {this.getData(this.state.azienda)}
                             </AccordionDetails>
                         </Accordion>
-
-
-                    </div>
+                        {type === "Cliente" &&
+                            <Accordion>
+                                <AccordionSummary
+                                    className='accordionSummary'
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography className='accordion-text'>Commesse Relative</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='accordionDetails'>
+                                    <CommesseGrid
+                                        cliente={true}
+                                        codiceAzienda={this.props.location.aziendaProps.codiceAzienda}
+                                    />
+                                </AccordionDetails>
+                            </Accordion>
+                        }
+                    </div>                    
                 </div>
-            </React.Fragment>
+            </React.Fragment >
         )
     };
 }

@@ -15,6 +15,7 @@ export default function CardImage({ cardImage }) {
         backgroundColor:"#333333",
         border: "2px solid #ffd64fe0"
         
-      }}></img>
+      }}
+      ></img>
   )
 }

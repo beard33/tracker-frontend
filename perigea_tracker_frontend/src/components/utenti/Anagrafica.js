@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import UploadFileButton from '../structural/UploadFileButton'
 import { Link } from 'react-router-dom';
 import Ruoli from './Ruoli';
+import RuoliTable from './RuoliTable';
 import { MenuItem } from '@mui/material';
 import { utenteStatus, anagraficaType } from '../enum/AnagraficaEnums';
 
@@ -47,32 +48,23 @@ export default class Anagrafica extends Component {
 
 
   componentDidMount = () => {
-    console.log(this.props.updateProps)
-    if (this.props.updateProps.update) {
-      this.setState(this.props.updateProps.utente)
-      console.log(this.state)
-    }
+    console.log(this.props.updateProps) 
+    if(this.props.updateProps.update){
+      this.setState(this.props.updateProps.user.utente)
+    }  
   }
 
 
   handleAddRole = (ruolo) => {
     this.setState((prevState) => ({
-      ruoli: prevState.ruoli.concat(ruolo)
+      ruoli: prevState.ruoli.concat(JSON.parse(ruolo))
     }));
     console.log(ruolo)
     console.log(this.state.ruoli)
   };
 
-  updateRoleState = (list) => {
-    if (list != undefined && list.length > 0) {
-      list.map((item) => {
-        console.log(item)
-        this.handleAddRole(JSON.parse(item))
-      });
-    } else {
-      console.log("vuoto")
-    }
-    console.log(this.state.ruoli)
+  removeRole = (ruoloType) => {
+    this.setState({ ruoli: this.state.ruoli.filter((ruolo) => ruolo.id !== ruoloType) })
   }
 
   render() {
@@ -91,7 +83,8 @@ export default class Anagrafica extends Component {
                     style={{ width: "25%" }}
                     label="codice Persona"
                     value={this.state.codicePersona}
-                    onChange={(e) => { this.setState({ codicePersona: e.target.value }) }}
+                    placeholder={this.props.updateProps.update ? this.props.updateProps.user.utente.codicePersona : null}                    
+                    onChange={(e) => { this.setState({ codicePersona: e.target.value }) }}                    
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
@@ -110,7 +103,7 @@ export default class Anagrafica extends Component {
                   <TextField
                     style={{ width: "25%" }}
                     label="data di nascita"
-                    placeholder="yyyy-mm-dd"
+                    type="date"
                     value={this.state.dataNascita}
                     onChange={(e) => { this.setState({ dataNascita: e.target.value }) }}
                   ></TextField>
@@ -317,11 +310,14 @@ export default class Anagrafica extends Component {
 
 
           <h3>Ruoli</h3>
-          <Ruoli updateState={this.updateRoleState} />
-
-
-          <UploadFileButton >
-          </UploadFileButton>
+          <div className='info'>
+            <Ruoli updateState={this.handleAddRole} />
+            <RuoliTable
+              ruoli={this.state.ruoli}
+              removePermission={true}
+              onRemove={this.removeRole}
+            />
+          </div>         
 
           <Form>
             <div className="button-container">
@@ -331,24 +327,25 @@ export default class Anagrafica extends Component {
                   pathname: "/dipendente",
                   state: {
                     utente: this.state,
-                    update: this.props.updateProps.update
+                    update: this.props.updateProps
+                    
                   }
                 }}>
                   <button className="button-avanti"
-                    type="button" >
-                    AVANTI
+                    type="button" title='AVANTI' >
+                     <img className="menu" src="./images/avanti.png"></img>
                   </button>
                 </Link> :
                 <Link to={{
                   pathname: "/consulente",
                   state: {
                     utente: this.state,
-                    update: this.props.updateProps.update
+                    update: this.props.updateProps
                   }
                 }}>
                   <button className="button-avanti"
-                    type="button" >
-                    AVANTI
+                    type="button" title='AVANTI' >
+                     <img className="menu" src="./images/avanti.png"></img>
                   </button>
                 </Link>
               }

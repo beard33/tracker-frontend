@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '../structural/Card';
 import AxiosInstance from "../../axios/AxiosInstance";
 import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import Typography from '@mui/material/Typography';
 import TextField from '@material-ui/core/TextField';
 import Form from "react-bootstrap/Form";
@@ -29,13 +29,46 @@ export default class CommesseGrid extends React.Component {
 
     componentDidMount = () => {
         console.log("componentDidMount start")
-        AxiosInstance({
+        {
+            this.props.cliente ?
+                this.getAllCommesseByCliente(this.props.codiceAzienda) :
+                this.getAllCommesse()
+        }
+    }
+
+    getAllCommesse = async () => {
+        await AxiosInstance({
             url: "commesse/read-all-commesse"
         }).then((response) => {
             this.loadAllCommesse(response);
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
+    }
+
+    getAllCommesseByCliente = async (cliente) => {
+        await AxiosInstance({
+            url: `commesse/read-commesse-by-cliente/${cliente}`
+        }).then((response) => {
+            this.loadCommesseCliente(response);
+            console.log(response.data.data)
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+        })
+    }
+    loadCommesseCliente = (response) => {
+        console.log("loadAllCommesse")
+        console.log(response)
+        let result = []
+        Object.values(response.data.data).map((element) => {
+            result.push({
+                codiceCommessa: element.commessa.codiceCommessa,
+                tipoCommessa: element.commessa.tipoCommessa,
+                descrizioneCommessa: element.commessa.descrizioneCommessa
+            })
+        })
+        console.log(result)
+        this.setState({ listCard: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1) })
     }
 
 
@@ -67,9 +100,11 @@ export default class CommesseGrid extends React.Component {
                     <button className='modalFatturabileButton'>
                         <a className='buttonLink' href='/commessa-fatturabile'>FATTURABILE</a>
                     </button>
-                    <button className='modalNoFatturabileButton'>
-                        <a className='buttonLink' href='/commessa-non-fatturabile'> NON FATTURABILE </a>
-                    </button>
+                    {!this.props.cliente &&
+                        <button className='modalNoFatturabileButton'>
+                            <a className='buttonLink' href='/commessa-non-fatturabile'> NON FATTURABILE </a>
+                        </button>
+                    }
                 </div>
             </React.Fragment>
         )
@@ -132,42 +167,47 @@ export default class CommesseGrid extends React.Component {
         }
     }
 
+
+
     render() {
         return (
             <React.Fragment>
-                <Title></Title>
+                {/* <Title></Title> */}
                 <div className="card-grid">
 
-                    {/*searchBar*/}
-                    <div className="searchBar">
-                        <Form style={{ width: "100%" }}>
-                            <Form.Row className='searchForm'>
-                                <TextField
-                                    style={{ width: "90%" }}
-                                    type="search"
-                                    value={this.state.searchValue}
-                                    onChange={this.dynamicSearch}
-                                    label="Filtro"
-                                    placeholder='tipo commessa'
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <SearchRoundedIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                >
-                                </TextField>
-                            </Form.Row>
-                        </Form>
-                    </div>
+                    {/* searchBar */}
+                    {this.props.cliente ? null :
+                        <div className="searchBar">
+                            <Form style={{ width: "100%" }}>
+                                <Form.Row className='searchForm'>
+                                    <TextField
+                                        style={{ width: "90%" }}
+                                        type="search"
+                                        value={this.state.searchValue}
+                                        onChange={this.dynamicSearch}
+                                        label="Filtro"
+                                        placeholder='tipo commessa'
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <SearchRoundedIcon />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    >
+                                    </TextField>
+                                </Form.Row>
+                            </Form>
+                        </div>
+                    }
 
                     {/* bottone creazione commessa */}
                     <button
                         className="add-field-show-button"
                         onClick={this.openADDModal}
+                        title="crea una commessa"
                     >
-                        AGGIUNGI COMMESSA
+                         <img className="menu" src="./images/add.png"></img>
                     </button>
 
                     {
@@ -189,6 +229,7 @@ export default class CommesseGrid extends React.Component {
                                             commessa={item}
                                             tipo="F"
                                             showDeleteModal={this.openDeleteModal}
+                                            cliente={this.props.cliente ? true : false}
                                         ></Field>
                                     </React.Fragment>
                                 );
@@ -196,32 +237,43 @@ export default class CommesseGrid extends React.Component {
                         })
                     }
 
-                    <Modal
-                        className="modal"
-                        isOpen={this.state.showDeleteModal}
-                    >
-                        <Typography className='modalText'>
-                            Desideri eliminare la seguente commessa?
-                        </Typography>
-                        <button className='modalBackButton' onClick={this.closeModal}>
-                            Indietro
-                        </button>
-                        <button className='modalDeleteButton' onClick={() => this.deleteCommessa(this.state.keyCode)}>
-                            ELIMINA
-                        </button>
+                    <Modal className="modal-lg" isOpen={this.state.showDeleteModal} toggle={this.openDeleteModal} >
+                        <div className="modal-header">
+                            {/* <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5> */}
+                            <button onClick={() => this.setState({ showDeleteModal: false })} className="button-close" title='esci' >
+                                <img className="menu" src="./images/exit.png"></img>
+                            </button>
+                        </div>
+                        <ModalBody className="postPropsStyle">
+                            <Typography className='modalText' style={{ fontSize: "150%" }}>
+                                Desideri eliminare la seguente commessa?
+                            </Typography>
+                        </ModalBody>
+                        <ModalFooter>
+                            <button className='modalBackButton' title='annulla' onClick={this.closeModal}>
+                                <img className="menu" src="./images/annulla.png"></img>
+                            </button>
+                            <button className='modalDeleteButton' title='conferma' onClick={() => { this.deleteCommessa(this.state.keyCode) }}>
+                                <img className="menu" src="./images/conferma.png"></img>
+                            </button>
+                        </ModalFooter>
                     </Modal>
+                    <Modal className="modal-lg" isOpen={this.state.showAddModal}>
+                        <div className="modal-header">
+                            <h5 className="modal-title mt-0" id="myLargeModalLabel">Creazione Commessa</h5>
+                            <button onClick={this.closeModal} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
+                                <img className="menu" src="./images/exit.png"></img>
+                            </button>
+                        </div>
+                        <ModalBody className="postPropsStyle">
+                            <Typography className='modalText' style={{ fontSize: "150%" }}>
+                                Che tipo di commessa desideri aggiungere?
+                            </Typography>
 
-                    <Modal
-                        className="modal"
-                        isOpen={this.state.showAddModal}
-                        onRequestClose={this.closeModal}
-                    >
-                        <Typography className='modalText'>
-                            Che tipo di commessa desideri aggiungere?
-                        </Typography>
-
-                        {this.ADDCommessaButtons()}
-
+                        </ModalBody>
+                        <ModalFooter>
+                            {this.ADDCommessaButtons()}
+                        </ModalFooter>
                     </Modal>
 
                 </div>
