@@ -26,7 +26,7 @@ export default class Sidebar extends React.Component {
               <MenuItem><a href="/home">Home</a></MenuItem>
 
 
-              <SubMenu title="Esterni">
+              <SubMenu title="Aziende">
                 <MenuItem><a href="/fornitori"> Fornitori</a></MenuItem>
                 <MenuItem><a href="/clienti"> Clienti</a></MenuItem>
               </SubMenu>

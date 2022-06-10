@@ -87,6 +87,7 @@ export default class Dipendente extends React.Component {
     }
 
     componentDidMount = () => {
+        console.log(this.props.location.state.update.update)
         if (this.props.location.state.update.update) {
             this.setState({
                 tipo: "DIPENDENTE",
@@ -196,7 +197,7 @@ export default class Dipendente extends React.Component {
 
     onSAVEButtonClick = () => {
         console.log(this.state)
-        if (this.props.location.state.update) {
+        if (this.props.location.state.update.update) {
             console.log("UPDATE")
             this.updateDipendente()
             if (this.state.showComponent) {

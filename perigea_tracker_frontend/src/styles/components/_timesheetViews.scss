@@ -22,10 +22,6 @@
                 color: $greyPerigea;
                 font-weight: bold;
 
-                .menu {
-                    width: 40px;
-                    height: 35px;
-                }
             }
         }
 
@@ -74,7 +70,7 @@
                 cursor: pointer;
                 background-color: #f1b126;
                 color: #333333;
-                width: 60%;
+                
                 height: 10%;
                 font-weight: bold;
                 border-radius: 10%;
@@ -128,10 +124,6 @@
                     font-weight: bold;
                     border: solid transparent 2px;
                 
-                    .menu {
-                      height: 55px;
-                      width: 55px;
-                    }
                   }
 
                 .entry-button {
@@ -155,12 +147,7 @@
                 .entry-button:hover {
                     background-color: transparent;
                     color: #333333;
-                    font-weight: bold;
-
-                    .menu {
-                        width: 55px;
-                        height: 55px;
-                    }
+                    font-weight: bold;                    
                 }
 
                 .modal-delete-button {
@@ -173,23 +160,16 @@
                     margin-bottom: 0%;
                     border-radius: 10px;
                     padding: 1%;
-
                     .menu {
                         width: 35px;
                         height: 35px;
                     }
-
                 }
 
                 .modal-delete-button:hover {
                     background-color: transparent;
                     color: white;
                     font-weight: bold;
-
-                    .menu {
-                        width: 40px;
-                        height: 40px;
-                    }
                 }
             }
 
@@ -218,11 +198,6 @@
                 background-color: transparent;
                 color: white;
                 font-weight: bold;
-
-                .menu {
-                    width: 45px;
-                    height: 45px;
-                }
             }
 
             .modal-generic-button {
@@ -235,7 +210,6 @@
                 margin-right: 0%;
                 margin-top: 5%;
                 border: transparent;
-
                 .menu {
                     width: 40px;
                     height: 40px;
@@ -245,12 +219,6 @@
             .modal-generic-button:hover {
                 background-color: transparent;
                 color: black;
-
-                .menu {
-                    width: 45px;
-                    height: 45px;
-                }
-
             }
         }
     }
@@ -329,13 +297,7 @@
                         align-self: center;
                         position: absolute;
                     }
-
-                    .excel-button:hover {
-                        .menu {
-                            width: 40px;
-                            height: 35px;
-                        }
-                    }
+                    
 
                     .add-button {
                         border: 1px solid transparent;
@@ -354,13 +316,7 @@
                             width: 60px;
                         }
                     }
-
-                    .add-button:hover {
-                        .menu {
-                            width: 70px;
-                            height: 70px;
-                        }
-                    }
+                    
 
                     .richiesta-button {
                         border: 1px solid transparent;
@@ -377,13 +333,7 @@
                         width: 35px;
                         height: 32px;
                     }
-
-                    .richiesta-button:hover {
-                        .menu {
-                            width: 40px;
-                            height: 37px;
-                        }
-                    }
+                   
 
                     .delete-button {
                         border: 1px solid transparent;
@@ -395,14 +345,6 @@
                         align-self: center;
                         position: absolute;
                     }
-
-                    .delete-button:hover {
-                        .menu {
-                            width: 40px;
-                            height: 35px;
-                        }
-                    }
-
                 }
 
                 .col-sm-8.col-md-8.col-lg-8 {

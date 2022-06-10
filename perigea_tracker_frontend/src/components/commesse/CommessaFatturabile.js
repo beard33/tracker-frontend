@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
 import { MenuItem } from '@mui/material';
+import AxiosInstance from '../../axios/AxiosInstance';
 import { commessaFatturabileType, commessaType } from '../enum/CommesseEnums';
 import Title from '../structural/Title';
-
+import { Link } from 'react-router-dom';
 
 
 export default class CommessaFatturabile extends React.Component {
@@ -35,14 +35,128 @@ export default class CommessaFatturabile extends React.Component {
         percentualeAvanzamentoCosti: 0.0,
         percentualeAvanzamentoFatturazione: 0.0,
         percentualeSconto: 0.0,
-        responsabileCommerciale: ""
+        responsabileCommerciale: "",
+        ordineCommessa: "",
+        cliente: ""
     }
 
     componentDidMount = () => {
+        console.log(this.props.location.state)
+        if (this.props.location.state.update) {
+            this.setState(this.props.location.state.commessa)
+            this.setState({
+                descrizioneCommessa: this.props.location.state.commessa.commessa.descrizioneCommessa,
+                codiceCommessa: this.props.location.state.commessa.commessa.codiceCommessa
+            })
+        }
         this.setState({
-            tipoCommessa: "F"
+            tipoCommessa: "F",
+            cliente: this.props.location.state.cliente,
+            ordineCommessa: this.props.location.state.OrdineCommessa
+        })
+
+    }
+
+    createOrdineCommessa = () => {
+        console.log(this.state)
+        console.log("create ordine commessa start ", this.state.codiceCommessa)
+        AxiosInstance({
+            method: 'post',
+            url: "commesse/create-ordine-commessa",
+            data: {
+                commessaFatturabile: {
+                    commessa: {                        
+                        tipoCommessa: this.state.tipoCommessa,
+                        descrizioneCommessa: this.state.descrizioneCommessa
+                    },
+                    tipoCommessaFatturabile: this.state.tipoCommessaFatturabile,
+                    descrizioneCommessaCliente: this.state.descrizioneCommessaCliente,
+                    dataInizioCommessa: this.state.dataInizioCommessa,
+                    dataFineCommessa: this.state.dataFineCommessa,
+                    importoCommessaInizialePresunto: this.state.importoCommessaInizialePresunto,
+                    totaleEstensioni: this.state.totaleEstensioni,
+                    ordineInternoCorrente: this.state.ordineInternoCorrente,
+                    totaleOrdineClienteFormale: this.state.totaleOrdineClienteFormale,
+                    totaleOrdine: this.state.totaleOrdine,
+                    totaleRicaviDaInizioCommessa: this.state.totaleRicaviDaInizioCommessa,
+                    totaleRicaviDaInizioAnno: this.state.totaleRicaviDaInizioAnno,
+                    totaleCostiDaInizioCommessa: this.state.totaleCostiDaInizioCommessa,
+                    totaleCostiDaInizioAnno: this.state.totaleCostiDaInizioAnno,
+                    totaleFatturatoDaInizioCommessa: this.state.totaleFatturatoDaInizioCommessa,
+                    totaleFatturatoDaInizioAnno: this.state.totaleFatturatoDaInizioAnno,
+                    margineIniziale: this.state.margineIniziale,
+                    margineDaInizioCommessa: this.state.margineDaInizioCommessa,
+                    margineDaInizioAnno: this.state.margineDaInizioAnno,
+                    percentualeAvanzamentoCosti: this.state.percentualeAvanzamentoCosti,
+                    percentualeAvanzamentoFatturazione: this.state.percentualeAvanzamentoFatturazione,
+                    percentualeSconto: this.state.percentualeSconto,
+                    responsabileCommerciale: this.state.responsabileCommerciale,
+                },
+                cliente: this.state.cliente,
+                ordineCommessa: this.state.ordineCommessa
+            }
+
+        }).then(() => {
+            alert("Creazione di una commessa fatturabile e relativo ordine effettuata con successo")
+            console.log("Creazione di una commessa fatturabile e relativo ordine effettuata con successo", this.data)
+        }).catch((error) => {
+            console.log("Errore ", error)
+            alert("Errore nella creazione", error)
         })
     }
+
+    updateCommessaFatturabile = () => {
+        AxiosInstance({
+            method: 'put',
+            url: "commesse/update-commessa-fatturabile",
+            data: {
+                commessaFatturabile: {
+                    commessa: {
+                        codiceCommessa: this.state.codiceCommessa,
+                        tipoCommessa: this.state.tipoCommessa,
+                        descrizioneCommessa: this.state.descrizioneCommessa
+                    },
+                    tipoCommessaFatturabile: this.state.tipoCommessaFatturabile,
+                    descrizioneCommessaCliente: this.state.descrizioneCommessaCliente,
+                    dataInizioCommessa: this.state.dataInizioCommessa,
+                    dataFineCommessa: this.state.dataFineCommessa,
+                    importoCommessaInizialePresunto: this.state.importoCommessaInizialePresunto,
+                    totaleEstensioni: this.state.totaleEstensioni,
+                    ordineInternoCorrente: this.state.ordineInternoCorrente,
+                    totaleOrdineClienteFormale: this.state.totaleOrdineClienteFormale,
+                    totaleOrdine: this.state.totaleOrdine,
+                    totaleRicaviDaInizioCommessa: this.state.totaleRicaviDaInizioCommessa,
+                    totaleRicaviDaInizioAnno: this.state.totaleRicaviDaInizioAnno,
+                    totaleCostiDaInizioCommessa: this.state.totaleCostiDaInizioCommessa,
+                    totaleCostiDaInizioAnno: this.state.totaleCostiDaInizioAnno,
+                    totaleFatturatoDaInizioCommessa: this.state.totaleFatturatoDaInizioCommessa,
+                    totaleFatturatoDaInizioAnno: this.state.totaleFatturatoDaInizioAnno,
+                    margineIniziale: this.state.margineIniziale,
+                    margineDaInizioCommessa: this.state.margineDaInizioCommessa,
+                    margineDaInizioAnno: this.state.margineDaInizioAnno,
+                    percentualeAvanzamentoCosti: this.state.percentualeAvanzamentoCosti,
+                    percentualeAvanzamentoFatturazione: this.state.percentualeAvanzamentoFatturazione,
+                    percentualeSconto: this.state.percentualeSconto,
+                    responsabileCommerciale: this.state.responsabileCommerciale,
+                },
+                cliente: this.state.cliente,
+                ordineCommessa: {
+                    codiceCommessa: this.state.codiceCommessa,
+                    codiceAzienda: this.state.cliente.codiceAzienda
+                }
+            }
+
+        }).then(() => {
+            alert("Update di una commessa fatturabile e relativo ordine effettuata con successo")
+            console.log("Update di una commessa fatturabile e relativo ordine effettuata con successo", this.data)
+        }).catch((error) => {
+            console.log("Errore ", error)
+            alert("Errore nella modifica", error)
+        })
+    }
+
+
+
 
 
     render() {
@@ -60,18 +174,11 @@ export default class CommessaFatturabile extends React.Component {
                                 <Form.Row className="infoForm">
                                     <TextField
                                         style={{ width: "25%" }}
-                                        label="codice Commessa"
-                                        value={this.state.codiceCommessa}
-                                        onChange={(e) => { this.setState({ codiceCommessa: e.target.value }) }}
-                                    ></TextField>
-                                    <TextField
-                                        style={{ width: "25%" }}
                                         id="select Commessa Type"
                                         select
                                         label="tipo Commmessa"
                                         placeholder='F'
                                         value={this.state.tipoCommessa}
-                                    // onChange={(e) => { this.setState({ tipoCommessa: e.target.value }) }}
                                     >
                                         {commessaType.map((option) => (
                                             <MenuItem key={option.stato} value={option.stato} >
@@ -307,21 +414,13 @@ export default class CommessaFatturabile extends React.Component {
                     </div>
 
                     <Form>
-                        <div className="button-container">
-                            <Link to={{
-                                pathname: "/add-clienti",
-                                commessaProps: {
-                                    commessa: true,
-                                    commessaFatturabile: this.state
-                                }
-                            }}>
-                                <button
-                                    className="button-avanti"
-                                    type="button"
-                                >
-                                    AVANTI
-                                </button>
-                            </Link>
+                        <div>
+                            <button className="ButtonSave"
+                                type="button"
+                                title={this.props.location.state.update ? "APPLICA MODIFICHE" : "SALVA"}
+                                onClick={this.props.location.state.update ? this.updateCommessaFatturabile :this.createOrdineCommessa}>
+                                <img className="menu" src="./images/save.png"></img>
+                            </button>
                         </div>
                     </Form>
 

@@ -58,9 +58,9 @@ export default class DipendenteView extends React.Component {
     this.getUsernameResponsabile()
   }
 
-  
 
-  getUsernameResponsabile = () => {    
+
+  getUsernameResponsabile = () => {
     AxiosInstance({
       method: "get",
       url: `dipendenti/read/${this.state.personale.codiceResponsabile}`
@@ -88,18 +88,7 @@ export default class DipendenteView extends React.Component {
           if (key === "ruoli") {
             return (
               <div className='muiList'>
-                <List subheader={
-                  <ListSubheader>Ruoli</ListSubheader>
-                }>
-                  {
-                    Object.values(e[key]).map((ruolo) => {
-                      console.log(ruolo)
-                      return (
-                        <RuoliTable ruoli={this.state.utente.ruoli} removePermission={false} />
-                      )
-                    })
-                  }
-                </List>
+                <RuoliTable ruoli={this.state.utente.ruoli} removePermission={false} />
               </div>
             )
           } else {
@@ -199,7 +188,7 @@ export default class DipendenteView extends React.Component {
                   pathname: "/anagrafica-dipendenti",
                   updateProps: {
                     update: true,
-                    user:this.state
+                    user: this.state
                   }
                 }}>
                   <button className="button-update" title='modifica dipendente'

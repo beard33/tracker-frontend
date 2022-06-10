@@ -4,7 +4,7 @@ import React from 'react';
 import Card from '../structural/Card';
 import AxiosInstance from "../../axios/AxiosInstance";
 import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import Typography from '@mui/material/Typography';
 import TextField from '@material-ui/core/TextField';
 import Form from "react-bootstrap/Form";
@@ -82,6 +82,7 @@ export default class AziendaGrid extends React.Component {
     }).catch((error) => {
       console.log("Error into removeAzienda ", error)
     })
+    this.closeDeleteModal()
   };
 
   openDeleteModal = (codiceAzienda) => {
@@ -93,7 +94,9 @@ export default class AziendaGrid extends React.Component {
   };
 
   closeDeleteModal = () => {
+    
     this.setState({ showDeleteModal: false })
+    this.forceUpdate()
   }
 
 
@@ -178,7 +181,7 @@ export default class AziendaGrid extends React.Component {
           }
 
           {/* modale per la cancellazione di un dipendente */}
-          <Modal
+          {/* <Modal
             className="modal"
             isOpen={this.state.showDeleteModal}
           >
@@ -191,6 +194,27 @@ export default class AziendaGrid extends React.Component {
             <button className='modalDeleteButton' onClick={() => this.deleteAzienda(this.state.keyCode)}>
               ELIMINA
             </button>
+          </Modal> */}
+          <Modal className="modal-lg" isOpen={this.state.showDeleteModal} toggle={this.openDeleteModal} >
+            <div className="modal-header">
+              <h5 className="modal-title mt-0" id="myLargeModalLabel">Eliminazione utente</h5>
+              <button onClick={this.closeDeleteModal} className="button-close" title='esci' >
+                <img className="menu" src="./images/exit.png"></img>
+              </button>
+            </div>
+            <ModalBody className="postPropsStyle">
+              <Typography className='modalText' style={{ fontSize: "150%" }}>
+                Desideri eliminare la seguente azienda?
+              </Typography>
+            </ModalBody>
+            <ModalFooter>
+              <button className='modalBackButton' title='annulla' onClick={() => this.setState({ showDeleteModal: false })}>
+                <img className="menu" src="./images/annulla.png"></img>
+              </button>
+              <button className='modalDeleteButton' title='conferma' onClick={() => { this.deleteAzienda(this.state.keyCode) }}>
+                <img className="menu" src="./images/conferma.png"></img>
+              </button>
+            </ModalFooter>
           </Modal>
 
         </div>

@@ -44,16 +44,16 @@ const Card = (props) => {
       </Box>
 
     )
-  }else {
+  } else {
     console.log(props.item.codiceAzienda)
     return (
       <Box className="card">
 
-        {<CardImage className="image"
-          cardImage="../images/company.png"
-        />}
+        {props.item.codiceAzienda !== "0c44f51f-60c6-425b-af85-77a91e703b8d" ?
+          <CardImage className="image" cardImage="../images/company.png" /> :
+          <CardImage className="image" cardImage="../images/pianetaLogo.png" /> }
 
-        <Link className='view-button' to={{ pathname: "/azienda-view", aziendaProps:{codiceAzienda: props.item.codiceAzienda, tipo: props.tipo} }} >
+        <Link className='view-button' to={{ pathname: "/azienda-view", aziendaProps: { codiceAzienda: props.item.codiceAzienda, tipo: props.tipo } }} >
           <img className="view-image" src="./images/show-details.png"
             style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
           ></img>
@@ -66,10 +66,10 @@ const Card = (props) => {
         </button>
 
         <CardDetails
-          tipo= {props.tipo}
-          ragioneSociale = {props.item.ragioneSociale}
-          partitaIva = {props.item.partitaIva}
-          acronimoCliente ={props.item.acronimoCliente} 
+          tipo={props.tipo}
+          ragioneSociale={props.item.ragioneSociale}
+          partitaIva={props.item.partitaIva}
+          acronimoCliente={props.item.acronimoCliente}
         />
 
       </Box>

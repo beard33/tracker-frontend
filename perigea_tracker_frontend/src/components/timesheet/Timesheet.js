@@ -68,8 +68,8 @@ class Timesheet extends React.Component {
                                             responsabile: false,
                                             mese: this.state.mese,
                                             anno: this.state.anno,
-                                            codicePersona: "bd4ab626-b96c-4a02-935c-eeca878f6b57",
-                                            username: "sampei.genta"
+                                            codicePersona: "2978f40f-69a8-4360-954b-c27746199c01",
+                                            username: "samuel.genta"
                                         }
                                     }}>
                                         <button className="button-visualizza"
@@ -82,8 +82,8 @@ class Timesheet extends React.Component {
                                         state: {
                                             mese: this.state.mese,
                                             anno: this.state.anno,
-                                            codicePersona: "bd4ab626-b96c-4a02-935c-eeca878f6b57",
-                                            username: "sampei.genta"
+                                            codicePersona: "2978f40f-69a8-4360-954b-c27746199c01",
+                                            username: "samuel.genta"
                                         }
                                     }}>
                                         <button className='button-create' onClick={this.checkRefs} title='crea timesheet mensile'>

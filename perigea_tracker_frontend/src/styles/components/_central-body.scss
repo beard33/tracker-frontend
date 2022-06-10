@@ -222,6 +222,74 @@
       }
     }
 
+    .box-field-2-cliente {
+      width: calc(168vw/2.6);
+      height: calc(15vw/2.6);
+
+      border-radius: 10px;
+      background-color: $lightGreyPerigea;
+      // background: rgb(0,0,0);
+      // background: radial-gradient(circle, #fafafa 9%, #d8ed3c 90%);
+      justify-content: space-around;
+      float: left;
+      margin: 2%;
+      margin-top: 1%;
+      margin-bottom: 0%;
+      border: 1px solid $greyPerigea;
+      // box-shadow: 10px 10px 5px $greyPerigea;
+
+      .card-image{
+        height: 65%;
+        width: 60%;
+        bottom: 0;
+        transform: scale(0.13, 1.4) translateX(-240%) translateY(18%);
+        border-radius: 50%;
+        margin-bottom: 0%;
+        background-color:#333333;
+        border: 2px solid #333333;
+      }
+
+      .view-button {
+        // display:block;
+        float: left;
+        width: calc(10vw/3.5);
+        height: calc(7vw/2.6);
+        font-size: 18px;
+        background-color: transparent;
+        border-color: transparent;
+        color: $orangePerigea;
+        font-weight: bolder;
+        cursor: pointer;
+        margin-bottom: 0%;
+        margin-left: 24%;
+        border-radius: 10px;
+        margin-top: 2.4%;
+        text-align: center;
+        font-size: calc(4.5vw/3.5);
+        position: absolute
+      }
+
+      .delete-button {
+        // display:block;
+        float: right;
+        width: calc(11avw/3.5);
+        height: calc(7vw/2.6);
+        font-size: 18px;
+        background-color: transparent;
+        border-color: transparent;
+        color: $orangePerigea;
+        font-weight: bolder;
+        cursor: pointer;
+        margin-bottom: 0px;
+        margin-left: 28%;
+        border-radius: 10px;
+        margin-top: 2.0%;
+        text-align: center;
+        font-size: calc(4.5vw/3.5);
+        position: absolute
+      }
+    }
+
     .searchBar {
       margin-top: 1%;
       margin-left: 65%;
@@ -271,10 +339,7 @@
     .add-field-show-button:hover {
       background-color: transparent;
       color: black;
-      .menu{
-        width: 60px;
-        height: 60px;
-      }
+     
     }
 
     .add-card-show-button {
@@ -324,7 +389,16 @@
       border: 1px solid transparent;
       box-shadow: 10px 10px 5px $lightGreyPerigea;
 
-
+      .card-image{
+        height: 65%;
+        width: 60%;
+        bottom: 0;
+        transform: scale(0.16, 1.4) translateX(-192%) translateY(18%);
+        border-radius: 50%;
+        margin-bottom: 0%;
+        background-color:#333333;
+        border: 2px solid #333333;
+      }
 
       .view-button {
         // display:block;
@@ -408,10 +482,7 @@
       border: solid transparent 1px;
       font-weight: bold;
 
-      .menu {
-        width: 43px;
-        height: 39px;
-      }
+      
     }
 
     .page-titles {
@@ -454,6 +525,74 @@
   
         border-radius: 10px;
         background-color: #ffd64fe0;
+        // background: rgb(0,0,0);
+        // background: radial-gradient(circle, #fafafa 9%, #d8ed3c 90%);
+        justify-content: space-around;
+        float: left;
+        margin: 2%;
+        margin-top: 1%;
+        margin-bottom: 0%;
+        border: 1px solid $greyPerigea;
+        // box-shadow: 10px 10px 5px $greyPerigea;
+  
+        .card-image{
+          height: 65%;
+          width: 60%;
+          bottom: 0;
+          transform: scale(0.16, 1.4) translateX(-192%) translateY(18%);
+          border-radius: 50%;
+          margin-bottom: 0%;
+          background-color:#333333;
+          border: 2px solid #333333;
+        }
+  
+        .view-button {
+          // display:block;
+          float: left;
+          width: calc(10vw/3.5);
+          height: calc(7vw/2.6);
+          font-size: 18px;
+          background-color: transparent;
+          border-color: transparent;
+          color: $orangePerigea;
+          font-weight: bolder;
+          cursor: pointer;
+          margin-bottom: 0%;
+          margin-left: 24%;
+          border-radius: 10px;
+          margin-top: 3.4%;
+          text-align: center;
+          font-size: calc(4.5vw/3.5);
+          position: absolute
+        }
+  
+        .delete-button {
+          // display:block;
+          float: right;
+          width: calc(11avw/3.5);
+          height: calc(7vw/2.6);
+          font-size: 18px;
+          background-color: transparent;
+          border-color: transparent;
+          color: $orangePerigea;
+          font-weight: bolder;
+          cursor: pointer;
+          margin-bottom: 0px;
+          margin-left: 28%;
+          border-radius: 10px;
+          margin-top: 2.7%;
+          text-align: center;
+          font-size: calc(4.5vw/3.5);
+          position: absolute
+        }
+      }
+
+      .box-field-2-cliente{
+        width: calc(127vw/2.6);
+        height: calc(15vw/2.6);
+  
+        border-radius: 10px;
+        background-color: $lightGreyPerigea;
         // background: rgb(0,0,0);
         // background: radial-gradient(circle, #fafafa 9%, #d8ed3c 90%);
         justify-content: space-around;
@@ -668,6 +807,17 @@
         border: 1px solid #ffd64fe0;
         box-shadow: 10px 10px 5px $lightGreyPerigea;
 
+        .card-image{
+          height: 65%;
+          width: 60%;
+          bottom: 0;
+          transform: scale(0.16, 1.4) translateX(-192%) translateY(18%);
+          border-radius: 50%;
+          margin-bottom: 0%;
+          background-color:#333333;
+          border: 2px solid #333333;
+        }
+
         .add-card-show-button {
           border-radius: 10%;
 
@@ -801,10 +951,7 @@
     font-weight: bold;
     border: solid transparent 1px;
 
-    .menu {
-      width: 43px;
-      height: 39px;
-    }
+ 
   }
 
   .ButtonSave {
@@ -830,12 +977,7 @@
     background-color: transparent;
     color: black;
     font-weight: bold;
-    border: solid transparent 2px;
-
-    .menu {
-      height: 55px;
-      width: 55px;
-    }
+    border: solid transparent 2px;    
   }
 
 }

@@ -20,7 +20,7 @@ import FileSaver from 'file-saver';
 let entries = []
 let counter = 0;
 let getControl = false
-
+const monthsWithThirtyDays = [4, 6, 9, 11]
 
 class TimesheetView extends Component {
     constructor(props) {
@@ -278,6 +278,7 @@ class TimesheetView extends Component {
             event = {
                 title: `${entry.tipoCommessa === "F" ? entry.ragioneSociale : entry.descrizioneCommessa}` + "  " + entry.ore,
                 start: new Date(this.state.timesheet.anno, this.state.timesheet.mese - 1, entry.giorno),
+                end: new Date(this.state.timesheet.anno, this.state.timesheet.mese - 1, entry.giorno + 1),
                 allDay: true,
                 className: `fc-event-${entry.tipoCommessa}`
             }
@@ -316,7 +317,7 @@ class TimesheetView extends Component {
                         codicePersona={this.state.codicePersona}
                         commesse={this.state.commesse}
                         oreTotali={this.state.timesheet.oreTotali}
-                        approvalStatus= {this.state.timesheet.statoRichiesta}
+                        approvalStatus={this.state.timesheet.statoRichiesta}
                     />
                 }
             </React.Fragment>
@@ -361,6 +362,20 @@ class TimesheetView extends Component {
         }
     }
 
+    getMonthEndDate = () => {
+        let endDay;
+        if (this.state.mese === 2) {
+            this.state.anno % 4 === 0 ? endDay = 29 : endDay = 28;
+        } else {
+            if (monthsWithThirtyDays.find(el => el === this.state.mese)) {
+                endDay = 30;
+            } else {
+                endDay = 31;
+            }
+        }
+        return endDay
+    }
+
 
     modal = (arg) => {
         console.log(arg);
@@ -400,11 +415,19 @@ class TimesheetView extends Component {
     addEntries = (entryfields, note) => {
         let entry;
         let noteSpese = []
+        let dateDiff;
+        let beginDate = this.state.selectedDay.start.getDate()
+        let endDate;
         console.log(entryfields, note, entries)
-        const dateDiff = this.state.selectedDay.end.getDate() - this.state.selectedDay.start.getDate();
+        if (this.state.selectedDay.end.getDate() === 1) {
+            console.log("ULTIMO GIORNO")
+            endDate = this.getMonthEndDate()+1
+        } else {
+           endDate = this.state.selectedDay.end.getDate()
+        }
+         dateDiff = endDate - beginDate;
         for (let i = 0; i < dateDiff; i++) {
-            let dayNumber = this.state.selectedDay.start.getDate() + i
-            console.log(this.state.selectedDay, dayNumber)
+            let dayNumber = this.state.selectedDay.start.getDate() + i            
             if (entryfields.tipoCommessa === "F") {
                 noteSpese = this.setNoteSpeseDay(dayNumber, note)
             }
@@ -417,8 +440,7 @@ class TimesheetView extends Component {
                 descrizioneCommessa: entryfields.descrizioneCommessa,
                 ragioneSociale: entryfields.ragioneSociale,
                 noteSpesa: noteSpese
-            }
-            console.log(entry)
+            }            
             this.handleAddEntry(entry)
         }
         this.setState({
@@ -594,7 +616,7 @@ class TimesheetView extends Component {
                                                     {
                                                         start: 'prev',
                                                         center: 'title',
-                                                        end: 'next today'
+                                                        end: 'next'
                                                     }
                                                 }
                                                 buttonText={

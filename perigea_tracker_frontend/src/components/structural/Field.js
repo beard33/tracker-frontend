@@ -47,7 +47,7 @@ const Field = (props) => {
         )
     } else if (props.tipo === "S") {
         return (
-            <Box className="field-2">
+            <Box className={!props.cliente ? "field-2": "field-2-cliente"}>
 
                 {<FieldImage className="image"
                     cardImage="../images/comm-noFatt.png"

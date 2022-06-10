@@ -181,7 +181,7 @@ export default class Consulente extends React.Component {
 
 
     onSAVEButtonClick = () => {
-        if (this.props.location.state.update) {
+        if (this.props.location.state.update.update) {
             console.log("UPDATE")
             this.updateConsulente()
             if (this.state.showComponent) {

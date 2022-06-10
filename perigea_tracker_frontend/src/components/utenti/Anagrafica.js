@@ -18,18 +18,18 @@ export default class Anagrafica extends Component {
       codicePersona: '',
       nome: '',
       cognome: '',
-      dataNascita: "",
-      luogoNascita: "",
+      dataDiNascita: "",
+      luogoDiNascita: "",
       codiceFiscale: "",
       cellulare: '',
       username: '',
       avatar: "",
-      provinciaResidenza: "",
-      comuneResidenza: "",
-      indirizzoResidenza: "",
-      provinciaDomicilio: "",
-      comuneDomicilio: "",
-      indirizzoDomicilio: "",
+      provinciaDiResidenza: "",
+      comuneDiResidenza: "",
+      indirizzoDiResidenza: "",
+      provinciaDiDomicilio: "",
+      comuneDiDomicilio: "",
+      indirizzoDiDomicilio: "",
       mailPrivata: '',
       mailAziendale: '',
       nomeContattoEmergenza: '',
@@ -48,10 +48,10 @@ export default class Anagrafica extends Component {
 
 
   componentDidMount = () => {
-    console.log(this.props.updateProps) 
-    if(this.props.updateProps.update){
+    console.log(this.props.updateProps)
+    if (this.props.updateProps.update) {
       this.setState(this.props.updateProps.user.utente)
-    }  
+    }
   }
 
 
@@ -79,21 +79,21 @@ export default class Anagrafica extends Component {
             >
               <Form style={{ width: "100%" }}>
                 <Form.Row className="infoForm">
-                  <TextField
+                  {/* <TextField
                     style={{ width: "25%" }}
                     label="codice Persona"
                     value={this.state.codicePersona}
                     placeholder={this.props.updateProps.update ? this.props.updateProps.user.utente.codicePersona : null}                    
                     onChange={(e) => { this.setState({ codicePersona: e.target.value }) }}                    
-                  ></TextField>
+                  ></TextField> */}
                   <TextField
-                    style={{ width: "25%" }}
+                    style={{ width: "40%" }}
                     label="nome"
                     value={this.state.nome}
                     onChange={(e) => { this.setState({ nome: e.target.value }) }}
                   ></TextField>
                   <TextField
-                    style={{ width: "25%" }}
+                    style={{ width: "40%" }}
                     label="cognome"
                     value={this.state.cognome}
                     onChange={(e) => { this.setState({ cognome: e.target.value }) }}
@@ -101,36 +101,37 @@ export default class Anagrafica extends Component {
                 </Form.Row>
                 <Form.Row className="infoForm">
                   <TextField
-                    style={{ width: "25%" }}
+                    style={{ width: "40%" }}
                     label="data di nascita"
                     type="date"
-                    value={this.state.dataNascita}
-                    onChange={(e) => { this.setState({ dataNascita: e.target.value }) }}
+                    value={this.state.dataDiNascita}
+                    onChange={(e) => { this.setState({ dataDiNascita: e.target.value }) }}
                   ></TextField>
 
                   <TextField
-                    style={{ width: "25%" }}
+                    style={{ width: "40%" }}
                     label="luogo di nascita"
-                    value={this.state.luogoNascita}
-                    onChange={(e) => { this.setState({ luogoNascita: e.target.value }) }}
+                    value={this.state.luogoDiNascita}
+                    onChange={(e) => { this.setState({ luogoDiNascita: e.target.value }) }}
                   ></TextField>
 
-                  <TextField
-                    style={{ width: "25%" }}
-                    label="codice fiscale"
-                    value={this.state.codiceFiscale}
-                    onChange={(e) => { this.setState({ codiceFiscale: e.target.value }) }}
-                  ></TextField>
+
                 </Form.Row>
                 <Form.Row className="infoForm">
-                  <TextField
+                  {/* <TextField
                     style={{ width: "25%" }}
                     value={this.state.username}
                     onChange={(e) => { this.setState({ username: e.target.value }) }}
                     label="username"
+                  ></TextField> */}
+                  <TextField
+                    style={{ width: "40%" }}
+                    label="codice fiscale"
+                    value={this.state.codiceFiscale}
+                    onChange={(e) => { this.setState({ codiceFiscale: e.target.value }) }}
                   ></TextField>
                   <TextField
-                    style={{ width: "25%" }}
+                    style={{ width: "40%" }}
                     value={this.state.avatar}
                     onChange={(e) => { this.setState({ avatar: e.target.value }) }}
                     label="avatar"
@@ -150,42 +151,42 @@ export default class Anagrafica extends Component {
                 <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
-                    value={this.state.provinciaResidenza}
-                    onChange={(e) => { this.setState({ provinciaResidenza: e.target.value }) }}
+                    value={this.state.provinciaDiResidenza}
+                    onChange={(e) => { this.setState({ provinciaDiResidenza: e.target.value }) }}
                     label="provincia residenza"
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
-                    value={this.state.comuneResidenza}
-                    onChange={(e) => { this.setState({ comuneResidenza: e.target.value }) }}
+                    value={this.state.comuneDiResidenza}
+                    onChange={(e) => { this.setState({ comuneDiResidenza: e.target.value }) }}
                     label="comune residenza"
                   ></TextField>
                   <TextField
                     style={{ width: "25%" }}
-                    value={this.state.indirizzoResidenza}
-                    onChange={(e) => { this.setState({ indirizzoResidenza: e.target.value }) }}
+                    value={this.state.indirizzoDiResidenza}
+                    onChange={(e) => { this.setState({ indirizzoDiResidenza: e.target.value }) }}
                     label="indirizzo residenza"
                   ></TextField>
                 </Form.Row>
                 <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "25%" }}
-                    value={this.state.provinciaDomicilio}
-                    onChange={(e) => { this.setState({ provinciaDomicilio: e.target.value }) }}
+                    value={this.state.provinciaDiDomicilio}
+                    onChange={(e) => { this.setState({ provinciaDiDomicilio: e.target.value }) }}
                     label="provincia domicilio"
                   ></TextField>
 
                   <TextField
                     style={{ width: "25%" }}
-                    value={this.state.comuneDomicilio}
-                    onChange={(e) => { this.setState({ comuneDomicilio: e.target.value }) }}
+                    value={this.state.comuneDiDomicilio}
+                    onChange={(e) => { this.setState({ comuneDiDomicilio: e.target.value }) }}
                     label="comune domicilio"
                   ></TextField>
 
                   <TextField
                     style={{ width: "25%" }}
-                    value={this.state.indirizzoDomicilio}
-                    onChange={(e) => { this.setState({ indirizzoDomicilio: e.target.value }) }}
+                    value={this.state.indirizzoDiDomicilio}
+                    onChange={(e) => { this.setState({ indirizzoDiDomicilio: e.target.value }) }}
                     label="indirizzo domicilio"
                   ></TextField>
                 </Form.Row>
@@ -317,7 +318,7 @@ export default class Anagrafica extends Component {
               removePermission={true}
               onRemove={this.removeRole}
             />
-          </div>         
+          </div>
 
           <Form>
             <div className="button-container">
@@ -328,12 +329,12 @@ export default class Anagrafica extends Component {
                   state: {
                     utente: this.state,
                     update: this.props.updateProps
-                    
+
                   }
                 }}>
                   <button className="button-avanti"
                     type="button" title='AVANTI' >
-                     <img className="menu" src="./images/avanti.png"></img>
+                    <img className="menu" src="./images/avanti.png"></img>
                   </button>
                 </Link> :
                 <Link to={{
@@ -345,7 +346,7 @@ export default class Anagrafica extends Component {
                 }}>
                   <button className="button-avanti"
                     type="button" title='AVANTI' >
-                     <img className="menu" src="./images/avanti.png"></img>
+                    <img className="menu" src="./images/avanti.png"></img>
                   </button>
                 </Link>
               }

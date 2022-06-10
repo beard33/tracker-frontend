@@ -86,6 +86,7 @@ export default class UtentiGrid extends React.Component {
     }).catch((error) => {
       console.log("Error into removeDipendente ", error)
     })
+    this.closeDeleteModal()
   };
 
   openDeleteModal = (codicePersona) => {
@@ -96,7 +97,10 @@ export default class UtentiGrid extends React.Component {
   };
 
   closeDeleteModal = () => {
-    this.setState({ showDeleteModal: false })
+    this.setState({
+      showDeleteModal: false,
+    })
+    this.forceUpdate()
   }
 
 
@@ -131,7 +135,6 @@ export default class UtentiGrid extends React.Component {
         this.setState({ listCard: results })
       }
       this.setState({ searchValue: keyword })
-
     }
   }
 

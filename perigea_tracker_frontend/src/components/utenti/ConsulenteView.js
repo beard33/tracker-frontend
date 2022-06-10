@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import RuoliTable from './RuoliTable';
 import { Link } from 'react-router-dom';
 import Title from '../structural/Title';
 
@@ -81,7 +82,8 @@ export default class ConsulenteView extends React.Component {
           if (key === "ruoli") {
             return (
               <div className='muiList'>
-                <List subheader={
+                <RuoliTable ruoli={this.state.utente.ruoli} removePermission={false} />
+                {/* <List subheader={
                   <ListSubheader>Ruoli</ListSubheader>
                 }>
                   {
@@ -92,7 +94,7 @@ export default class ConsulenteView extends React.Component {
                       )
                     })
                   }
-                </List>
+                </List> */}
               </div>
             )
           } else {

@@ -21,12 +21,14 @@ export default class CommessaNonFatturabile extends React.Component {
     }
 
     createCommessaNonFatturabile = () => {
-        console.log("create commessa non fatturabile start ", this.state.codiceCommessa)
+        console.log("create commessa non fatturabile start ", this.state)
         AxiosInstance({
             method: 'post',
             url: "commesse/create-commessa-non-fatturabile",
             data: {
-                commessaNonFatturabile: this.state
+                commessaNonFatturabile:{
+                    commessa: this.state
+                } 
             }
         }).then(() => {
             alert("Creazione di una commessa non fatturabile")

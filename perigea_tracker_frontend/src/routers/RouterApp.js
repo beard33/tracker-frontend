@@ -58,7 +58,7 @@ export default function RouterApp() {
         <Route path="/consulenti-view" exact component={ConsulenteView} />
         <Route path="/azienda-view" exact component={AziendaView} />
 
-        <Route path="/commessa-fatturabile" exact render={() => <CommessaFatturabile />} />
+        <Route path="/commessa-fatturabile" exact component={CommessaFatturabile} />
         <Route path="/ordine-commessa" exact component={OrdineCommessa} />
         <Route path="/commessa-non-fatturabile" exact render={() => <CommessaNonFatturabile />} />
         <Route path="/commesse" exact render={() => <CommesseGrid />} />

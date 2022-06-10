@@ -31,7 +31,7 @@ export default class CommesseGrid extends React.Component {
         console.log("componentDidMount start")
         {
             this.props.cliente ?
-                this.getAllCommesseByCliente(this.props.codiceAzienda) :
+                this.getCommesseByAzienda(this.props.codiceAzienda) :
                 this.getAllCommesse()
         }
     }
@@ -46,8 +46,27 @@ export default class CommesseGrid extends React.Component {
         })
     }
 
-    getAllCommesseByCliente = async (cliente) => {
-        await AxiosInstance({
+    getCommesseNonFatturabili = () => {
+        AxiosInstance({
+            url: "commesse/read-all-non-fatturabili"
+        }).then((response) => {
+            console.log(response)
+            this.loadCommesseNonFatturabili(response);
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+        })
+    }
+
+    getCommesseByAzienda = (cliente) => {
+        if (cliente === "0c44f51f-60c6-425b-af85-77a91e703b8d") {
+            this.getCommesseNonFatturabili()
+        } else {
+            this.getAllCommesseByCliente(cliente)
+        }
+    }
+
+    getAllCommesseByCliente = (cliente) => {
+        AxiosInstance({
             url: `commesse/read-commesse-by-cliente/${cliente}`
         }).then((response) => {
             this.loadCommesseCliente(response);
@@ -59,6 +78,19 @@ export default class CommesseGrid extends React.Component {
     loadCommesseCliente = (response) => {
         console.log("loadAllCommesse")
         console.log(response)
+        let result = []
+        Object.values(response.data.data).map((element) => {
+            result.push({
+                codiceCommessa: element.commessa.codiceCommessa,
+                tipoCommessa: element.commessa.tipoCommessa,
+                descrizioneCommessa: element.commessa.descrizioneCommessa
+            })
+        })
+        console.log(result)
+        this.setState({ listCard: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1) })
+    }
+
+    loadCommesseNonFatturabili = (response) => {
         let result = []
         Object.values(response.data.data).map((element) => {
             result.push({
@@ -97,10 +129,12 @@ export default class CommesseGrid extends React.Component {
         return (
             <React.Fragment>
                 <div>
-                    <button className='modalFatturabileButton'>
-                        <a className='buttonLink' href='/commessa-fatturabile'>FATTURABILE</a>
-                    </button>
-                    {!this.props.cliente &&
+                    { (!this.props.cliente || this.props.codiceAzienda !== "0c44f51f-60c6-425b-af85-77a91e703b8d") &&
+                        <button className='modalFatturabileButton'>
+                            <a className='buttonLink' href='/ordine-commessa' update={false}>FATTURABILE</a>
+                        </button>
+                    }
+                    {(!this.props.cliente || this.props.codiceAzienda === "0c44f51f-60c6-425b-af85-77a91e703b8d") && 
                         <button className='modalNoFatturabileButton'>
                             <a className='buttonLink' href='/commessa-non-fatturabile'> NON FATTURABILE </a>
                         </button>
@@ -123,8 +157,9 @@ export default class CommesseGrid extends React.Component {
     closeModal = () => {
         this.setState({
             showDeleteModal: false,
-            showAddModal: false
+            showAddModal: false,
         })
+        this.forceUpdate()
     }
 
     deleteCommessa = () => {
@@ -151,6 +186,8 @@ export default class CommesseGrid extends React.Component {
                 console.log("Error into remove commessa non fatturabile ", error)
             })
         }
+        this.closeModal()
+        this.forceUpdate()
     }
 
     dynamicSearch = (e) => {
@@ -207,7 +244,7 @@ export default class CommesseGrid extends React.Component {
                         onClick={this.openADDModal}
                         title="crea una commessa"
                     >
-                         <img className="menu" src="./images/add.png"></img>
+                        <img className="menu" src="./images/add.png"></img>
                     </button>
 
                     {
@@ -219,6 +256,7 @@ export default class CommesseGrid extends React.Component {
                                             commessa={item}
                                             tipo="S"
                                             showDeleteModal={this.openDeleteModal}
+                                            cliente={this.props.cliente ? true : false}
                                         ></Field>
                                     </React.Fragment>
                                 );
@@ -261,7 +299,7 @@ export default class CommesseGrid extends React.Component {
                     <Modal className="modal-lg" isOpen={this.state.showAddModal}>
                         <div className="modal-header">
                             <h5 className="modal-title mt-0" id="myLargeModalLabel">Creazione Commessa</h5>
-                            <button onClick={this.closeModal} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
+                            <button onClick={() => this.setState({ showAddModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
                                 <img className="menu" src="./images/exit.png"></img>
                             </button>
                         </div>
