@@ -26,66 +26,97 @@ export default class Azienda extends React.Component {
         notePerLaFatturazione: ''
     }
 
-    saveCliente = () => {
-        console.log("save Cliente start ", this.state.codiceAzienda)
-        AxiosInstance({
+    componentDidMount = () => {
+        console.log(this.props.updateProps)
+        if (this.props.updateProps.update) {
+            this.setState(this.props.updateProps.azienda.azienda)
+        }
+    }
+
+    /**
+     * metodo per il controllo del tipo di azienda considerato
+     * @returns 
+     */
+    checkPropsType = () => {
+        let endpoint;
+        switch (this.props.type) {
+          case "cliente":
+            endpoint = "clienti"
+            break;
+          case "fornitore":
+            endpoint = "fornitori"
+            break;
+        }
+        return endpoint;
+      }
+
+    /**
+     * chiamata axios per iol salvataggio del cliente
+     */
+    saveCliente = async () => {
+        console.log("save Cliente start ")
+        await AxiosInstance({
             method: 'post',
             url: "clienti/create",
-            data: {
-                codiceAzienda: this.state.codiceAzienda,
-                ragioneSociale: this.state.ragioneSociale,
-                partitaIva: this.state.partitaIva,
-                codiceFiscale: this.state.codiceFiscale,
-                codiceDestinatario: this.state.codiceDestinatario,
-                sedeLegaleComune: this.state.sedeLegaleComune,
-                sedeLegaleCap: this.state.sedeLegaleCap,
-                sedeLegaleIndirizzo: this.state.sedeLegaleIndirizzo,
-                sedeOperativaComune: this.state.acronimoCliente.sedeOperativaComune,
-                sedeOperativaCap: this.state.sedeOperativaCap,
-                sedeOperativaIndirizzo: this.state.sedeOperativaIndirizzo,
-                acronimoCliente: this.state.acronimoCliente,
-                progressivoPerCommesse: this.state.progressivoPerCommesse,
-                tipologiaPagamentoType: this.state.tipologiaPagamentoType,
-                notePerLaFatturazione: this.state.notePerLaFatturazione
-            }
+            data: this.state
         }).then(() => {
-            alert("Salvataggio del cliente effettuato con successo")
             console.log("Salvataggio del cliente effettuato con successo", this.data)
         }).catch((error) => {
             console.log("Error", error)
         })
     }
 
-    saveFornitore = () => {
+    /**
+     * chiamata axios per l'update del cliente
+     */
+    updateCliente = async () => {
+        console.log("update Cliente start")
+        await AxiosInstance({
+            method: 'put',
+            url: "clienti/update",
+            data: this.state
+        }).then(() => {
+            console.log("Update del cliente effettuato con successo", this.data)
+        }).catch((error) => {
+            console.log("Error", error)
+        })
+    }
+
+
+    /**
+     * chiamata axios per il salvataggio di un fornitore
+     */
+    saveFornitore = async () => {
         console.log("save Fornitore start ", this.state.codiceAzienda)
-        AxiosInstance({
+        await AxiosInstance({
             method: 'post',
             url: "fornitori/create",
-            data: {
-                codiceAzienda: this.state.codiceAzienda,
-                ragioneSociale: this.state.ragioneSociale,
-                partitaIva: this.state.partitaIva,
-                codiceFiscale: this.state.codiceFiscale,
-                codiceDestinatario: this.state.codiceDestinatario,
-                sedeLegaleComune: this.state.sedeLegaleComune,
-                sedeLegaleCap: this.state.sedeLegaleCap,
-                sedeLegaleIndirizzo: this.state.sedeLegaleIndirizzo,
-                sedeOperativaComune: this.state.acronimoCliente.sedeOperativaComune,
-                sedeOperativaCap: this.state.sedeOperativaCap,
-                sedeOperativaIndirizzo: this.state.sedeOperativaIndirizzo,
-                acronimoCliente: this.state.acronimoCliente,
-                progressivoPerCommesse: this.state.progressivoPerCommesse,
-                tipologiaPagamentoType: this.state.tipologiaPagamentoType,
-                notePerLaFatturazione: this.state.notePerLaFatturazione
-            }
+            data: this.state
         }).then(() => {
-            alert("Salvataggio del fornitore effettuato con successo")
             console.log("Salvataggio del fornitore effettuato con successo", this.data)
         }).catch((error) => {
             console.log("Error", error)
         })
     }
 
+    
+    /**
+     * chiamata axios per l'update di un fornitore
+     */
+    updateFornitore = async () => {
+        console.log("update Fornitore start ", this.state.codiceAzienda)
+        await AxiosInstance({
+            method: 'put',
+            url: "fornitori/update",
+            data: this.state
+        }).then(() => {
+            console.log("Update del fornitore effettuato con successo", this.data)
+        }).catch((error) => {
+            console.log("Error", error)
+        })
+    }
+
+    
     saveAzienda = () => {
         if (this.props.type == "cliente") {
             this.saveCliente()
@@ -94,17 +125,24 @@ export default class Azienda extends React.Component {
         }
     }
 
+
+    UpdateAzienda = () => {
+        if (this.props.type == "cliente") {
+            this.updateCliente()
+        } else {
+            this.updateFornitore()
+        }
+    }
+    
+
     render() {
-        console.log(this.props.commessaProps)
+
         return (
             <React.Fragment>
                 <div className="postStyleProps" >
                     <h3>Dati Azienda</h3>
                     <div className="info">
-                        <Grid className="infoGrid"
-                            container
-                            spacing={20}
-                        >
+                        <Grid className="infoGrid" container spacing={20}>
                             <Form style={{ width: "100%" }}>
                                 <Form.Row className="infoForm">
                                     <TextField
@@ -133,14 +171,12 @@ export default class Azienda extends React.Component {
                                         onChange={(e) => { this.setState({ codiceFiscale: e.target.value }) }}
                                         label="Codice Fiscale"
                                     ></TextField>
-
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.codiceDestinatario}
                                         onChange={(e) => { this.setState({ codiceDestinatario: e.target.value }) }}
                                         label="Codice Destinatario"
                                     ></TextField>
-
                                     <TextField
                                         style={{ width: "25%" }}
                                         value={this.state.acronimoCliente}
@@ -153,10 +189,7 @@ export default class Azienda extends React.Component {
                     </div>
                     <h3>Info Sedi</h3>
                     <div className="info">
-                        <Grid className="infoGrid"
-                            container
-                            spacing={20}
-                        >
+                        <Grid className="infoGrid" container spacing={20}>
                             <Form style={{ width: "100%" }}>
                                 <Form.Row className="infoForm">
                                     <TextField
@@ -218,18 +251,18 @@ export default class Azienda extends React.Component {
                                         label="Progressivo Per Commesse"
                                     ></TextField>
                                     <TextField
-                                         style={{ width: "25%" }}
-                                         id="select pagamento Type"
-                                         select
-                                         label="tipologia pagamento"
-                                         value={this.state.tipologiaPagamentoType}
-                                         onChange={(e) => { this.setState({ tipologiaPagamentoType: e.target.value }) }}
-                                     >
-                                         {pagamentoType.map((option) => (
-                                             <MenuItem key={option.stato} value={option.stato} >
-                                                 {option.stato + " - " + option.descrizione}
-                                             </MenuItem>
-                                         ))}
+                                        style={{ width: "25%" }}
+                                        id="select pagamento Type"
+                                        select
+                                        label="tipologia pagamento"
+                                        value={this.state.tipologiaPagamentoType}
+                                        onChange={(e) => { this.setState({ tipologiaPagamentoType: e.target.value }) }}
+                                    >
+                                        {pagamentoType.map((option) => (
+                                            <MenuItem key={option.stato} value={option.stato} >
+                                                {option.stato + " - " + option.descrizione}
+                                            </MenuItem>
+                                        ))}
                                     </TextField>
                                     <TextField
                                         style={{ width: "25%" }}
@@ -244,30 +277,16 @@ export default class Azienda extends React.Component {
                 </div>
                 <Form>
                     <div>
-                        {this.props.commessaProps.commessa ?
-                            <Link to={{
-                                pathname: "/ordine-commessa",
-                                state: {
-                                    commessa: this.props.commessaProps.commessaFatturabile,
-                                    cliente: this.state
-                                }
-                            }}>
-                                <button className="button-save"
-                                    type="button"
-                                >
-                                    AVANTI
-                                </button>
-                            </Link>
-                            :
-                            <button className="button-save"
-                                type="button"
-                                onClick={this.saveAzienda}>
-                                SAVE
+                        <Link to={{ pathname: `/${this.checkPropsType()}` }}>
+                            <button className="ButtonSave" type="button"
+                                onClick={!this.props.updateProps.update ? this.saveAzienda : this.UpdateAzienda}
+                                title='SALVA'
+                            >
+                                <img className="menu" src="./images/save.png"></img>
                             </button>
-                        }
+                        </Link>
                     </div>
                 </Form>
-
             </React.Fragment>
         )
     }

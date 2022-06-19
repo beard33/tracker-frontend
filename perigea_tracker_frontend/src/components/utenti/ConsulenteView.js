@@ -7,9 +7,6 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import RuoliTable from './RuoliTable';
 import { Link } from 'react-router-dom';
 import Title from '../structural/Title';
@@ -30,7 +27,14 @@ export default class ConsulenteView extends React.Component {
 
   componentDidMount = () => {
     console.log("componentDidMount start")
-    AxiosInstance({
+    this.readUtenteById()
+  }
+
+  /**
+   * chiamata axios per la lettura di un consulente by codicePersona
+   */
+  readUtenteById = async () => {
+    await AxiosInstance({
       method: "get",
       url: `consulenti/read/${this.props.location.codicePersona}`
     }).then((response) => {
@@ -40,6 +44,10 @@ export default class ConsulenteView extends React.Component {
     })
   }
 
+  /**
+   * metodo di memorizzazione della risposta della chiamata axios
+   * @param {*} response 
+   */
   loadUtente = (response) => {
     console.log(response)
     this.setState({
@@ -57,10 +65,13 @@ export default class ConsulenteView extends React.Component {
     this.getUsernameResponsabile()
   }
 
-  getUsernameResponsabile = () => {    
+  /**
+   * metodi per ricavare lo username del responsabile 
+   */
+  getUsernameResponsabile = () => {
     AxiosInstance({
       method: "get",
-      url: `dipendenti/read/${this.state.personale.codiceResponsabile}`
+      url: `dipendenti/read/${this.state.codiceResponsabile}`
     }).then((response) => {
       console.log(response)
       this.loadUsernameResponsabile(response.data.data);
@@ -74,27 +85,20 @@ export default class ConsulenteView extends React.Component {
     console.log(this.state.usernameResponsabile)
   }
 
+
+  /**
+   * metodo per la stesura dei dati all'interno dell'accordion di visualizzazione
+   * @param {*} e 
+   * @returns 
+   */
   getData = (e) => {
     if (e) {
       return Object.keys(e).map((key) => {
-        // console.log(key+ "=>" +e[key])
         if (key !== "password") {
           if (key === "ruoli") {
             return (
               <div className='muiList'>
                 <RuoliTable ruoli={this.state.utente.ruoli} removePermission={false} />
-                {/* <List subheader={
-                  <ListSubheader>Ruoli</ListSubheader>
-                }>
-                  {
-                    Object.values(e[key]).map((ruolo) => {
-                      console.log(ruolo)
-                      return (
-                        <ListItem className='muiListItem'>{" " + ruolo.id + " - " + ruolo.descrizione}</ListItem>
-                      )
-                    })
-                  }
-                </List> */}
               </div>
             )
           } else {
@@ -190,11 +194,8 @@ export default class ConsulenteView extends React.Component {
             </Accordion>
             <Accordion expanded>
               <AccordionSummary
-                // className='accordionSummary'
-                // expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel3a-content"
                 id="panel3a-header"
-
               >
                 <Typography></Typography>
               </AccordionSummary>
@@ -206,7 +207,6 @@ export default class ConsulenteView extends React.Component {
                     user: this.state
                   }
                 }}>
-
                   <button className="button-update"
                     type="button" >
                     <img className="menu" src="./images/update.png"></img>
@@ -215,8 +215,6 @@ export default class ConsulenteView extends React.Component {
               </AccordionDetails>
             </Accordion>
           </div>
-
-
 
         </div>
       </React.Fragment>

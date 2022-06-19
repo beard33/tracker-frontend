@@ -12,10 +12,8 @@ export default class Fornitore extends React.Component {
         <Title></Title>
         <Azienda
           type="fornitore"
-          commessaProps={{
-            commessa: this.props.location.commessaProps.commessa,
-            commessaFatturabile: this.props.location.commessaProps.commessaFatturabile
-          }}>
+          updateProps={this.props.location.updateProps}
+        >
         </Azienda>
       </React.Fragment>
     );

@@ -18,7 +18,7 @@ const CardDetails = (props) => {
             borderRadius: "10%",
             // border: "1px solid #333333"
           }}>
-          {/* <p>{props.name + " " + props.lastName}</p> */}
+          
           <TextField
             label="nome"
             value={props.name + " " + props.lastName}
@@ -27,7 +27,7 @@ const CardDetails = (props) => {
               height: "calc(14vw/3.6)",
               fontWeight: "bolder"
             }}></TextField>
-          {/* <p>{props.username}</p> */}
+         
           <TextField
             label="username"
             value={props.username}
@@ -36,7 +36,7 @@ const CardDetails = (props) => {
               height: "calc(14vw/3.6)",
               fontWeight: "bolder"
             }}></TextField>
-          {/* <p>{props.mailAziendale}</p> */}
+         
           <TextField
             label="mail Aziendale"
             value={props.mailAziendale}
@@ -45,7 +45,7 @@ const CardDetails = (props) => {
               height: "calc(14vw/3.6)",
               fontWeight: "bolder"
             }}></TextField>
-          {/* <p>{props.cellulare}</p> */}
+         
           <TextField
             style={{
               marginBottom: "5%",
@@ -70,7 +70,7 @@ const CardDetails = (props) => {
             borderRadius: "10%",
             // border: "1px solid #333333"
           }}>
-          {/* <p>{props.name + " " + props.lastName}</p> */}
+       
           <TextField
             label="ragione sociale"
             value={props.ragioneSociale}
@@ -79,7 +79,7 @@ const CardDetails = (props) => {
               height: "calc(14vw/3.6)",
               fontWeight: "bolder"
             }}></TextField>
-          {/* <p>{props.username}</p> */}
+      
           <TextField
             label="partita iva"
             value={props.partitaIva}
@@ -88,7 +88,7 @@ const CardDetails = (props) => {
               height: "calc(14vw/3.6)",
               fontWeight: "bolder"
             }}></TextField>
-          {/* <p>{props.mailAziendale}</p> */}
+        
           <TextField
             label="acronimo cliente"
             value={props.acronimoCliente}

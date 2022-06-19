@@ -6,42 +6,14 @@ import AxiosInstance from "../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
 import DatiEconomiciConsulente from "./DatiEconomiciConsulente";
 import Title from "../structural/Title";
+import { Redirect } from "react-router-dom";
 
 
 
 
 export default class Consulente extends React.Component {
     state = {
-        utente: {
-            codicePersona: '',
-            nome: '',
-            cognome: '',
-            dataNascita: '',
-            luogoNascita: '',
-            codiceFiscale: '',
-            cellulare: '',
-            username: '',
-            avatar: '',
-            provinciaResidenza: '',
-            comuneResidenza: '',
-            indirizzoResidenza: '',
-            provinciaDomicilio: '',
-            comuneDomicilio: '',
-            indirizzoDomicilio: '',
-            mailPrivata: '',
-            mailAziendale: '',
-            nomeContattoEmergenza: '',
-            cellulareContattoEmergenza: '',
-            iban: '',
-            stato: '',
-            tipo: '',
-            codiceAzienda: '',
-            ruoli: [],
-            accountNonLocked: false,
-            accountNonExpired: false,
-            credentialsNonExpired: false,
-            password: ''
-        },
+        utente: "",
         codicePersona: '',
         tipo: '',
         dataAssunzione: '',
@@ -60,20 +32,23 @@ export default class Consulente extends React.Component {
             archived: false
         },
 
-        showComponent: false
+        showComponent: false,
+        redirect: false
     }
 
 
     componentDidMount = () => {
         if (this.props.location.state.update.update) {
-            this.setState({ tipo: "CONSULENTE",
-            utente: this.props.location.state.utente,
-            codicePersona: this.props.location.state.utente.codicePersona,
-            codiceResponsabile: this.props.location.state.update.user.codiceResponsabile,
-            dataAssunzione: this.props.location.state.update.user.dataAssunzione,
-            partitaIva: this.props.location.state.update.user.partitaIva,
-            costo: this.props.location.state.update.user.costo,
-            economics: this.props.location.state.update.user.economics})
+            this.setState({
+                tipo: "CONSULENTE",
+                utente: this.props.location.state.utente,
+                codicePersona: this.props.location.state.utente.codicePersona,
+                codiceResponsabile: this.props.location.state.update.user.codiceResponsabile,
+                dataAssunzione: this.props.location.state.update.user.dataAssunzione,
+                partitaIva: this.props.location.state.update.user.partitaIva,
+                costo: this.props.location.state.update.user.costo,
+                economics: this.props.location.state.update.user.economics
+            })
         } else {
             this.setState({
                 tipo: "CONSULENTE",
@@ -84,40 +59,25 @@ export default class Consulente extends React.Component {
         }
     }
 
+    /**
+     * metodo per permettere l'implementazione dei dati economici
+     */
     onADDButtonClick = () => {
         this.setState({
             showComponent: true
         })
     }
 
+
     updateState = (e) => { this.setState({ economics: e }) }
 
-    saveConsulenteWithoutEconomics = () => {
-        console.log("saveConsulente start ", this.state.codicePersona)
-        AxiosInstance({
-            method: 'post',
-            url: "consulenti/create",
-            data: {
-                utente: this.state.utente,
-                codicePersona: this.state.codicePersona,
-                tipo: this.state.tipo,
-                dataAssunzione: this.state.dataAssunzione,
-                dataCessazione: this.state.dataCessazione,
-                codiceResponsabile: this.state.codiceResponsabile,
-                partitaIva: this.state.partitaIva,
-                costo: this.state.costo
-            }
-        }).then(() => {
-            alert("Salvataggio del consulente effettuato con successo")
-            console.log("Salvataggio del consulente effettuato con successo", this.data)
-        }).catch((error) => {
-            console.log("Error into loadUtenti ", error)
-        })
-    }
 
-    saveConsulenteWithEconomics = () => {
+    /**
+     * chiamata axios per il salvataggio di un consulente 
+     */
+    saveConsulente = async () => {
         console.log("saveDipendente start ", this.state.codicePersona)
-        AxiosInstance({
+        await AxiosInstance({
             method: 'post',
             url: "consulenti/create",
             data: {
@@ -129,19 +89,21 @@ export default class Consulente extends React.Component {
                 codiceResponsabile: this.state.codiceResponsabile,
                 partitaIva: this.state.partitaIva,
                 costo: this.state.costo,
-                economics: this.state.economics
+                economics: this.state.showComponent ? this.state.economics : null
             }
-        }).then(() => {
-            alert("Salvataggio del dipendente effettuato con successo")
+        }).then(() => {           
             console.log("Salvataggio del dipendente effettuato con successo", this.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
     }
 
-    updateConsulente = () => {
+    /**
+     * chiamata axios per l'update di un consulente
+     */
+    updateConsulente = async () => {
         console.log("update consulente start ", this.state.codicePersona)
-        AxiosInstance({
+        await AxiosInstance({
             method: 'put',
             url: "consulenti/update",
             data: {
@@ -154,24 +116,26 @@ export default class Consulente extends React.Component {
                 partitaIva: this.state.partitaIva,
                 costo: this.state.costo
             }
-        }).then(() => {
-            alert("Update del consulente effettuato con successo")
+        }).then(() => {           
             console.log("Update del consulente effettuato con successo", this.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
     }
 
-    updateEconomics = () => {
+
+    /**
+     * chiamata axios per l'update dei dati economici
+     */
+    updateEconomics = async () => {
         console.log("update dei dati economici start ", this.state.codicePersona)
-        AxiosInstance({
+        await AxiosInstance({
             method: 'put',
             url: "consulenti/update-economics",
             data: {
                 economics: this.state.economics
             }
-        }).then(() => {
-            alert("update dei dati economici effettuato con successo")
+        }).then(() => {         
             console.log("update dei dati economici effettuato con successo", this.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
@@ -179,24 +143,23 @@ export default class Consulente extends React.Component {
     }
 
 
-
-    onSAVEButtonClick = () => {
+    /**
+     * metodo per il controllo della chiamata axios da effettuare 
+     */
+    onSAVEButtonClick = async () => {
         if (this.props.location.state.update.update) {
             console.log("UPDATE")
-            this.updateConsulente()
+            await this.updateConsulente()
             if (this.state.showComponent) {
-                this.updateEconomics()
+                await this.updateEconomics()
             }
         } else {
-            if (!this.state.showComponent) {
-                console.log(this.state)
-                this.saveConsulenteWithoutEconomics()
-            } else {
-                console.log(this.state)
-                this.saveConsulenteWithEconomics()
-            }
+            console.log(this.state)
+            await this.saveConsulente()
         }
+        this.setState({ redirect: true })
     }
+
 
     render() {
         return (
@@ -266,14 +229,17 @@ export default class Consulente extends React.Component {
                             >
                                 ADD ECONOMICS
                             </button>}
+
                         {this.state.showComponent ?
-                            <DatiEconomiciConsulente updateState={this.updateState} /> :
+                            <DatiEconomiciConsulente updateState={this.updateState} economics={this.state.economics} /> :
                             null
                         }
 
                         <button className="ButtonSave" type="button" onClick={this.onSAVEButtonClick} title="SALVA">
                             <img className="menu" src="./images/save.png"></img>
                         </button>
+
+                        {this.state.redirect ? <Redirect to={{ pathname: "/consulenti" }} /> : null}
 
                     </div>
 

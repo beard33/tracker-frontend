@@ -8,10 +8,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
 import Title from '../structural/Title';
+import { Link } from 'react-router-dom';
 import { Button, Form, Row, Container } from 'react-bootstrap';
 import CommesseGrid from '../commesse/CommesseGrid'
 
-let type = "";
+let type;
+
 export default class AziendaView extends React.Component {
     state = {
         azienda: ""
@@ -19,8 +21,16 @@ export default class AziendaView extends React.Component {
 
     componentDidMount = () => {
         console.log("componentDidMount start")
-        type = this.checkPropsType()
-        AxiosInstance({
+        type = this.checkAziendaType()
+        this.readAziendaById()
+    }
+
+
+    /**
+     * lettura dell'azienda by codice azienda
+     */
+    readAziendaById = async () => {
+        await AxiosInstance({
             method: "get",
             url: `${this.props.location.aziendaProps.tipo}/read-by-id/${this.props.location.aziendaProps.codiceAzienda}`
         }).then((response) => {
@@ -30,6 +40,11 @@ export default class AziendaView extends React.Component {
         })
     }
 
+
+    /**
+     * metodo di memorizzazione della risposta della chiamata axios
+     * @param {*} response 
+     */
     loadAzienda = (response) => {
         console.log(response)
         this.setState({
@@ -38,6 +53,12 @@ export default class AziendaView extends React.Component {
         console.log(this.state)
     }
 
+
+    /**
+     * metodo per il popolamento dei dati nell'accordion 
+     * @param {*} e 
+     * @returns 
+     */
     getData = (e) => {
         if (e) {
             return Object.keys(e).map((key) => {
@@ -51,7 +72,12 @@ export default class AziendaView extends React.Component {
         };
     }
 
-    checkPropsType = () => {
+
+    /**
+     * controllo del tipo di azienda (cliente/fornitore)
+     * @returns 
+     */
+    checkAziendaType = () => {
         let tipo;
         console.log(this.props.location.aziendaProps.tipo)
         switch (this.props.location.aziendaProps.tipo) {
@@ -63,8 +89,8 @@ export default class AziendaView extends React.Component {
                 break;
         }
         return tipo;
-
     }
+
 
 
     render() {
@@ -112,7 +138,29 @@ export default class AziendaView extends React.Component {
                                 </AccordionDetails>
                             </Accordion>
                         }
-                    </div>                    
+                        <Accordion expanded >
+                            <AccordionSummary
+                                aria-controls="panel3a-content"
+                                id="panel3a-header"
+                            >
+                                <Typography></Typography>
+                            </AccordionSummary>
+                            <AccordionDetails className='accordionDetails'>
+                                <Link to={{
+                                    pathname: `add-${this.props.location.aziendaProps.tipo}`,
+                                    state: {
+                                        update: true,
+                                        azienda: this.state
+                                    }
+                                }}>
+                                    <button className="button-update" title='modifica dipendente'
+                                        type="button" >
+                                        <img className="menu" src="./images/update.png"></img>
+                                    </button>
+                                </Link>
+                            </AccordionDetails>
+                        </Accordion>
+                    </div>
                 </div>
             </React.Fragment >
         )

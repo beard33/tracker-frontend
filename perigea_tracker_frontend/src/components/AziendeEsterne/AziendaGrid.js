@@ -1,15 +1,10 @@
-//componente che visualizza la griglia di card
-
 import React from 'react';
 import Card from '../structural/Card';
 import AxiosInstance from "../../axios/AxiosInstance";
-import { Link } from 'react-router-dom';
-import { Modal, ModalBody, ModalFooter } from 'reactstrap';
-import Typography from '@mui/material/Typography';
-import TextField from '@material-ui/core/TextField';
-import Form from "react-bootstrap/Form";
-import InputAdornment from '@material-ui/core/InputAdornment';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import DeleteModal from '../structural/DeleteModal'
+import AddButton from '../structural/AddButton'
+import SearchBar from '../structural/SearchBar';
+
 
 let endpoint;
 export default class AziendaGrid extends React.Component {
@@ -18,20 +13,29 @@ export default class AziendaGrid extends React.Component {
 
     this.state = {
       listCard: "",
+      searchList: "",
       showDeleteModal: false,
       keyCode: "",
       searchValue: "",
-      showSpecificSearches: false      
+      showSpecificSearches: false
     }
   }
 
-  
+
   componentDidMount = () => {
     console.log("componentDidMount start")
-    endpoint = this.checkPropsType()    
-    console.log(endpoint)   
-    AxiosInstance({
-      url: endpoint+"/read-all"
+    endpoint = this.checkAziendaType()
+    this.readAllAziende(endpoint)
+  }
+
+
+  /**
+   * chiamata rest per la ricerca di tutte le aziende presenti nel db
+   * @param {*} endpoint 
+   */
+  readAllAziende = async (endpoint) => {
+    await AxiosInstance({
+      url: endpoint + "/read-all"
     }).then((response) => {
       this.loadAziendaResponseIntoGrid(response);
     }).catch((error) => {
@@ -39,9 +43,13 @@ export default class AziendaGrid extends React.Component {
     })
   }
 
-  checkPropsType = () => {
+
+  /**
+   * funzione di controllo del tipo di azienda (fornitori/clienti)
+   * @returns 
+   */
+  checkAziendaType = () => {
     let endpoint;
-    console.log(this.props.tipo)
     switch (this.props.tipo) {
       case "clienti":
         endpoint = "clienti"
@@ -51,10 +59,13 @@ export default class AziendaGrid extends React.Component {
         break;
     }
     return endpoint;
-    
   }
 
-  // carica gli utenti all'interno della griglia dalla response backend
+
+  /**
+   * funzione per ottenere i dati da inserire nei campi delle cards
+   * @param {*} response 
+   */
   loadAziendaResponseIntoGrid = (response) => {
     let result = [];
     Object.values(response.data.data).map((element) => {
@@ -67,14 +78,20 @@ export default class AziendaGrid extends React.Component {
     });
     console.log("result : ", result)
     console.log(response)
-    this.setState({ listCard: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1) })
+    this.setState({
+      listCard: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1),
+      searchList: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1)
+    })
   }
 
-  deleteAzienda = (codiceAzienda) => {
+  /**
+   * chiamata rest di eliminazione di un' azienda
+   * @param {*} codiceAzienda 
+   */
+  deleteAzienda = async (codiceAzienda) => {
     console.log("delete start")
-    endpoint = this.checkPropsType()    
-    console.log(endpoint)
-    AxiosInstance({
+    endpoint = this.checkAziendaType()
+    await AxiosInstance({
       method: 'delete',
       url: `${endpoint}/delete-by-id/${codiceAzienda}`
     }).then((response) => {
@@ -82,52 +99,47 @@ export default class AziendaGrid extends React.Component {
     }).catch((error) => {
       console.log("Error into removeAzienda ", error)
     })
+    this.setState({
+      listCard: this.state.listCard.filter(el => el.codiceAzienda !== codiceAzienda),
+      searchList: this.state.searchList.filter(el => el.codiceAzienda !== codiceAzienda)
+    })
     this.closeDeleteModal()
   };
 
+
+  /**
+   * funzioni per l'apertura e chiusura del modale di eliminazione
+   * 
+   */
   openDeleteModal = (codiceAzienda) => {
     this.setState({
       showDeleteModal: true,
-      keyCode: codiceAzienda      
+      keyCode: codiceAzienda
     })
     console.log(this.state.keyCode)
   };
 
   closeDeleteModal = () => {
-    
     this.setState({ showDeleteModal: false })
-    this.forceUpdate()
   }
 
 
-  ADDEmployeButton = (buttonName) => {
-    return (
-      <div className="box-card">
-        <Link to={{ pathname: "/add-"+this.props.tipo, commessaProps:{commessa: false }}}
-          style={{ textDecoration: "none" }}>
-          <button
-            className="add-card-show-button"
-          >
-            {buttonName}
-          </button>
-        </Link>
-      </div>
-    )
-  }
-
-
-  //possibilità di fare un filtro dinamico 
+  /**
+   * funzione di ricerca per il filtro basato sulla ragione sociale
+   * @param {*} e 
+   */
   dynamicSearch = (e) => {
     if (this.state.listCard) {
       const keyword = e.target.value;
       if (keyword !== '') {
-        const results = this.state.listCard.filter((dipendente) => {
-          return dipendente.partitaIva.toLowerCase().includes(keyword.toLowerCase());
+        const results = this.state.listCard.filter((azienda) => {
+          return azienda.ragioneSociale.toLowerCase().includes(keyword.toLowerCase());
         });
-        this.setState({ listCard: results })
+        this.setState({ searchList: results })
+      } else {
+        this.setState({ searchList: this.state.listCard })
       }
       this.setState({ searchValue: keyword })
-
     }
   }
 
@@ -137,37 +149,19 @@ export default class AziendaGrid extends React.Component {
       <React.Fragment>
         <div className="card-grid">
 
-          {/*searchBar*/}
-          <div className="searchBar">
-            <Form style={{ width: "100%" }}>
-              <Form.Row className='searchForm'>
-                <TextField
-                  style={{ width: "90%" }}
-                  type="search"
-                  value={this.state.searchValue}
-                  onChange={this.dynamicSearch}
-                  label="Filtro"
-                  placeholder='ragione sociale'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchRoundedIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                >
-                </TextField>
-              </Form.Row>
-            </Form>
+          <SearchBar 
+             searchValue={this.state.searchValue}
+             dynamicSearch={this.dynamicSearch}
+             placeholder={"ragione sociale"}
+          />
 
-          </div>
+          <AddButton
+            pathname={"/add-" + this.props.tipo}
+            buttonName={"AGGIUNGI " + this.props.tipo.toUpperCase()}
+          />
 
-          {/* bottone di aggiunta azienda */}
-          {this.ADDEmployeButton("AGGIUNGI "+ this.props.tipo.toUpperCase())}
-
-          {/* stampa della lista dei dipendenti */}
-          {            
-            Object.values(this.state.listCard).map((item) => {
+          {
+            Object.values(this.state.searchList).map((item) => {
               return (
                 <React.Fragment>
                   <Card
@@ -180,42 +174,14 @@ export default class AziendaGrid extends React.Component {
             })
           }
 
-          {/* modale per la cancellazione di un dipendente */}
-          {/* <Modal
-            className="modal"
-            isOpen={this.state.showDeleteModal}
-          >
-            <Typography className='modalText'>
-              Desideri eliminare la seguente Azienda?
-            </Typography>
-            <button className='modalBackButton' onClick={this.closeDeleteModal}>
-              Indietro
-            </button>
-            <button className='modalDeleteButton' onClick={() => this.deleteAzienda(this.state.keyCode)}>
-              ELIMINA
-            </button>
-          </Modal> */}
-          <Modal className="modal-lg" isOpen={this.state.showDeleteModal} toggle={this.openDeleteModal} >
-            <div className="modal-header">
-              <h5 className="modal-title mt-0" id="myLargeModalLabel">Eliminazione utente</h5>
-              <button onClick={this.closeDeleteModal} className="button-close" title='esci' >
-                <img className="menu" src="./images/exit.png"></img>
-              </button>
-            </div>
-            <ModalBody className="postPropsStyle">
-              <Typography className='modalText' style={{ fontSize: "150%" }}>
-                Desideri eliminare la seguente azienda?
-              </Typography>
-            </ModalBody>
-            <ModalFooter>
-              <button className='modalBackButton' title='annulla' onClick={() => this.setState({ showDeleteModal: false })}>
-                <img className="menu" src="./images/annulla.png"></img>
-              </button>
-              <button className='modalDeleteButton' title='conferma' onClick={() => { this.deleteAzienda(this.state.keyCode) }}>
-                <img className="menu" src="./images/conferma.png"></img>
-              </button>
-            </ModalFooter>
-          </Modal>
+          <DeleteModal
+            open={this.state.showDeleteModal}
+            toggle={this.openDeleteModal}
+            close={this.closeDeleteModal}
+            delete={this.deleteAzienda}
+            keyCode={this.state.keyCode}
+            typography={"Desideri eliminare la seguente azienda?"}
+          />
 
         </div>
       </React.Fragment>

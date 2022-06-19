@@ -55,6 +55,9 @@ export default class Anagrafica extends Component {
   }
 
 
+  /**
+   * metodo per l'implementazione della tabella dei ruoli
+   */
   handleAddRole = (ruolo) => {
     this.setState((prevState) => ({
       ruoli: prevState.ruoli.concat(JSON.parse(ruolo))
@@ -63,9 +66,32 @@ export default class Anagrafica extends Component {
     console.log(this.state.ruoli)
   };
 
+  /**
+   * metodo di rimozione di un ruolo dalla tabella dei ruoli
+   * @param {*} ruoloType 
+   */
   removeRole = (ruoloType) => {
     this.setState({ ruoli: this.state.ruoli.filter((ruolo) => ruolo.id !== ruoloType) })
   }
+
+    /**
+   * metodo per il controllo del tipo di utente (dipendente/consulente)
+   * @returns 
+   */
+     checkPersonaleType = () => {
+      let type
+      console.log(this.props.personale)
+      switch (this.props.personale) {
+        case "dipendente":
+          type = "/dipendente"
+          break;
+        case "consulente":
+          type = "/consulente"
+          break;
+      }
+      return type;
+    }
+
 
   render() {
     return (
@@ -78,14 +104,7 @@ export default class Anagrafica extends Component {
               spacing={20}
             >
               <Form style={{ width: "100%" }}>
-                <Form.Row className="infoForm">
-                  {/* <TextField
-                    style={{ width: "25%" }}
-                    label="codice Persona"
-                    value={this.state.codicePersona}
-                    placeholder={this.props.updateProps.update ? this.props.updateProps.user.utente.codicePersona : null}                    
-                    onChange={(e) => { this.setState({ codicePersona: e.target.value }) }}                    
-                  ></TextField> */}
+                <Form.Row className="infoForm">                 
                   <TextField
                     style={{ width: "40%" }}
                     label="nome"
@@ -114,16 +133,8 @@ export default class Anagrafica extends Component {
                     value={this.state.luogoDiNascita}
                     onChange={(e) => { this.setState({ luogoDiNascita: e.target.value }) }}
                   ></TextField>
-
-
                 </Form.Row>
-                <Form.Row className="infoForm">
-                  {/* <TextField
-                    style={{ width: "25%" }}
-                    value={this.state.username}
-                    onChange={(e) => { this.setState({ username: e.target.value }) }}
-                    label="username"
-                  ></TextField> */}
+                <Form.Row className="infoForm">                 
                   <TextField
                     style={{ width: "40%" }}
                     label="codice fiscale"
@@ -321,11 +332,9 @@ export default class Anagrafica extends Component {
           </div>
 
           <Form>
-            <div className="button-container">
-
-              {this.props.personale == "dipendente" ?
+            <div className="button-container">             
                 <Link to={{
-                  pathname: "/dipendente",
+                  pathname: this.checkPersonaleType(),
                   state: {
                     utente: this.state,
                     update: this.props.updateProps
@@ -336,22 +345,7 @@ export default class Anagrafica extends Component {
                     type="button" title='AVANTI' >
                     <img className="menu" src="./images/avanti.png"></img>
                   </button>
-                </Link> :
-                <Link to={{
-                  pathname: "/consulente",
-                  state: {
-                    utente: this.state,
-                    update: this.props.updateProps
-                  }
-                }}>
-                  <button className="button-avanti"
-                    type="button" title='AVANTI' >
-                    <img className="menu" src="./images/avanti.png"></img>
-                  </button>
-                </Link>
-              }
-
-
+                </Link> 
             </div>
           </Form>
 

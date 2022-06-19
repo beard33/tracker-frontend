@@ -15,6 +15,10 @@ export default class DatiEconomiciConsulente extends React.Component {
         costoGiornaliero: 0.0,
     };
 
+    componentDidMount() {
+        this.setState(this.props.economics)
+    }
+
     updateConsulenteState = () => {
         this.props.updateState(this.state)
     }

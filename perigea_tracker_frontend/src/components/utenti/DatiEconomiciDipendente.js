@@ -39,6 +39,10 @@ export default class DatiEconomiciDipendente extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.setState(this.props.economics)
+    }
+
     updateDipendenteState = () => {
         this.props.updateState(this.state)
     }

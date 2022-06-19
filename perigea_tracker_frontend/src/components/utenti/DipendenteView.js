@@ -7,9 +7,6 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import { Link } from 'react-router-dom';
 import Title from '../structural/Title';
 import RuoliTable from './RuoliTable';
@@ -31,8 +28,14 @@ export default class DipendenteView extends React.Component {
 
   componentDidMount = () => {
     console.log("componentDidMount start")
+    this.readDipendenteById()
+  }
 
-    AxiosInstance({
+  /**
+   * metodo axios per la lettura del dipendente by codicePersona
+   */
+  readDipendenteById = async () => {
+    await AxiosInstance({
       method: "get",
       url: `dipendenti/read/${this.props.location.codicePersona}`
     }).then((response) => {
@@ -58,8 +61,9 @@ export default class DipendenteView extends React.Component {
     this.getUsernameResponsabile()
   }
 
-
-
+  /**
+   * metodo per la lettura dello username del responsabile
+   */
   getUsernameResponsabile = () => {
     AxiosInstance({
       method: "get",
@@ -78,8 +82,11 @@ export default class DipendenteView extends React.Component {
   }
 
 
-
-
+  /**
+   * metodo per la stesura dei dati nell'accordion di visualizzazione
+   * @param {*} e 
+   * @returns 
+   */
   getData = (e) => {
     if (e) {
       return Object.keys(e).map((key) => {
@@ -176,8 +183,6 @@ export default class DipendenteView extends React.Component {
             </Accordion>
             <Accordion expanded >
               <AccordionSummary
-                // className='accordionSummary'
-                // expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel3a-content"
                 id="panel3a-header"
               >

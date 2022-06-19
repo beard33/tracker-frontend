@@ -1,12 +1,11 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-
 import { Grid } from "@material-ui/core";
 import AxiosInstance from "../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
 import DatiEconomiciDipendente from "./DatiEconomiciDipendente";
 import Title from "../structural/Title";
-
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -15,42 +14,12 @@ export default class Dipendente extends React.Component {
         super(props);
 
         this.state = {
-            utente: {
-                codicePersona: '',
-                nome: '',
-                cognome: '',
-                dataNascita: '',
-                luogoNascita: '',
-                codiceFiscale: '',
-                cellulare: '',
-                username: '',
-                avatar: '',
-                provinciaResidenza: '',
-                comuneResidenza: '',
-                indirizzoResidenza: '',
-                provinciaDomicilio: '',
-                comuneDomicilio: '',
-                indirizzoDomicilio: '',
-                mailPrivata: '',
-                mailAziendale: '',
-                nomeContattoEmergenza: '',
-                cellulareContattoEmergenza: '',
-                iban: '',
-                stato: '',
-                tipo: '',
-                codiceAzienda: '',
-                ruoli: [],
-                accountNonLocked: false,
-                accountNonExpired: false,
-                credentialsNonExpired: false,
-                password: ''
-            },
+            utente: "",
             codicePersona: '',
             tipo: '',
             dataAssunzione: '',
             dataCessazione: '',
             codiceResponsabile: '',
-
             economics: {
                 codicePersona: '',
                 livelloIniziale: '',
@@ -80,14 +49,14 @@ export default class Dipendente extends React.Component {
                 decorrenzaTipoContratto: '',
                 archived: false
             },
-
-            showComponent: false
-
+            showComponent: false,
+            redirect: false
         };
     }
 
+
     componentDidMount = () => {
-        console.log(this.props.location.state.update.update)
+        console.log(this.props.location.state.update.user)
         if (this.props.location.state.update.update) {
             this.setState({
                 tipo: "DIPENDENTE",
@@ -95,7 +64,7 @@ export default class Dipendente extends React.Component {
                 codicePersona: this.props.location.state.utente.codicePersona,
                 codiceResponsabile: this.props.location.state.update.user.personale.codiceResponsabile,
                 dataAssunzione: this.props.location.state.update.user.personale.dataAssunzione,
-                economics: this.props.location.state.update.user.economics
+                economics: this.props.location.state.update.user.personale.economics
             })
         } else {
             this.setState({
@@ -105,19 +74,31 @@ export default class Dipendente extends React.Component {
                 economics: { codicePersona: this.props.location.state.utente.codicePersona }
             })
         }
-
     }
+
+
+    /**
+     * metodo per il render dei campi degli economics
+     */
     onADDButtonClick = () => {
         this.setState({
             showComponent: true
         })
     }
 
+    /**
+     * metodo per l'implementazione dello stato dei dati economici
+     * @param {*} e 
+     */
     updateState = (e) => { this.setState({ economics: e }) }
 
-    saveAnagraficaDipendenteWithoutEconomics = () => {
+
+    /**
+     * chiamata axios per il salvataggio del dipendente
+     */
+    saveDipendente = async () => {
         console.log("saveDipendente start ", this.state.codicePersona)
-        AxiosInstance({
+        await AxiosInstance({
             method: 'post',
             url: "dipendenti/create",
             data: {
@@ -127,6 +108,7 @@ export default class Dipendente extends React.Component {
                 dataAssunzione: this.state.dataAssunzione,
                 dataCessazione: this.state.dataCessazione,
                 codiceResponsabile: this.state.codiceResponsabile,
+                economics: this.state.showComponent ? this.state.economics : null
             }
         }).then(() => {
             alert("Salvataggio del dipendente effettuato con successo")
@@ -136,31 +118,13 @@ export default class Dipendente extends React.Component {
         })
     }
 
-    saveAnagraficaDipendenteWithEconomics = () => {
-        console.log("saveDipendente start ", this.state.codicePersona)
-        AxiosInstance({
-            method: 'post',
-            url: "dipendenti/create",
-            data: {
-                utente: this.state.utente,
-                codicePersona: this.state.codicePersona,
-                tipo: this.state.tipo,
-                dataAssunzione: this.state.dataAssunzione,
-                dataCessazione: this.state.dataCessazione,
-                codiceResponsabile: this.state.codiceResponsabile,
-                economics: this.state.economics
-            }
-        }).then(() => {
-            alert("Salvataggio del dipendente effettuato con successo")
-            console.log("Salvataggio del dipendente effettuato con successo", this.data)
-        }).catch((error) => {
-            console.log("Error into loadUtenti ", error)
-        })
-    }
 
-    updateDipendente = () => {
+    /**
+     * chiamata axios per l'update del dipendente
+     */
+    updateDipendente = async () => {
         console.log("updateDipendente start ", this.state.codicePersona)
-        AxiosInstance({
+        await AxiosInstance({
             method: 'put',
             url: "dipendenti/update",
             data: {
@@ -179,9 +143,13 @@ export default class Dipendente extends React.Component {
         })
     }
 
-    updateEconomics = () => {
+
+    /**
+     * chiamata axios per l'update dei dati economici 
+     */
+    updateEconomics = async () => {
         console.log("update dei dati economici start ", this.state.codicePersona)
-        AxiosInstance({
+        await AxiosInstance({
             method: 'put',
             url: "dipendenti/update-economics",
             data: {
@@ -195,23 +163,22 @@ export default class Dipendente extends React.Component {
         })
     }
 
-    onSAVEButtonClick = () => {
+
+    /**
+     * metodo di controllo per la distinzione tra quale chiamata effettuare
+     */
+    onSAVEButtonClick = async () => {
         console.log(this.state)
         if (this.props.location.state.update.update) {
             console.log("UPDATE")
-            this.updateDipendente()
+            await this.updateDipendente()
             if (this.state.showComponent) {
                 this.updateEconomics()
             }
         } else {
-            if (!this.state.showComponent) {
-                console.log(this.state)
-                this.saveAnagraficaDipendenteWithoutEconomics()
-            } else {
-                console.log(this.state)
-                this.saveAnagraficaDipendenteWithEconomics()
-            }
+            await this.saveDipendente()
         }
+        this.setState({ redirect: true })
     }
 
 
@@ -264,25 +231,26 @@ export default class Dipendente extends React.Component {
                     <h3>Dati Economici</h3>
                     <div>
                         {!this.state.showComponent &&
-                            <div className="info">
-                                <button className="button-add"
-                                    type="button"
-                                    onClick={this.onADDButtonClick}
-                                    disabled={this.state.showComponent}
-                                >
-                                    ADD ECONOMICS
-                                </button>
-                            </div>
+                            <button className="button-add"
+                                type="button"
+                                onClick={this.onADDButtonClick}
+                                disabled={this.state.showComponent}
+                            >
+                                ADD ECONOMICS
+                            </button>
                         }
                         {this.state.showComponent ?
-                            <DatiEconomiciDipendente updateState={this.updateState} /> :
+                            <DatiEconomiciDipendente updateState={this.updateState} economics={this.state.economics} /> :
                             null
                         }
 
-                        <button className="ButtonSave" type="button" onClick={this.onSAVEButtonClick} title="SALVA">
+                        <button className="ButtonSave" type="button"
+                            onClick={() => { this.onSAVEButtonClick() }} title="SALVA">
                             <img className="menu" src="./images/save.png"></img>
                         </button>
 
+
+                        {this.state.redirect && <Redirect to={{ pathname: "/dipendenti" }} />}
                     </div>
 
                 </div>
