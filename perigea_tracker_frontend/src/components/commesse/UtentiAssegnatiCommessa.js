@@ -6,19 +6,23 @@ import AxiosInstance from '../../axios/AxiosInstance';
 
 export default function UtentiAssegnati(props) {
    console.log(props.utentiAssegnati)
+
+    const removeUtenteAssegnato = (codicePersona) => {
+        props.removeAssegnazioneCommessa(codicePersona)
+    }
+
     let listItems = props.utentiAssegnati.map((val) =>
         <tr>
             <td>{val.username}</td>
             <td>{val.mailAziendale}</td>
             <td>{val.dataInizioAllocazione}</td>
             <td>{val.giorniPrevisti}</td>
-            <td>{val.tariffa}</td>
-            <td></td>
-            {/* <td>
-                <Button className='table-button' title='cancella estensione' onClick={() => { deleteEstensione(codiceCommessa, val.dataEstensione) }}>
+            <td>{val.tariffa}</td>            
+            <td>
+                <Button className='table-button' title='rimuovi utente' onClick={() => {removeUtenteAssegnato(val.codicePersona)}}>
                     <img className="menu" src="./images/clear-white.png"></img>
                 </Button>
-            </td> */}
+            </td>
         </tr>
     )
    

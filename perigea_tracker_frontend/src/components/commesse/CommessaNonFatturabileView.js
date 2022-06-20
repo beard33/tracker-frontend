@@ -16,12 +16,16 @@ export default class CommessaNonFatturabileView extends React.Component {
         commessaNonFatturabile: ""
     }
 
-
-
     componentDidMount = () => {
         console.log("componentDidMount start")
+        this.readCommessaNonFatturabile()
+    }
 
-        AxiosInstance({
+    /**
+     * metodi per la lettura della commessa non fatturabile
+     */
+    readCommessaNonFatturabile = async () => {
+        await AxiosInstance({
             method: "get",
             url: `commesse/read-commessa-non-fatturabile/${this.props.location.codiceCommessa}`
         }).then((response) => {
@@ -30,8 +34,6 @@ export default class CommessaNonFatturabileView extends React.Component {
             console.log("Error into loadUtenti ", error)
         })
     }
-
-
     loadCommessa = (response) => {
         console.log(response)
         this.setState({
@@ -40,22 +42,34 @@ export default class CommessaNonFatturabileView extends React.Component {
         console.log(this.state.commessaNonFatturabile.commessa.codiceCommessa)
     }
 
+
+    /**
+     * metodo per la stesura dei dati nell'accordion di visualizzazione
+     */
     getData = (e) => {
         if (e) {
             return Object.keys(e).map((key) => {
                 if (key === "commessa") {
+
                     return Object.keys(e[key]).map((item) => {
-                        return (
-                            <TextField
-                                label={item}
-                                value={(e[key])[item]}
-                            ></TextField>
-                        )
+                        if (item !== "createTimestamp" &&
+                            item !== "createUser" &&
+                            item !== "lastUpdateTimestamp" &&
+                            item !== "lastUpdateUser") {
+                            return (
+                                <TextField
+                                    style={{marginLeft: "2.5%", width: "30%"}}
+                                    label={item}
+                                    value={(e[key])[item]}
+                                ></TextField>
+                            )
+                        }
                     })
                 }
             });
         };
     }
+
 
     render() {
         return (

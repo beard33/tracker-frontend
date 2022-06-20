@@ -20,24 +20,27 @@ export default class CommessaNonFatturabile extends React.Component {
         this.setState({ tipoCommessa: "S" })
     }
 
-    createCommessaNonFatturabile = () => {
+    /**
+     * chiamata axios per la creazione di una commessa non fatturabile
+     */
+    createCommessaNonFatturabile = async () => {
         console.log("create commessa non fatturabile start ", this.state)
-        AxiosInstance({
+        await AxiosInstance({
             method: 'post',
             url: "commesse/create-commessa-non-fatturabile",
             data: {
-                commessaNonFatturabile:{
+                commessaNonFatturabile: {
                     commessa: this.state
-                } 
+                }
             }
         }).then(() => {
-            alert("Creazione di una commessa non fatturabile")
             console.log("Creazione di una commessa non fatturabile", this.data)
         }).catch((error) => {
             console.log("Errore ", error)
             alert("Errore nella creazione", error)
         })
     }
+    
 
     render() {
         return (
@@ -53,19 +56,12 @@ export default class CommessaNonFatturabile extends React.Component {
                             <Form style={{ width: "100%" }}>
                                 <Form.Row className="infoForm">
                                     <TextField
-                                        style={{ width: "25%" }}
-                                        label="codice Commessa"
-                                        value={this.state.codiceCommessa}
-                                        onChange={(e) => { this.setState({ codiceCommessa: e.target.value }) }}
-                                    ></TextField>
-                                    <TextField
-                                        style={{ width: "25%" }}
+                                        style={{ width: "40%" }}
                                         id="select Commessa Type"
                                         select
                                         label="tipo Commmessa"
                                         value={this.state.tipoCommessa}
                                         placeholder="S"
-                                    // onChange={(e) => { this.setState({ tipoCommessa: e.target.value }) }}
                                     >
                                         {commessaType.map((option) => (
                                             <MenuItem key={option.stato} value={option.stato} >
@@ -74,7 +70,7 @@ export default class CommessaNonFatturabile extends React.Component {
                                         ))}
                                     </TextField>
                                     <TextField
-                                        style={{ width: "25%" }}
+                                        style={{ width: "40%" }}
                                         label="descrizione Commessa"
                                         value={this.state.descrizioneCommessa}
                                         onChange={(e) => { this.setState({ descrizioneCommessa: e.target.value }) }}
@@ -84,14 +80,18 @@ export default class CommessaNonFatturabile extends React.Component {
                         </Grid>
                     </div>
 
-                    <button
-                        className="button-save"
-                        type="button"
-                        onClick={this.createCommessaNonFatturabile}
-                    >
-                        SAVE
-                    </button>
-
+                    <Link className='view-button' to={{
+                        pathname: "/commesse"
+                    }} >
+                        <button
+                            className="ButtonSave"
+                            type="button"
+                            onClick={this.createCommessaNonFatturabile}
+                            title="SALVA"
+                        >
+                            <img className="menu" src="./images/save.png"></img>
+                        </button>
+                    </Link>
                 </div>
             </React.Fragment>
         )

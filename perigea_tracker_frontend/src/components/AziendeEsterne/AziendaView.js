@@ -7,9 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
-import Title from '../structural/Title';
 import { Link } from 'react-router-dom';
-import { Button, Form, Row, Container } from 'react-bootstrap';
 import CommesseGrid from '../commesse/CommesseGrid'
 
 let type;
@@ -62,12 +60,18 @@ export default class AziendaView extends React.Component {
     getData = (e) => {
         if (e) {
             return Object.keys(e).map((key) => {
-                return (
-                    <TextField
-                        label={key}
-                        value={e[key]}
-                    ></TextField>
-                )
+                if (
+                    key !== "createTimestamp" &&
+                    key !== "createUser" &&
+                    key !== "lastUpdateTimestamp" &&
+                    key !== "lastUpdateUser") {
+                    return (
+                        <TextField
+                            label={key}
+                            value={e[key]}
+                        ></TextField>
+                    )
+                }
             });
         };
     }

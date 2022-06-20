@@ -24,8 +24,8 @@ export default class CommessaFatturabileView extends React.Component {
         assegnazioniCommessa: [],
         assegnazioneModal: false,
         utentiAssegnati: [],
-        infoUtentiCommessa: []
-
+        infoUtentiCommessa: [],
+        sync: true
     }
 
     componentDidMount = () => {
@@ -33,45 +33,42 @@ export default class CommessaFatturabileView extends React.Component {
         this.getCommessa()
         this.getEstensioniCommessa()
         this.getUtentiAssegnati()
-        this.getAssegnazioniByCommessa()
     }
 
-    setInfoUtentiCommessa = () => {
-        let utenteAssegnato;
-        let result = []
-        this.state.assegnazioniCommessa.map((assegnazione) => {
-            let utente = this.state.utentiAssegnati.find(el => el.codicePersona === assegnazione.codicePersona)
-            utenteAssegnato = {
-                codicePersona: assegnazione.codicePersona,
-                username: utente.username,
-                mailAziendale: utente.mailAziendale,
-                dataInizioAllocazione: assegnazione.dataInizioAllocazione,
-                tariffa: assegnazione.tariffa,
-                giorniPrevisti: assegnazione.giorniPrevisti
-            }
-            result.push(utenteAssegnato)
-        })       
-        this.setState({infoUtentiCommessa: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1) })
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.sync !== this.state.sync) {
+            this.getCommessa()
+            this.getEstensioniCommessa()
+            this.getUtentiAssegnati()
+        }
     }
 
+
+    /**
+     * metodi per la lettura della commessa tramite il codice commessa
+     */
     getCommessa = async () => {
         await AxiosInstance({
             method: "get",
             url: `commesse/read-commessa-fatturabile/${this.props.location.codiceCommessa}`
-    }).then((response) => {
+        }).then((response) => {
             this.loadCommessa(response);
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
     }
     loadCommessa = (response) => {
-        console.log("COMMESSA",response.data.data)
+        console.log("COMMESSA", response.data.data)
         this.setState({
-            commessaFatturabile: response.data.data
+            commessaFatturabile: response.data.data,
         })
         console.log(this.state.commessaFatturabile.commessa.codiceCommessa)
     }
 
+
+    /**
+     * metodi per la lettura dei dati anagrafici principali degli utenti assegnati alla commessa
+     */
     getUtentiAssegnati = async () => {
         await AxiosInstance({
             method: "get",
@@ -81,6 +78,7 @@ export default class CommessaFatturabileView extends React.Component {
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
+        this.getAssegnazioniByCommessa()
     }
     loadUtentiAssegnati = (arg) => {
         let result = [];
@@ -97,6 +95,9 @@ export default class CommessaFatturabileView extends React.Component {
     }
 
 
+    /**
+     * metodi per la lettura dei dati relativi a tutte le assegnazioni alla commessa
+     */
     getAssegnazioniByCommessa = async () => {
         await AxiosInstance({
             method: "get",
@@ -112,6 +113,32 @@ export default class CommessaFatturabileView extends React.Component {
         this.setInfoUtentiCommessa()
     }
 
+
+    /**
+     * popolamento lista delle informazioni da inserire nella tabella assegnazioni
+     */
+    setInfoUtentiCommessa = () => {
+        let utenteCommessa;
+        let result = []
+        this.state.assegnazioniCommessa.map((assegnazione) => {
+            let utente = this.state.utentiAssegnati.find(el => el.codicePersona === assegnazione.codicePersona)
+            utenteCommessa = {
+                codicePersona: assegnazione.codicePersona,
+                username: utente.username,
+                mailAziendale: utente.mailAziendale,
+                dataInizioAllocazione: assegnazione.dataInizioAllocazione,
+                tariffa: assegnazione.tariffa,
+                giorniPrevisti: assegnazione.giorniPrevisti
+            }
+            result.push(utenteCommessa)
+        })
+        this.setState({ infoUtentiCommessa: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1) })
+    }
+
+
+    /**
+     * metodi per la lettura dei dati relativi alle estensioni commessa
+     */
     getEstensioniCommessa = async () => {
         await AxiosInstance({
             method: "get",
@@ -136,24 +163,50 @@ export default class CommessaFatturabileView extends React.Component {
         this.setState({ estensioniCommessa: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1) })
     }
 
-    closeModal = () => {
-        this.setState({ estensioneModal: false, assegnazioneModal: false })
-    }
 
-
-    deleteEstensioneCommessa = (codiceCommessa, dataEstensione) => {
-        this.setState({ estensioniCommessa: this.state.estensioniCommessa.filter((el) => el.dataEstensione !== dataEstensione) })
-        AxiosInstance({
+    /**
+     * metodo per l'eliminazione di un'estensione della commessa
+     * @param {*} codiceCommessa 
+     * @param {*} dataEstensione 
+     */
+    deleteEstensioneCommessa = async (codiceCommessa, dataEstensione) => {
+        await AxiosInstance({
             method: "delete",
             url: `commesse/delete-estensione-commessa/${codiceCommessa}/${dataEstensione}`
         }).then((response) => {
-            alert("estensione eliminata con successo")
+            console.log("estensione eliminata con successo")
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
             alert("errore nella cancellazione", error)
         })
+        this.setState({ estensioniCommessa: this.state.estensioniCommessa.filter((el) => el.dataEstensione !== dataEstensione) })
     }
 
+
+    /**
+     * rimozione di utente dalla lista degli utenti assegnati alla commessa
+     * @param {*} codicePersona 
+     */
+    removeAssegnazioneCommessa = async (codicePersona) => {
+        await AxiosInstance({
+            method: "delete",
+            url: `assegnazione-commesse/delete/commessa/${this.props.location.codiceCommessa}/dipendente/${codicePersona}`
+        }).then((response) => {
+            console.log("utente rimosso dagli utenti assegnati alla commessa")
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+            alert("errore nella rimozione", error)
+        })
+        this.setState({
+            infoUtentiCommessa: this.state.infoUtentiCommessa.filter((el) => el.codicePersona !== codicePersona),
+            utentiAssegnati: this.state.utentiAssegnati.filter((el) => el.codicePersona !== codicePersona)
+        })
+
+    }
+
+    /**
+     * metodi di apertura dei modali di estensione ed assegnazione  commessa
+     */
     openModalEstensioni = () => {
         this.setState({ estensioneModal: true })
     }
@@ -162,6 +215,23 @@ export default class CommessaFatturabileView extends React.Component {
     }
 
 
+    /**
+    * metodo chiusura dei modali di estensione e assegnazione commessa
+    */
+    closeModal = () => {
+        this.setState({
+            estensioneModal: false,
+            assegnazioneModal: false,
+            sync: !this.state.sync
+        })
+    }
+
+
+    /**
+     * metodo per la stesura dei dati commessa nell'accordion di visualizzazione
+     * @param {*} e 
+     * @returns 
+     */
     getDatiCommessa = (e) => {
         if (e) {
             return Object.keys(e).map((key) => {
@@ -174,12 +244,17 @@ export default class CommessaFatturabileView extends React.Component {
                 ) {
                     if (key === "commessa") {
                         return Object.keys(e[key]).map((item) => {
-                            return (
-                                <TextField
-                                    label={item}
-                                    value={(e[key])[item]}
-                                ></TextField>
-                            )
+                            if (item !== "createTimestamp" &&
+                                item !== "createUser" &&
+                                item !== "lastUpdateTimestamp" &&
+                                item !== "lastUpdateUser") {
+                                return (
+                                    <TextField
+                                        label={item}
+                                        value={(e[key])[item]}
+                                    ></TextField>
+                                )
+                            }
                         })
                     } else {
                         return (
@@ -194,6 +269,12 @@ export default class CommessaFatturabileView extends React.Component {
         };
     }
 
+    /**
+     * metodo di stesura dei dati numerici (commessa fatturabile)
+     * nell'accordion di visualizzazione
+     * @param {*} e 
+     * @returns 
+     */
     getDatiNumerici = (e) => {
         if (e) {
             return Object.keys(e).map((key) => {
@@ -202,7 +283,11 @@ export default class CommessaFatturabileView extends React.Component {
                     key !== "dataFineCommessa" &&
                     key !== "descrizioneCommessaCliente" &&
                     key !== "responsabileCommerciale" &&
-                    key !== "tipoCommessaFatturabile"
+                    key !== "tipoCommessaFatturabile" &&
+                    key !== "createTimestamp" &&
+                    key !== "createUser" &&
+                    key !== "lastUpdateTimestamp" &&
+                    key !== "lastUpdateUser"
                 ) {
                     return (
                         <TextField
@@ -214,6 +299,7 @@ export default class CommessaFatturabileView extends React.Component {
             })
         };
     }
+
 
     render() {
         return (
@@ -269,7 +355,6 @@ export default class CommessaFatturabileView extends React.Component {
                                     codiceCommessa={this.props.location.codiceCommessa}
                                     deleteEstensione={this.deleteEstensioneCommessa}
                                 />
-
                                 <button className="button-update"
                                     title='estendi commessa'
                                     type="button"
@@ -289,38 +374,38 @@ export default class CommessaFatturabileView extends React.Component {
                                 <Typography className='accordion-text'>Utenti Assegnati</Typography>
                             </AccordionSummary>
                             <AccordionDetails className='accordionDetails'>
-                            <UtentiAssegnati utentiAssegnati={this.state.infoUtentiCommessa} />
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion expanded>
-                            <AccordionSummary
-                                // className='accordionSummary'
-                                // expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel3a-content"
-                                id="panel3a-header"
-
-                            >
-                                <Typography></Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='accordionDetails'>
-                                <Link to={{
-                                    pathname: "/ordine-commessa",
-                                    update: true,
-                                    state: {
-                                        commessa: this.state.commessaFatturabile
-                                    }
-                                }}>
-                                    <button className="button-update" title='modifica commessa'
-                                        type="button" >
-                                        <img className="menu" src="./images/update.png"></img>
-                                    </button>
-                                </Link>
+                                <UtentiAssegnati
+                                    utentiAssegnati={this.state.infoUtentiCommessa}
+                                    removeAssegnazioneCommessa={this.removeAssegnazioneCommessa}
+                                />
                                 <button className='button-update' title='assegna commessa' type='button'
                                     onClick={this.openModalAssegnazioni}
                                     style={{ marginRight: "2%" }}
                                 >
                                     <img className="menu" src="./images/assegnazione.png"></img>
                                 </button>
+                            </AccordionDetails>
+                        </Accordion>
+                        <Accordion expanded>
+                            <AccordionSummary
+                                aria-controls="panel3a-content"
+                                id="panel3a-header"
+                            >
+                                <Typography></Typography>
+                            </AccordionSummary>
+                            <AccordionDetails className='accordionDetails'>
+                                <Link to={{
+                                    pathname: "/commessa-fatturabile",
+                                    state: {
+                                        update: true,
+                                        commessa: this.state.commessaFatturabile
+                                    }
+                                }} >
+                                    <button className="button-update" title='modifica commessa'
+                                        type="button" >
+                                        <img className="menu" src="./images/update.png"></img>
+                                    </button>
+                                </Link>
                             </AccordionDetails>
                         </Accordion>
                     </div>

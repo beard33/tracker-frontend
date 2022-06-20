@@ -19,17 +19,17 @@ export default class OrdineCommessa extends React.Component {
         dataInizio: '',
         dataFine: '',
         importoResiduo: '',
-
     }
 
     componentDidMount = () => {
-        console.log(this.props.location.state)
         this.getAziende()
     }
 
-
-    getAziende = () => {
-        AxiosInstance({
+    /**
+     * metodi per la lettura di tutti i clienti
+     */
+    getAziende = async () => {
+        await AxiosInstance({
             url: "clienti/read-all"
         }).then((response) => {
             this.loadAziende(response);
@@ -42,12 +42,18 @@ export default class OrdineCommessa extends React.Component {
         this.setState({ aziende: response.data.data })
     }
 
+
+    /**
+     * metodo per il settaggio dello stato relativo al cliente
+     * @param {*} e 
+     */
     setCliente = (e) => {
         this.setState({
             cliente: e.target.value,
             codiceAzienda: e.target.value.codiceAzienda
         })
     }
+
 
     render() {
         console.log(this.state)
@@ -83,66 +89,65 @@ export default class OrdineCommessa extends React.Component {
                             </Form>
                         </Grid>
                     </div>
-                    {!this.props.location.update &&
-                        <div>
-                            <h3>Info Ordine Commessa</h3>
-                            <div className="info">
-                                <Grid className="infoGrid"
-                                    container
-                                    spacing={20}
-                                >
-                                    <Form style={{ width: "100%" }}>
-                                        <Form.Row className="infoForm">
-                                            <TextField
-                                                style={{ width: "40%" }}
-                                                label="Numero Ordine Cliente"
-                                                value={this.state.numeroOrdineCliente}
-                                                onChange={(e) => { this.setState({ numeroOrdineCliente: e.target.value }) }}
-                                            ></TextField>
-                                            <TextField
-                                                style={{ width: "40%" }}
-                                                label="Importo Ordine"
-                                                value={this.state.importoOrdine}
-                                                onChange={(e) => { this.setState({ importoOrdine: e.target.value }) }}
-                                            ></TextField>
-                                        </Form.Row>
-                                        <Form.Row className="infoForm">
-                                            <TextField
-                                                style={{ width: "40%" }}
-                                                label="Data Ordine"
-                                                type="date"
-                                                value={this.state.dataOrdine}
-                                                onChange={(e) => { this.setState({ dataOrdine: e.target.value }) }}
-                                            ></TextField>
-                                            <TextField
-                                                style={{ width: "40%" }}
-                                                label="Data Inizio"
-                                                type="date"
-                                                value={this.state.dataInizio}
-                                                onChange={(e) => { this.setState({ dataInizio: e.target.value }) }}
-                                            ></TextField>
-                                        </Form.Row>
-                                        <Form.Row className="infoForm">
-                                            <TextField
-                                                style={{ width: "40%" }}
-                                                label="Data Fine"
-                                                type="date"
-                                                value={this.state.dataFine}
-                                                onChange={(e) => { this.setState({ dataFine: e.target.value }) }}
-                                            ></TextField>
-                                            <TextField
-                                                style={{ width: "40%" }}
-                                                label="Importo Residuo"
-                                                type="number"
-                                                value={this.state.importoResiduo}
-                                                onChange={(e) => { this.setState({ importoResiduo: e.target.value }) }}
-                                            ></TextField>
-                                        </Form.Row>
-                                    </Form>
-                                </Grid>
-                            </div>
+
+                    <div>
+                        <h3>Info Ordine Commessa</h3>
+                        <div className="info">
+                            <Grid className="infoGrid"
+                                container
+                                spacing={20}
+                            >
+                                <Form style={{ width: "100%" }}>
+                                    <Form.Row className="infoForm">
+                                        <TextField
+                                            style={{ width: "40%" }}
+                                            label="Numero Ordine Cliente"
+                                            value={this.state.numeroOrdineCliente}
+                                            onChange={(e) => { this.setState({ numeroOrdineCliente: e.target.value }) }}
+                                        ></TextField>
+                                        <TextField
+                                            style={{ width: "40%" }}
+                                            label="Importo Ordine"
+                                            value={this.state.importoOrdine}
+                                            onChange={(e) => { this.setState({ importoOrdine: e.target.value }) }}
+                                        ></TextField>
+                                    </Form.Row>
+                                    <Form.Row className="infoForm">
+                                        <TextField
+                                            style={{ width: "40%" }}
+                                            label="Data Ordine"
+                                            type="date"
+                                            value={this.state.dataOrdine}
+                                            onChange={(e) => { this.setState({ dataOrdine: e.target.value }) }}
+                                        ></TextField>
+                                        <TextField
+                                            style={{ width: "40%" }}
+                                            label="Data Inizio"
+                                            type="date"
+                                            value={this.state.dataInizio}
+                                            onChange={(e) => { this.setState({ dataInizio: e.target.value }) }}
+                                        ></TextField>
+                                    </Form.Row>
+                                    <Form.Row className="infoForm">
+                                        <TextField
+                                            style={{ width: "40%" }}
+                                            label="Data Fine"
+                                            type="date"
+                                            value={this.state.dataFine}
+                                            onChange={(e) => { this.setState({ dataFine: e.target.value }) }}
+                                        ></TextField>
+                                        <TextField
+                                            style={{ width: "40%" }}
+                                            label="Importo Residuo"
+                                            type="number"
+                                            value={this.state.importoResiduo}
+                                            onChange={(e) => { this.setState({ importoResiduo: e.target.value }) }}
+                                        ></TextField>
+                                    </Form.Row>
+                                </Form>
+                            </Grid>
                         </div>
-                    }
+                    </div>
 
                     <Form>
                         <div>
@@ -160,14 +165,13 @@ export default class OrdineCommessa extends React.Component {
                                         dataFine: this.state.dataFine,
                                         importoResiduo: this.state.importoResiduo
                                     },
-                                    update: this.props.location.update ? true : false,
-                                    commessa: this.props.location.update ? this.props.location.state.commessa : null
+                                    update: false
                                 }
-                            }}
-                            >
+                            }}>
                                 <button className="button-avanti"
                                     type="button"
-                                    title='AVANTI'>
+                                    title='AVANTI'
+                                >
                                     <img className="menu" src="./images/avanti.png"></img>
                                 </button>
                             </Link>

@@ -91,7 +91,11 @@ export default class DipendenteView extends React.Component {
     if (e) {
       return Object.keys(e).map((key) => {
         // console.log(key+ "=>" +e[key])
-        if (key !== "password") {
+        if (key !== "password" &&
+          key !== "createTimestamp" &&
+          key !== "createUser" &&
+          key !== "lastUpdateTimestamp" &&
+          key !== "lastUpdateUser") {
           if (key === "ruoli") {
             return (
               <div className='muiList'>
@@ -125,7 +129,7 @@ export default class DipendenteView extends React.Component {
             db={true}
           />
           <div className='userAccordion'>
-            <Accordion>
+            <Accordion expanded>
               <AccordionSummary
                 className='accordionSummary'
                 expandIcon={<ExpandMoreIcon />}

@@ -80,14 +80,11 @@ export default class EstensioneCommessaCreate extends React.Component {
                             </Form>
                         </Grid>
                     </div>
-                    <Link className='view-button' to={{
-                        pathname: "/clienti",
-                        codiceCommessa: this.props.codiceCommessa
-                    }} >
+                 
                         <button className="ButtonSave" type="button" onClick={this.onSAVEButtonClick} title="SALVA">
                             <img className="menu" src="./images/save.png"></img>
                         </button>
-                    </Link>
+                    
                 </div>
             </React.Fragment>
         )

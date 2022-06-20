@@ -3,7 +3,6 @@ import AxiosInstance from '../../axios/AxiosInstance';
 import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
 import { MenuItem } from '@mui/material';
 
 
@@ -26,9 +25,12 @@ export default function AssegnazioneCommessa(props) {
     React.useEffect(() => {
         setDipendenteCommessa({ ...dipendenteCommessa, codiceCommessa: props.codiceCommessa })
         getUtenti()
-        
     }, []);
 
+
+    /**
+     * metodi per la lettura e memorizzazione di tutti gli utenti
+     */
     const getUtenti = async () => {
         await AxiosInstance({
             url: "utente/read-all-utenti"
@@ -52,10 +54,13 @@ export default function AssegnazioneCommessa(props) {
         setUtenti(result)
     }
 
-    const assegnaCommessa = () => {
+
+    /**
+     * chiamata axios per l'assegnazione di un utente ad una commessa
+     */
+    const assegnaCommessa = async () => {
         console.log(utenti, dipendenteCommessa)
-        props.closeModal()
-        AxiosInstance({
+        await AxiosInstance({
             method: 'post',
             url: "assegnazione-commesse/create",
             data: dipendenteCommessa
@@ -65,7 +70,9 @@ export default function AssegnazioneCommessa(props) {
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
+        props.closeModal()
     }
+
 
     const handleChange = (e) => {
         setDipendenteCommessa({ ...dipendenteCommessa, [e.target.name]: e.target.value })
@@ -175,13 +182,11 @@ export default function AssegnazioneCommessa(props) {
                         </Form>
                     </Grid>
                 </div>
-                {/* <Link className='view-button' to={{
-                    pathname: "/clienti",
-                }} > */}
+
                 <button className="ButtonSave" type="button" onClick={assegnaCommessa} title="SALVA">
                     <img className="menu" src="./images/save.png"></img>
                 </button>
-                {/* </Link> */}
+
             </div>
         </React.Fragment>
     )
