@@ -27,7 +27,7 @@ export default class DipendenteView extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("componentDidMount start")
+    console.log("DIPENDENTE-VIEW start")
     this.readDipendenteById()
   }
 
@@ -44,8 +44,7 @@ export default class DipendenteView extends React.Component {
       console.log("Error into loadUtenti ", error)
     })
   }
-  loadUtente = (response) => {
-    console.log(response)
+  loadUtente = (response) => {    
     this.setState({
       utente: response.data.data.utente,
       personale: {
@@ -56,8 +55,7 @@ export default class DipendenteView extends React.Component {
         codiceResponsabile: response.data.data.codiceResponsabile,
         economics: response.data.data.economics
       }
-    })
-    console.log(this.state)
+    })    
     this.getUsernameResponsabile()
   }
 
@@ -68,17 +66,14 @@ export default class DipendenteView extends React.Component {
     AxiosInstance({
       method: "get",
       url: `dipendenti/read/${this.state.personale.codiceResponsabile}`
-    }).then((response) => {
-      console.log(response)
+    }).then((response) => {      
       this.loadUsernameResponsabile(response.data.data);
-
     }).catch((error) => {
       console.log("Error into loadUtenti ", error)
     })
   }
   loadUsernameResponsabile = (response) => {
-    this.setState({ usernameResponsabile: response.utente.username })
-    console.log(this.state.usernameResponsabile)
+    this.setState({ usernameResponsabile: response.utente.username })    
   }
 
 
@@ -89,8 +84,7 @@ export default class DipendenteView extends React.Component {
    */
   getData = (e) => {
     if (e) {
-      return Object.keys(e).map((key) => {
-        // console.log(key+ "=>" +e[key])
+      return Object.keys(e).map((key) => {      
         if (key !== "password" &&
           key !== "createTimestamp" &&
           key !== "createUser" &&

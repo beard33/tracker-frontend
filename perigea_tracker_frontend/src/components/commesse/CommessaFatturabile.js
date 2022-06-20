@@ -110,8 +110,7 @@ export default class CommessaFatturabile extends React.Component {
     /**
      * chiamata axios per l'update di una commessa fatturabile
      */
-    updateCommessaFatturabile = async () => {
-        console.log(this.state)
+    updateCommessaFatturabile = async () => {        
         await AxiosInstance({
             method: 'put',
             url: "commesse/update-commessa-fatturabile",

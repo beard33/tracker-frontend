@@ -29,7 +29,7 @@ export default class CommessaFatturabileView extends React.Component {
     }
 
     componentDidMount = () => {
-        console.log("componentDidMount start")
+        console.log("COMMESSA_FATTURABILE-VIEW start")
         this.getCommessa()
         this.getEstensioniCommessa()
         this.getUtentiAssegnati()
@@ -57,8 +57,7 @@ export default class CommessaFatturabileView extends React.Component {
             console.log("Error into loadUtenti ", error)
         })
     }
-    loadCommessa = (response) => {
-        console.log("COMMESSA", response.data.data)
+    loadCommessa = (response) => {       
         this.setState({
             commessaFatturabile: response.data.data,
         })
@@ -88,9 +87,7 @@ export default class CommessaFatturabileView extends React.Component {
                 mailAziendale: element.mailAziendale,
                 username: element.username,
             })
-        });
-        console.log("result : ", result)
-        console.log(arg)
+        });       
         this.setState({ utentiAssegnati: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1) })
     }
 
@@ -149,8 +146,7 @@ export default class CommessaFatturabileView extends React.Component {
             console.log("Error into loadUtenti ", error)
         })
     }
-    loadEstensioni = (response) => {
-        console.log(response.data.data)
+    loadEstensioni = (response) => {        
         let result = []
         Object.values(response.data.data).map((element) => {
             result.push({
@@ -158,8 +154,7 @@ export default class CommessaFatturabileView extends React.Component {
                 importoInternoEstensione: element.importoInternoEstensione,
                 dataFineEstensione: element.dataFineEstensione
             })
-        })
-        console.log(result)
+        })        
         this.setState({ estensioniCommessa: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1) })
     }
 

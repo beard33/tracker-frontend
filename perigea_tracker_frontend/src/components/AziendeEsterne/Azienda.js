@@ -26,8 +26,8 @@ export default class Azienda extends React.Component {
         notePerLaFatturazione: ''
     }
 
-    componentDidMount = () => {
-        console.log(this.props.updateProps)
+    componentDidMount = () => {  
+        console.log("AZIENDA start", this.props.updateProps.update)      
         if (this.props.updateProps.update) {
             this.setState(this.props.updateProps.azienda.azienda)
         }

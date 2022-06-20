@@ -4,8 +4,7 @@ import Title from '../structural/Title'
 
 export default class Cliente extends React.Component {
 
-  render() {
-    console.log(this.props.location.commessaProps)
+  render() {    
     return (
       <React.Fragment>
         <Title></Title>

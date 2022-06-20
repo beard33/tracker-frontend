@@ -23,7 +23,7 @@ export default class CommesseGrid extends React.Component {
     }
 
     componentDidMount = () => {
-        console.log("componentDidMount start")
+        console.log("COMMESSA_GRID start")
         {
             this.props.cliente ?
                 this.getCommesseByAzienda(this.props.codiceAzienda) :
@@ -65,7 +65,6 @@ export default class CommesseGrid extends React.Component {
             url: `commesse/read-commesse-by-cliente/${cliente}`
         }).then((response) => {
             this.loadCommesseCliente(response);
-            console.log(response.data.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
@@ -79,7 +78,6 @@ export default class CommesseGrid extends React.Component {
         await AxiosInstance({
             url: "commesse/read-all-non-fatturabili"
         }).then((response) => {
-            console.log(response)
             this.loadCommesseCliente(response);
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
@@ -94,7 +92,6 @@ export default class CommesseGrid extends React.Component {
      */
     loadCommesseCliente = (response) => {
         console.log("loadAllCommesse")
-        console.log(response)
         let result = []
         Object.values(response.data.data).map((element) => {
             result.push({
@@ -103,7 +100,6 @@ export default class CommesseGrid extends React.Component {
                 descrizioneCommessa: element.commessa.descrizioneCommessa
             })
         })
-        console.log(result)
         this.setState({
             listCard: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1),
             searchList: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1)
@@ -116,8 +112,7 @@ export default class CommesseGrid extends React.Component {
      * @param {*} response 
      */
     loadAllCommesse = (response) => {
-        console.log("loadAllCommesse")
-        console.log(response)
+        console.log("loadAllCommesse")        
         let result = []
         Object.values(response.data.data).map((element) => {
             result.push({
@@ -125,8 +120,7 @@ export default class CommesseGrid extends React.Component {
                 tipoCommessa: element.tipoCommessa,
                 descrizioneCommessa: element.descrizioneCommessa
             })
-        })
-        console.log(result)
+        })       
         this.setState({
             listCard: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1),
             searchList: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1)
@@ -241,7 +235,7 @@ export default class CommesseGrid extends React.Component {
 
     render() {
         return (
-            <React.Fragment>               
+            <React.Fragment>
                 <div className="card-grid">
 
                     {!this.props.cliente &&

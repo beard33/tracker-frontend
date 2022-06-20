@@ -12,8 +12,7 @@ export default class CentralBody extends React.Component {
   }
 
   render() {
-    console.log("CENTRALBODY ENTRY");
-    console.log(this.props.tipo)
+    console.log("CENTRALBODY ENTRY");    
     let tipo;
     if(this.props.tipo === "dipendenti"|| this.props.tipo === "consulenti"){
     tipo = this.props.tipo;
@@ -25,8 +24,7 @@ export default class CentralBody extends React.Component {
       </div>
     )
     } else {
-      tipo = this.props.tipo;
-      console.log(tipo)
+      tipo = this.props.tipo;      
       return (   
         <div className={`centralbody${this.props.isMenuOpen === true ? ' open' : ''}`}>
           <Title />

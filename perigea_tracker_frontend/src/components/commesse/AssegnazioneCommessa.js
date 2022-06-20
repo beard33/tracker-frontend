@@ -41,16 +41,14 @@ export default function AssegnazioneCommessa(props) {
         })
     }
     const loadUtenti = (arg) => {
-        let result = [];
-        console.log(arg)
+        let result = [];       
         Object.values(arg.data.data).map((element) => {
             result.push({
                 codicePersona: element.codicePersona,
                 mailAziendale: element.mailAziendale,
                 username: element.username
             })
-        });
-        console.log("result : ", result)
+        });       
         setUtenti(result)
     }
 
@@ -58,8 +56,7 @@ export default function AssegnazioneCommessa(props) {
     /**
      * chiamata axios per l'assegnazione di un utente ad una commessa
      */
-    const assegnaCommessa = async () => {
-        console.log(utenti, dipendenteCommessa)
+    const assegnaCommessa = async () => {        
         await AxiosInstance({
             method: 'post',
             url: "assegnazione-commesse/create",

@@ -55,8 +55,7 @@ export default class Dipendente extends React.Component {
     }
 
 
-    componentDidMount = () => {
-        console.log(this.props.location.state.update.user)
+    componentDidMount = () => {       
         if (this.props.location.state.update.update) {
             this.setState({
                 tipo: "DIPENDENTE",
@@ -167,8 +166,7 @@ export default class Dipendente extends React.Component {
     /**
      * metodo di controllo per la distinzione tra quale chiamata effettuare
      */
-    onSAVEButtonClick = async () => {
-        console.log(this.state)
+    onSAVEButtonClick = async () => {        
         if (this.props.location.state.update.update) {
             console.log("UPDATE")
             await this.updateDipendente()

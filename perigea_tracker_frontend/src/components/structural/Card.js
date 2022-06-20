@@ -44,8 +44,7 @@ const Card = (props) => {
       </Box>
 
     )
-  } else {
-    console.log(props.item.codiceAzienda)
+  } else {    
     return (
       <Box className="card">
 

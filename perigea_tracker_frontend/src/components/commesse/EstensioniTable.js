@@ -8,6 +8,11 @@ export default function EstensioniTable(props) {
     let estensioniCommessa = props.estensioni
     let listItems;
 
+    /**
+     * metodo per la rimozione di un'estensione dalla tabella di visualizzazione
+     * @param {*} codiceCommessa 
+     * @param {*} dataEstensione 
+     */
     const deleteEstensione = (codiceCommessa, dataEstensione) => {
         props.deleteEstensione(codiceCommessa, dataEstensione)
     }

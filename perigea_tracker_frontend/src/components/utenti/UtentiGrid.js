@@ -23,8 +23,7 @@ export default class UtentiGrid extends React.Component {
 
   componentDidMount = () => {
     console.log("componentDidMount start")
-    endpoint = this.checkPersonaleType()
-    console.log(endpoint)
+    endpoint = this.checkPersonaleType()  
     this.readAllUtenti(endpoint)
   }
 
@@ -35,7 +34,6 @@ export default class UtentiGrid extends React.Component {
    */
   checkPersonaleType = () => {
     let endpoint;
-    console.log(this.props.tipo)
     switch (this.props.tipo) {
       case "dipendenti":
         endpoint = "dipendenti"
@@ -79,8 +77,6 @@ export default class UtentiGrid extends React.Component {
         username: element.utente.username,
       })
     });
-    console.log("result : ", result)
-    console.log(response)
     this.setState({
       listCard: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1),
       searchList: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1)
@@ -93,8 +89,7 @@ export default class UtentiGrid extends React.Component {
    */
   deleteDipendente = (codicePersona) => {
     console.log("delete start")
-    endpoint = this.checkPersonaleType()
-    console.log(endpoint)
+    endpoint = this.checkPersonaleType()    
     AxiosInstance({
       method: 'delete',
       url: `${endpoint}/delete/${codicePersona}`

@@ -153,8 +153,7 @@ export default class Consulente extends React.Component {
             if (this.state.showComponent) {
                 await this.updateEconomics()
             }
-        } else {
-            console.log(this.state)
+        } else {           
             await this.saveConsulente()
         }
         this.setState({ redirect: true })

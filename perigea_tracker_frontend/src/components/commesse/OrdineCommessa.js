@@ -55,10 +55,8 @@ export default class OrdineCommessa extends React.Component {
     }
 
 
-    render() {
-        console.log(this.state)
+    render() {       
         return (
-
             <React.Fragment>
                 <Title></Title>
                 <div className='postStyleProps'>

@@ -9,13 +9,11 @@ import { MenuItem } from '@mui/material';
 export default function Ruoli(props) {
     const [ruolo, setRuolo] = useState("")
 
-    const handleChange = (e) => {
-        console.log(e.target.value)
+    const handleChange = (e) => {      
         setRuolo(e.target.value)
     }
 
-    const addRole = () => {
-        console.log(ruolo)
+    const addRole = () => {       
         props.updateState(ruolo)
         setRuolo("")
     }

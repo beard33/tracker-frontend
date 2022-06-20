@@ -48,7 +48,6 @@ export default class Anagrafica extends Component {
 
 
   componentDidMount = () => {
-    console.log(this.props.updateProps)
     if (this.props.updateProps.update) {
       this.setState(this.props.updateProps.user.utente)
     }
@@ -62,8 +61,6 @@ export default class Anagrafica extends Component {
     this.setState((prevState) => ({
       ruoli: prevState.ruoli.concat(JSON.parse(ruolo))
     }));
-    console.log(ruolo)
-    console.log(this.state.ruoli)
   };
 
   /**
@@ -74,23 +71,22 @@ export default class Anagrafica extends Component {
     this.setState({ ruoli: this.state.ruoli.filter((ruolo) => ruolo.id !== ruoloType) })
   }
 
-    /**
-   * metodo per il controllo del tipo di utente (dipendente/consulente)
-   * @returns 
-   */
-     checkPersonaleType = () => {
-      let type
-      console.log(this.props.personale)
-      switch (this.props.personale) {
-        case "dipendente":
-          type = "/dipendente"
-          break;
-        case "consulente":
-          type = "/consulente"
-          break;
-      }
-      return type;
+  /**
+ * metodo per il controllo del tipo di utente (dipendente/consulente)
+ * @returns 
+ */
+  checkPersonaleType = () => {
+    let type
+    switch (this.props.personale) {
+      case "dipendente":
+        type = "/dipendente"
+        break;
+      case "consulente":
+        type = "/consulente"
+        break;
     }
+    return type;
+  }
 
 
   render() {
@@ -104,7 +100,7 @@ export default class Anagrafica extends Component {
               spacing={20}
             >
               <Form style={{ width: "100%" }}>
-                <Form.Row className="infoForm">                 
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "40%" }}
                     label="nome"
@@ -134,7 +130,7 @@ export default class Anagrafica extends Component {
                     onChange={(e) => { this.setState({ luogoDiNascita: e.target.value }) }}
                   ></TextField>
                 </Form.Row>
-                <Form.Row className="infoForm">                 
+                <Form.Row className="infoForm">
                   <TextField
                     style={{ width: "40%" }}
                     label="codice fiscale"
@@ -332,20 +328,20 @@ export default class Anagrafica extends Component {
           </div>
 
           <Form>
-            <div className="button-container">             
-                <Link to={{
-                  pathname: this.checkPersonaleType(),
-                  state: {
-                    utente: this.state,
-                    update: this.props.updateProps
+            <div className="button-container">
+              <Link to={{
+                pathname: this.checkPersonaleType(),
+                state: {
+                  utente: this.state,
+                  update: this.props.updateProps
 
-                  }
-                }}>
-                  <button className="button-avanti"
-                    type="button" title='AVANTI' >
-                    <img className="menu" src="./images/avanti.png"></img>
-                  </button>
-                </Link> 
+                }
+              }}>
+                <button className="button-avanti"
+                  type="button" title='AVANTI' >
+                  <img className="menu" src="./images/avanti.png"></img>
+                </button>
+              </Link>
             </div>
           </Form>
 

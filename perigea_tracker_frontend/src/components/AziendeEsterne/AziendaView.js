@@ -18,7 +18,7 @@ export default class AziendaView extends React.Component {
     }
 
     componentDidMount = () => {
-        console.log("componentDidMount start")
+        console.log("AZIENDA-VIEW start")
         type = this.checkAziendaType()
         this.readAziendaById()
     }
@@ -43,12 +43,10 @@ export default class AziendaView extends React.Component {
      * metodo di memorizzazione della risposta della chiamata axios
      * @param {*} response 
      */
-    loadAzienda = (response) => {
-        console.log(response)
+    loadAzienda = (response) => {       
         this.setState({
             azienda: response.data.data
-        })
-        console.log(this.state)
+        })        
     }
 
 
@@ -82,8 +80,7 @@ export default class AziendaView extends React.Component {
      * @returns 
      */
     checkAziendaType = () => {
-        let tipo;
-        console.log(this.props.location.aziendaProps.tipo)
+        let tipo;        
         switch (this.props.location.aziendaProps.tipo) {
             case "clienti":
                 tipo = "Cliente"

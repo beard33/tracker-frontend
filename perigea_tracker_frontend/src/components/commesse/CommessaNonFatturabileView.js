@@ -17,7 +17,7 @@ export default class CommessaNonFatturabileView extends React.Component {
     }
 
     componentDidMount = () => {
-        console.log("componentDidMount start")
+        console.log("COMMESSA_NON_FATTURABILE-VIEW start")
         this.readCommessaNonFatturabile()
     }
 
@@ -34,8 +34,7 @@ export default class CommessaNonFatturabileView extends React.Component {
             console.log("Error into loadUtenti ", error)
         })
     }
-    loadCommessa = (response) => {
-        console.log(response)
+    loadCommessa = (response) => {        
         this.setState({
             commessaNonFatturabile: response.data.data
         })

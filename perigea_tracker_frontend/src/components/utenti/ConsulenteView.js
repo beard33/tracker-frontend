@@ -26,7 +26,7 @@ export default class ConsulenteView extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log("componentDidMount start")
+    console.log("CONSULENTE-VIEW start")
     this.readUtenteById()
   }
 
@@ -48,8 +48,7 @@ export default class ConsulenteView extends React.Component {
    * metodo di memorizzazione della risposta della chiamata axios
    * @param {*} response 
    */
-  loadUtente = (response) => {
-    console.log(response)
+  loadUtente = (response) => {    
     this.setState({
       utente: response.data.data.utente,
       codicePersona: response.data.data.codicePersona,
@@ -60,8 +59,7 @@ export default class ConsulenteView extends React.Component {
       partitaIva: response.data.data.partitaIva,
       costo: response.data.data.costo,
       economics: response.data.data.economics
-    })
-    console.log(this.state)
+    })    
     this.getUsernameResponsabile()
   }
 
@@ -72,17 +70,14 @@ export default class ConsulenteView extends React.Component {
     AxiosInstance({
       method: "get",
       url: `dipendenti/read/${this.state.codiceResponsabile}`
-    }).then((response) => {
-      console.log(response)
+    }).then((response) => {      
       this.loadUsernameResponsabile(response.data.data);
-
     }).catch((error) => {
       console.log("Error into loadUtenti ", error)
     })
   }
   loadUsernameResponsabile = (response) => {
-    this.setState({ usernameResponsabile: response.utente.username })
-    console.log(this.state.usernameResponsabile)
+    this.setState({ usernameResponsabile: response.utente.username })   
   }
 
 

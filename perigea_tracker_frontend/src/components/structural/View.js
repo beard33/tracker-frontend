@@ -20,7 +20,7 @@ export default class View extends React.Component {
 
   render() {
     console.log("VIEW ENTRY");
-    console.log(this.props.tipo)
+   
     let tipo;
     switch (this.props.tipo) {
       case "dipendenti":

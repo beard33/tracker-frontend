@@ -23,7 +23,7 @@ export default class AziendaGrid extends React.Component {
 
 
   componentDidMount = () => {
-    console.log("componentDidMount start")
+    console.log("AZIENDA-GRID start")
     endpoint = this.checkAziendaType()
     this.readAllAziende(endpoint)
   }
@@ -75,9 +75,7 @@ export default class AziendaGrid extends React.Component {
         partitaIva: element.partitaIva,
         acronimoCliente: element.acronimoCliente
       })
-    });
-    console.log("result : ", result)
-    console.log(response)
+    });    
     this.setState({
       listCard: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1),
       searchList: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1)
@@ -115,8 +113,7 @@ export default class AziendaGrid extends React.Component {
     this.setState({
       showDeleteModal: true,
       keyCode: codiceAzienda
-    })
-    console.log(this.state.keyCode)
+    })   
   };
 
   closeDeleteModal = () => {

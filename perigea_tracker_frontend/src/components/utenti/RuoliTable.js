@@ -8,8 +8,11 @@ export default function RuoliTable(props) {
     let ruoli = props.ruoli
     let listItems;
 
-    const removeRole = (type) => {
-        console.log(type)
+    /**
+     * metodo per la rimozione di un ruolo dalla tabella dei ruoli
+     * @param {*} type 
+     */
+    const removeRole = (type) => {       
         props.onRemove(type)
     }
 
