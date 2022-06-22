@@ -94,7 +94,7 @@ const Field = (props) => {
                     state: {
                         responsabile: true,
                         anno: props.timesheet.anno,
-                        mese: props.timesheet.mese,
+                        mese: props.timesheet.mese-1,
                         codicePersona: props.timesheet.codicePersona,
                         username: `${props.timesheet.nome}.${props.timesheet.cognome}`,
                         contattoResponsabile: props.contattoResponsabile

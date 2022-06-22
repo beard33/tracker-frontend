@@ -4,10 +4,11 @@ import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import { Button, Form, Row, Container } from 'react-bootstrap';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import DayPickerGrid from './DayPickerGrid';
 import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
-
+import { setNoteSpeseDay } from '../utils/Utils';
 
 
 export default class TimesheetCreazione extends React.Component {
@@ -32,9 +33,12 @@ export default class TimesheetCreazione extends React.Component {
         })
     }
 
-    createTimesheetMensile = () => {
+    /**
+     * chiamata axios per la creazione di un timesheet mensile
+     */
+    createTimesheetMensile = async () => {
         console.log("Inizio creazione di un timesheet mensile")
-        AxiosInstance({
+        await AxiosInstance({
             method: 'post',
             url: "timesheet/create",
             data: {
@@ -46,7 +50,6 @@ export default class TimesheetCreazione extends React.Component {
                 entries: this.state.entries
             }
         }).then(() => {
-            alert("Creazione di un timesheet mensile effettuata con successo")
             console.log("Creazione di un timesheet mensile effettuata con successo", this.data)
         }).catch((error) => {
             console.log("Errore ", error)
@@ -54,11 +57,17 @@ export default class TimesheetCreazione extends React.Component {
         })
     }
 
+
     onSaveClick = () => {
         console.log(this.state)
         this.createTimesheetMensile()
     }
 
+
+    /**
+     * metodo per la memorizzazione dei giorni selezionati
+     * @param {*} giorni 
+     */
     addDays = (giorni) => {
         console.log(giorni)
         if (giorni != undefined && giorni.length > 0) {
@@ -71,10 +80,15 @@ export default class TimesheetCreazione extends React.Component {
         }
     }
 
+
     resetDays = () => {
         this.setState({ days: [] })
     }
 
+    /**
+     * metodo per l'implementazione dello stato dei giorni su cui sono stati inseriti dei dati
+     * @param {*} day 
+     */
     getModifiedDays = (day) => {
         this.setState((prevState) => ({
             modifiedDays: prevState.modifiedDays.concat(day)
@@ -87,24 +101,11 @@ export default class TimesheetCreazione extends React.Component {
         }));
     }
 
-    setNoteSpeseDay = (day, note) => {
-        let noteSpese = []
-        let notaSpese
-        note.map((item) => {
-            notaSpese = {
-                anno: item.anno,
-                mese: item.mese,
-                giorno: day,
-                codicePersona: item.codicePersona,
-                codiceCommessa: item.codiceCommessa,
-                costoNotaSpese: item.costoNotaSpese,
-                importo: item.importo
-            }
-            noteSpese.push(notaSpese)
-        })
-        return noteSpese;
-    }
-
+    /**
+     * metodo per l'implementazione dei dati giornalieri
+     * @param {*} entryfields 
+     * @param {*} note 
+     */
     addEntries = (entryfields, note) => {
         console.log(entryfields)
         console.log("giorni" + this.state.days)
@@ -115,7 +116,7 @@ export default class TimesheetCreazione extends React.Component {
             this.state.days.map((day) => {
                 let dayNumber = day.getDate();
                 console.log(dayNumber)
-                let noteSpese = this.setNoteSpeseDay(dayNumber, note)
+                let noteSpese = setNoteSpeseDay(dayNumber, note)
                 entry = {
                     codiceCommessa: entryfields.codiceCommessa,
                     giorno: dayNumber,
@@ -134,6 +135,11 @@ export default class TimesheetCreazione extends React.Component {
         }
     }
 
+    /**
+     * metodo per salvare delle modifiche sui dati già inseriti prima del salvataggio
+     * @param {*} entryfields 
+     * @param {*} note 
+     */
     adjustEntries = (entryfields, note) => {
         this.setState({
             entries: this.state.entries.filter((entry) => entry.codiceCommessa !== entryfields.codiceCommessa),
@@ -143,6 +149,10 @@ export default class TimesheetCreazione extends React.Component {
         this.addEntries(entryfields, note)
     }
 
+    /**
+     * rimozione di tutti i dati giornalieri in una precisa data
+     * @param {*} entries 
+     */
     removeEntries = (entries) => {
         let day;
         entries.map((entry) => {
@@ -156,6 +166,11 @@ export default class TimesheetCreazione extends React.Component {
         })
     }
 
+
+    /**
+     * rimozione di un singolo dato giornaliero
+     * @param {*} entryData 
+     */
     removeEntry = (entryData) => {
         this.setState({
             entries: this.state.entries.filter((entry) => entry.codiceCommessa !== entryData.codiceCommessa),
@@ -163,6 +178,11 @@ export default class TimesheetCreazione extends React.Component {
         })
     }
 
+
+    /**
+     * metodo per la visualizzazione dei dati relativi ad uno specifico giorno
+     * @param {*} day 
+     */
     entryView = (day) => {
         this.setState((prevState) => ({
             entriesView: this.state.entries.filter(el => el.giorno === day.getDate()),
@@ -172,16 +192,21 @@ export default class TimesheetCreazione extends React.Component {
         this.setState({ showEntryModal: true })
     }
 
+
+    /**
+     * metodi per i modali di visualizzazione e modifica
+     */
     closeEntryModal = () => {
         this.setState({
             showEntryModal: false,
             adjustmentEntryModal: false
         })
     }
-
     adjustmentEntryModal = () => {
         this.setState({ adjustmentEntryModal: true })
     }
+
+
 
     render() {
         return (
@@ -238,9 +263,20 @@ export default class TimesheetCreazione extends React.Component {
                         />
                     </Row>
 
-                    <Button className='ButtonSave' onClick={this.onSaveClick} title="Salva timesheet">
-                        <img className="menu" src="./images/save.png"></img>
-                    </Button>
+                    <Link to={{
+                        pathname: "/timesheet-view",
+                        state: {
+                            responsabile: false,
+                            mese: this.state.mese - 1,
+                            anno: this.state.anno,
+                            codicePersona: "2978f40f-69a8-4360-954b-c27746199c01",
+                            username: "samuel.genta"
+                        }
+                    }}>
+                        <Button className='ButtonSave' onClick={this.onSaveClick} title="Salva timesheet">
+                            <img className="menu" src="./images/save.png"></img>
+                        </Button>
+                    </Link>
 
                 </Container>
 
@@ -248,7 +284,7 @@ export default class TimesheetCreazione extends React.Component {
                     <div className="modal-header">
                         <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5>
                         <button onClick={() => this.setState({ showEntryModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
-                        <img className="menu" src="./images/exit.png"></img>
+                            <img className="menu" src="./images/exit.png"></img>
                         </button>
                     </div>
                     <ModalBody className="postPropsStyle">

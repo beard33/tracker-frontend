@@ -22,7 +22,6 @@ export default function NoteSpese(props) {
             mese: props.mese,
             codicePersona: props.codicePersona,
             codiceCommessa: props.codiceCommessa,
-
         })
     }, []);
 
@@ -31,7 +30,9 @@ export default function NoteSpese(props) {
         console.log(noteSpesa)
     }
 
-
+    /**
+     * metodo per l'aggiunta di una nota spesa
+     */
     const addNota = () => {
         console.log(noteSpesa)
         props.addNoteSpese(noteSpesa)

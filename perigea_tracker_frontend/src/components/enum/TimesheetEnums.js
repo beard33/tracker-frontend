@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-const approvalStatus = [
+const approvalStatusEnum = [
     { value: "DECLINED"},
     { value: "APPROVED" },
     { value: "PENDING" },
     { value: "DRAFT" }
 ]
 
-export { approvalStatus };
+export { approvalStatusEnum };

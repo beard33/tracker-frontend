@@ -1,17 +1,10 @@
 import React from 'react';
-import Card from '../structural/Card';
 import AxiosInstance from "../../axios/AxiosInstance";
-import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
-import Typography from '@mui/material/Typography';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import Field from '../structural/Field';
 import Title from '../structural/Title';
-import { Container } from 'react-bootstrap';
-import { Grid } from "@material-ui/core";
-import { Button, Form, Row } from 'react-bootstrap';
+import SearchBar from '../structural/SearchBar';
+import MonthFilter from '../structural/MonthFilter';
+import LoadingSpinner from '../structural/LoadingSpinner';
 
 
 const codiceResponsabile = "243a9d56-86a9-49a2-89c7-4e932685846f"
@@ -29,15 +22,24 @@ export default class TimesheetGrid extends React.Component {
             anno: 0,
             mese: 0,
             checkRef: false,
-            contattoResponsabile: ""
+            contattoResponsabile: "",
+            searchList: "",
+            isLoading: false
         }
     }
 
     componentDidMount() {
+        this.setState({ anno: new Date().getFullYear(), mese: new Date().getMonth() })
         this.getContattoResponsabile(codiceResponsabile)
     }
 
-    getContattoResponsabile = async (userId) => {
+
+
+    /**
+     * chiamata axios per le referenze del responsabile
+     * @param {*} userId 
+     */
+    getContattoResponsabile = async (userId) => {       
         await AxiosInstance({
             method: "get",
             url: `utenti/contact-details/read-by-id/${userId}`,
@@ -46,53 +48,38 @@ export default class TimesheetGrid extends React.Component {
             this.loadContattoResponsabile(response)
         }).catch((error) => {
             console.log("Error into load contattoResponsabile ", error)
-
         })
-        // }
     }
-    loadContattoResponsabile = (arg) => {
+    loadContattoResponsabile = (arg) => {       
         this.setState({ contattoResponsabile: arg.data.data })
+        this.getTimesheetsSottoposti(this.state.anno, this.state.mese)
+    }
+
+    /**
+    * metodo per il passaggio da un mese ad un altro 
+    * @param {*} element 
+    */
+    setNewMonth = (month, year) => {        
+        this.setState({ mese: month-1, anno: year, sync: !this.state.sync, isLoading: true })
+        this.getContattoResponsabile(codiceResponsabile)
     }
 
 
-    checkRefs = () => {
-        this.setState({ checkRef: true })
-        console.log(this.state)
-        this.getTimesheetsSottoposti()
-
-    }
-
-    setRefs = (arg) => {
-        console.log(arg)
-        this.setState({ data: arg })
-        const date = arg.split("-")
-        const month = date[1].split("")
-        this.setState({ anno: date[0] })
-        if (month[0] === "0") {
-            this.setState({ mese: month[1] })
-        } else {
-            this.setState({ mese: date[1] })
-        }
-        console.log(this.state)
-    }
-
-
-    getTimesheetsSottoposti = () => {
-        console.log("componentDidMount start")
+    /**
+     * chiamata axios per la lettura dei timesheet dei sottoposti
+     */
+    getTimesheetsSottoposti = (anno, mese) => {
+        this.setState({ isLoading: true })       
         AxiosInstance({
-            url: `timesheet/read-all-by-responsabile/${this.state.anno}/${this.state.mese}/${codiceResponsabile}`
-        }).then((response) => {
-            console.log(response.data.data)
+            url: `timesheet/read-all-by-responsabile/${anno}/${mese + 1}/${codiceResponsabile}`
+        }).then((response) => {           
             this.loadTimesheets(response.data.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
     }
-
-
     loadTimesheets = (response) => {
-        console.log("loadTimesheets")
-        console.log(response)
+        console.log("loadTimesheets")       
         let result = []
         Object.values(response).map((element) => {
             result.push({
@@ -106,20 +93,30 @@ export default class TimesheetGrid extends React.Component {
             })
         })
         console.log(result)
-        this.setState({ listCard: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1) })
+        this.setState({
+            listCard: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1),
+            searchList: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1),
+            isLoading: false
+        })
     }
 
+
+    /**
+     * filtro basato sul cognome del singolo utente
+     * @param {*} e 
+     */
     dynamicSearch = (e) => {
         if (this.state.listCard) {
             const keyword = e.target.value;
             if (keyword !== '') {
                 const results = this.state.listCard.filter((timesheet) => {
-                    return timesheet.cognome.toLowerCase().includes(keyword.toLowerCase());
+                    return timesheet.approvalStatus.toLowerCase().includes(keyword.toLowerCase());
                 });
-                this.setState({ listCard: results })
+                this.setState({ searchList: results })
+            } else {
+                this.setState({ searchList: this.state.listCard })
             }
             this.setState({ searchValue: keyword })
-
         }
     }
 
@@ -127,60 +124,16 @@ export default class TimesheetGrid extends React.Component {
         return (
             <React.Fragment>
                 <Title></Title>
-                {
-                    !this.state.checkRef &&
-                    <div className="postStyleProps" style={{ marginLeft: "1%", width: "98%" }} >
-                        <h3>Timesheet References</h3>
-                        <div className="info" >
-                            <Grid className="infoGrid"
-                                container
-                                spacing={20}
-                            >
-                                <Form style={{ width: "100%" }}>
-                                    <Form.Row className="infoForm">
-                                        <TextField
-                                            style={{ width: "60%" }}
-                                            label="mese"
-                                            type="month"
-                                            value={this.state.data}
-                                            onChange={(e) => { this.setRefs(e.target.value) }}
-                                        ></TextField>
-                                    </Form.Row>
-                                </Form>
-                            </Grid>
-                        </div>
-                        <button className='button-confirm' onClick={this.checkRefs} title='conferma mese'>
-                            <img className="menu" src="./images/conferma.png"></img>
-                        </button>
-                    </div>
-
-                }
-                {this.state.checkRef &&
+                {this.state.isLoading ? <LoadingSpinner /> :
                     <div className="card-grid">
 
-                        {/*searchBar*/}
-                        <div className="searchBar">
-                            <Form style={{ width: "100%" }}>
-                                <Form.Row className='searchForm'>
-                                    <TextField
-                                        style={{ width: "90%" }}
-                                        type="search"
-                                        value={this.state.searchValue}
-                                        onChange={this.dynamicSearch}
-                                        label="Filtro"
-                                        placeholder='Cognome'
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <SearchRoundedIcon />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    >
-                                    </TextField>
-                                </Form.Row>
-                            </Form>
-                        </div>
+                        <MonthFilter setNewMonth={this.setNewMonth} />
+
+                        <SearchBar
+                            searchValue={this.state.searchValue}
+                            dynamicSearch={this.dynamicSearch}
+                            placeholder={"stato di approvazione"}
+                        />
 
                         {
                             Object.values(this.state.listCard).map((item) => {

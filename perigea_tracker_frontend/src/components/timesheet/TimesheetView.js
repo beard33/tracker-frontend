@@ -5,27 +5,28 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 import BootstrapTheme from '@fullcalendar/bootstrap';
 import AxiosInstance from '../../axios/AxiosInstance';
-import CalendarAxiosInstance from '../../axios/CalendarAxiosInstance';
 import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
 import MonthTotalsTable from './MonthTotalsTable';
 import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-import TextField from '@material-ui/core/TextField';
-import { MenuItem } from '@mui/material';
-import { approvalStatus } from '../enum/TimesheetEnums';
-import FileSaver from 'file-saver';
+import LoadingSpinner from '../structural/LoadingSpinner';
+import { setNoteSpeseDay, getMonthEndDate } from '../utils/Utils';
+import MonthFilter from '../structural/MonthFilter';
+import ExcelDownloadButton from '../timesheet/ExcelDownLoadButton';
+import RequestButton from '../timesheet/RequestButton';
+import ApproveButton from '../timesheet/ApproveButton';
+import DeleteModal from '../structural/DeleteModal';
+
 
 
 let entries = []
-let counter = 0;
-let getControl = false
-const monthsWithThirtyDays = [4, 6, 9, 11]
+let getControl = true
+
 
 class TimesheetView extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             codicePersona: "",
             calendarWeekends: true,
@@ -36,39 +37,40 @@ class TimesheetView extends Component {
             mese: 0,
             adjustmentEntryModal: false,
             entriesView: [],
-            counter: 0,
             commesse: [],
             getTotals: false,
             showDeleteModal: false,
-            approvalStatus: "",
-            calendarResponse: "",
-            approvalControl: false
+            approvalControl: false,
+            sync: true,
+            isLoading: false
         }
         this.calendarComponentRef = React.createRef();
     }
 
 
-
     componentDidMount() {
-        console.log(this.state)
         this.setState({
             codicePersona: this.props.location.state.codicePersona,
             anno: this.props.location.state.anno,
-            mese: this.props.location.state.mese
+            mese: this.props.location.state.mese + 1,
         })
-        this.getTimesheets(this.props.location.state.anno, this.props.location.state.mese)
+        this.getTimesheets(this.props.location.state.anno, this.props.location.state.mese + 1)
 
     }
 
-    componentDidUpdate() {
-        if (counter < 1) {
+    componentDidUpdate(prevProps, prevState) {
+        console.log(this.state)
+        if (prevState.sync !== this.state.sync) {
             this.getTimesheets(this.state.anno, this.state.mese)
         }
     }
 
-    deleteTimesheet = () => {
+    /**
+     * chiamata axios per l'eliminazione del timesheet mensile
+     */
+    deleteTimesheet = async () => {
         console.log("delete del timesheet start")
-        AxiosInstance({
+        await AxiosInstance({
             method: 'delete',
             url: `timesheet/delete`,
             data: {
@@ -78,66 +80,22 @@ class TimesheetView extends Component {
             }
         }).then((response) => {
             console.log("timesheet eliminato con successo");
+            alert("timesheet eliminato correttamente")
+            this.setSyncState()
         }).catch((error) => {
             console.log("Error into delete ", error)
         })
     }
 
-    updateTimesheetStatus = () => {
-        console.log(this.state.calendarResponse)
-        AxiosInstance({
-            method: 'put',
-            url: `timesheet/update-status/${this.state.approvalStatus}`,
-            data: this.state.calendarResponse
-        }).then((response) => {
-            alert("Stato di approvazione del timesheet aggiornato con successo")
-        }).catch((error) => {
-            console.log("Error into loadTimesheet ", error)
-            alert("errore nello scarico")
-        })
-    }
 
-    approveTimesheet = async () => {
-        await CalendarAxiosInstance({
-            method: "get",
-            url: `timesheet/get-last-by-refs/${this.state.anno}/${this.state.mese}/${this.state.codicePersona}`,
-        }).then((response) => {
-            console.log(response)
-            this.loadTimesheetEvent(response)
-        }).catch((error) => {
-            console.log("Error into loadTimesheet ", error)
-        })
-    }
-    loadTimesheetEvent = (arg) => {
-        this.setState({ calendarResponse: arg.data.data })
-        this.updateTimesheetStatus()
-    }
-
-    downloadExcel = async () => {
-        console.log("download excel start")
-        await AxiosInstance({
-            method: 'get',
-            url: `timesheet/download-report/${this.state.anno}/${this.state.mese}/${this.props.location.state.codicePersona}`,
-            responseType: 'blob',
-        }).then((response) => {
-            let blob = new Blob([response.data], { type: '.xlsx' })
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `${this.props.location.state.username}_timesheet.xlsx`);
-            document.body.appendChild(link);
-            link.click();
-            // saveAs(blob, "rapportino.xlsx")
-        }).catch((error) => {
-            console.log("Error into loadTimesheet ", error)
-            alert("errore nello scarico")
-        })
-
-    }
-
-    deleteEntry = (entry) => {
+    /**
+     * chiamata axios per l'eliminazione di un singolo dato giornaliero
+     * @param {*} entry 
+     */
+    deleteEntry = async (entry) => {
+        this.setState({ isLoading: true })
         console.log("delete entry start")
-        AxiosInstance({
+        await AxiosInstance({
             method: 'delete',
             url: `timesheet/delete-entry`,
             data: {
@@ -154,34 +112,12 @@ class TimesheetView extends Component {
         })
     };
 
-    // createTimesheetMensile = () => {
-    //     console.log("Inizio creazione di un timesheet mensile")
-    //     AxiosInstance({
-    //         method: 'post',
-    //         url: "timesheet/create",
-    //         data: {
-    //             timesheet: {
-    //                 codicePersona: this.state.codicePersona,
-    //                 anno: this.state.anno,
-    //                 mese: this.state.mese
-    //             },
-    //             entries: this.state.entries
-    //         }
-
-    //     }).then((response) => {
-    //         alert("Creazione di un timesheet mensile effettuata con successo")
-    //         this.loadTimesheet(response)
-    //         this.setEventList()
-    //         console.log("Creazione di un timesheet mensile effettuata con successo", this.data)
-    //     }).catch((error) => {
-    //         console.log("Errore ", error)
-    //         alert("Errore nella creazione", error)
-    //     })
-    // }
-
-    updateTimesheetMensile = () => {
+    /**
+     * chiamata axios per l'update del timesheet mensile
+     */
+    updateTimesheetMensile = async () => {
         console.log("Inizio creazione di un timesheet mensile")
-        AxiosInstance({
+        await AxiosInstance({
             method: 'put',
             url: "timesheet/update",
             data: {
@@ -193,17 +129,21 @@ class TimesheetView extends Component {
                 entries: entries
             }
         }).then(() => {
-            alert("update di un timesheet mensile effettuata con successo")
             console.log("update di un timesheet mensile effettuata con successo", this.data)
+            this.setSyncState()
         }).catch((error) => {
             console.log("Errore ", error)
             alert("Errore nella modifica", error)
         })
     }
 
-
+    /**
+     * chiamata axios per la lettura di un timesheet mensile
+     * @param {*} anno 
+     * @param {*} mese 
+     */
     getTimesheets = async (anno, mese) => {
-        // if (counter < 0.1) {
+        this.setState({ isLoading: true })
         await AxiosInstance({
             method: "get",
             url: `timesheet/read/${anno}/${mese}/${this.props.location.state.codicePersona}`,
@@ -211,13 +151,12 @@ class TimesheetView extends Component {
             console.log(response)
             this.loadTimesheet(response)
             getControl = false
-            counter++
         }).catch((error) => {
             console.log("Error into loadTimesheet ", error)
-            getControl = true
             console.log(getControl)
+            getControl = true
+            this.setState({ isLoading: false })
         })
-        // }
     }
     loadTimesheet = (arg) => {
         this.setState({
@@ -230,26 +169,11 @@ class TimesheetView extends Component {
         this.approvalControl()
     }
 
-    sendTimesheetRequest = async () => {
-        console.log("invio della richiesta per l'approvazione del timesheet start")
-        await AxiosInstance({
-            method: 'post',
-            url: "richieste/send-timesheet-request",
-            data: {
-                codicePersona: this.state.codicePersona,
-                anno: this.state.anno,
-                mese: this.state.mese
-            }
-        }).then((response) => {
-            console.log(response.data.data)
-            alert("richiesta di approvazione inviata con successo")
-            console.log("Richiesta di approvazione inviata con successo", this.data)
-        }).catch((error) => {
-            console.log("Errore ", error)
-            alert("Errore nell'invio della richiesta", error)
-        })
-    }
-
+    /**
+     * metodo per il calcolo delle ore totali lavorate in un mese
+     * @param {*} codiceCommessa 
+     * @returns 
+     */
     getOreTotaliCommessa = (codiceCommessa) => {
         let oreCommessa = 0;
         let commessaEntries = this.state.timesheet.entries.filter((el) => el.codiceCommessa === codiceCommessa)
@@ -259,9 +183,12 @@ class TimesheetView extends Component {
         return oreCommessa
     }
 
+    /**
+     * metodo di conversione dei dati dalla risposta al formato adatto alla griglia di FullCalendar
+     */
     setEventList = () => {
         let event = {}
-        this.setState({ commesse: [] })
+        this.setState({ commesse: [], sync: false })
         console.log(this.state)
         this.state.timesheet.entries.map((entry) => {
             if (!this.state.commesse.find(el => el.codiceCommessa === entry.codiceCommessa)) {
@@ -290,22 +217,26 @@ class TimesheetView extends Component {
             )) {
                 this.setState((prevState) => ({
                     calendarEvents: prevState.calendarEvents.concat(event),
-
                 }))
             }
-            counter++
-
         })
         console.log(this.state.commesse)
-        this.setState({ getTotals: true })
+        this.setState({ getTotals: true, isLoading: false })
     }
 
+    /**
+     * metodo per controllare lo stato di approvazione del timesheet
+     */
     approvalControl = () => {
         if (this.state.timesheet.statoRichiesta === "APPROVED") {
             this.setState({ approvalControl: true })
         }
     }
 
+    /**
+     * tabella di recap dei totali
+     * @returns 
+     */
     getMonthTotalsTable = () => {
         return (
             <React.Fragment>
@@ -324,9 +255,11 @@ class TimesheetView extends Component {
         )
     }
 
+    /**
+     * metodo per il controllo della presenza dei dati in un dato giorno
+     * @param {*} day 
+     */
     dailyEntries = (day) => {
-
-        // let timesheet = this.state.timesheet.find(el => el.mese === day.getMonth() + 1 && el.anno === day.getFullYear())
         let entriesView = this.state.timesheet.entries.filter(el => el.giorno === day.getDate())
         if (entriesView.length === 0) {
             console.log("NO ENTRIES")
@@ -337,46 +270,23 @@ class TimesheetView extends Component {
         }
     }
 
-    updateModal = () => {
-        this.setState({ adjustmentEntryModal: true })
-    }
 
-    setNewMonth = (element) => {
+
+
+    /**
+     * metodo per il passaggio da un mese ad un altro 
+     * @param {*} element 
+     */
+    setNewMonth = (month, year) => {
         getControl = true
         const today = new Date(new Date().getFullYear(), new Date().getMonth())
-        const date = element.start.getDate()
-        if (date === 1) {
-            this.setState({ mese: element.start.getMonth() + 1, anno: element.start.getFullYear(), approvalControl: false })
-        } else {
-            if (element.start.getMonth() === 11) {
-                this.setState({ mese: 1, anno: element.start.getFullYear(), approvalControl: false })
-            } else {
-                this.setState({ mese: element.start.getMonth() + 2, anno: element.start.getFullYear(), approvalControl: false })
-            }
-        }
-        console.log(date, today)
-        counter = 0
-        if (element.start < today &&
-            element.start.getMonth() !== today.getMonth() - 1) {
-            console.log("DISABLE UPDATE")
-        }
+        this.setState({ mese: month, anno: year, approvalControl: false, sync: !this.state.sync })
     }
 
-    getMonthEndDate = () => {
-        let endDay;
-        if (this.state.mese === 2) {
-            this.state.anno % 4 === 0 ? endDay = 29 : endDay = 28;
-        } else {
-            if (monthsWithThirtyDays.find(el => el === this.state.mese)) {
-                endDay = 30;
-            } else {
-                endDay = 31;
-            }
-        }
-        return endDay
-    }
-
-
+    /**
+     * metodo per l'apertura dei modali di visualizzazione e modifica
+     * @param {*} arg 
+     */
     modal = (arg) => {
         console.log(arg);
         console.log(this.state)
@@ -390,28 +300,16 @@ class TimesheetView extends Component {
         document.body.classList.add('no_padding');
     }
 
+
     handleAddEntry = (entry) => {
         entries.push(entry)
     }
 
-    setNoteSpeseDay = (day, note) => {
-        let noteSpese = []
-        let notaSpese
-        note.map((item) => {
-            notaSpese = {
-                anno: item.anno,
-                mese: item.mese,
-                giorno: day,
-                codicePersona: item.codicePersona,
-                codiceCommessa: item.codiceCommessa,
-                costoNotaSpese: item.costoNotaSpese,
-                importo: item.importo
-            }
-            noteSpese.push(notaSpese)
-        })
-        return noteSpese;
-    }
-
+    /**
+     * metodp per l'aggiunta di dati giornalieri all'interno del body dell'update
+     * @param {*} entryfields 
+     * @param {*} note 
+     */
     addEntries = (entryfields, note) => {
         let entry;
         let noteSpese = []
@@ -421,15 +319,15 @@ class TimesheetView extends Component {
         console.log(entryfields, note, entries)
         if (this.state.selectedDay.end.getDate() === 1) {
             console.log("ULTIMO GIORNO")
-            endDate = this.getMonthEndDate()+1
+            endDate = getMonthEndDate(this.state.mese, this.state.anno) + 1
         } else {
-           endDate = this.state.selectedDay.end.getDate()
+            endDate = this.state.selectedDay.end.getDate()
         }
-         dateDiff = endDate - beginDate;
+        dateDiff = endDate - beginDate;
         for (let i = 0; i < dateDiff; i++) {
-            let dayNumber = this.state.selectedDay.start.getDate() + i            
+            let dayNumber = this.state.selectedDay.start.getDate() + i
             if (entryfields.tipoCommessa === "F") {
-                noteSpese = this.setNoteSpeseDay(dayNumber, note)
+                noteSpese = setNoteSpeseDay(dayNumber, note)
             }
             entry = {
                 codiceCommessa: entryfields.codiceCommessa,
@@ -440,307 +338,285 @@ class TimesheetView extends Component {
                 descrizioneCommessa: entryfields.descrizioneCommessa,
                 ragioneSociale: entryfields.ragioneSociale,
                 noteSpesa: noteSpese
-            }            
+            }
             this.handleAddEntry(entry)
         }
         this.setState({
             calendarEvents: [],
             commesse: []
         })
-        // if (!getControl) {
         this.updateTimesheetMensile()
-        // } else {
-        //     this.createTimesheetMensile()
-        //     getControl = false
-        // }
-
-        counter = 0
     }
 
+    /**
+     * metodo per la rimozione del timesheet
+     */
     removeTimesheet = () => {
         this.setState({
-            calendarEvents: []
+            calendarEvents: [],
+            isLoading: true,
+            showDeleteModal: false
         })
         this.deleteTimesheet()
     }
 
+    /**
+     * metodo per la rimozione di tutte le entries da un giorno
+     * @param {*} entriesData 
+     */
     removeDailyEntries = (entriesData) => {
+        entriesData.map((entry) => {
+            this.deleteEntry(entry)
+        })
         this.setState({
             calendarEvents: [],
             adjustmentEntryModal: false,
-            modalIsOpen: false
+            modalIsOpen: false,
+            sync: !this.state.sync
         })
-        entriesData.map((entry) => {
-
-            this.deleteEntry(entry)
-        })
-        counter = 0
     }
 
+    /**
+     * metodo per la rimozione di un singolo dato giornaliero
+     * @param {*} entryData 
+     */
     removeEntry = (entryData) => {
-        entries = this.state.timesheet.entries.filter((entry) => entry !== entryData)
+        entries = this.state.timesheet.entries.filter((entry) => entry.codiceCommessa !== entryData.codiceCommessa)
         console.log(entries)
+        this.deleteEntry(entryData)
         this.setState({
             calendarEvents: [],
             commesse: [],
             adjustmentEntryModal: false,
-            modalIsOpen: false
+            modalIsOpen: false,
+            sync: !this.state.sync
         })
 
-        this.deleteEntry(entryData)
-        counter = 0
     }
 
+    /**
+     * metodi per l'apertura dei modali di eliminazione e approvazione
+     */
     openDeleteModal = () => {
         this.setState({ showDeleteModal: true })
     }
 
-    openApprovalModal = () => {
-        this.setState({ approvalModal: true })
+    closeDeleteModal = () => {
+        this.setState({ showDeleteModal: false })
     }
 
-    setApprovalStatus = (e) => {
-        this.setState({ approvalStatus: e.target.value })
+    setSyncState = () => {
+        this.setState({ sync: !this.state.sync })
     }
 
+    updateModal = () => {
+        this.setState({ adjustmentEntryModal: true })
+    }
+
+
+    /**
+     * metodo per la modifica dei dati giornalieri
+     * @param {*} entryfields 
+     * @param {*} note 
+     */
     updateEntries = (entryfields, note) => {
         console.log(this.state.selectedDay)
         entries = this.state.timesheet.entries.filter((entry) => entry.giorno !== this.state.selectedDay.start.getDate())
         console.log("ENTRIES", entries)
         this.setState({
             adjustmentEntryModal: false,
-            modalIsOpen: false
+            modalIsOpen: false,
+            isLoading: true
         })
         this.addEntries(entryfields, note)
-        alert("campi del giorno" + entryfields.giorno + "/" + entryfields.mese + " sono stati modificato con successo")
     }
+
 
     render() {
         const { selectedDay } = this.state;
-        const defaultValues = {
-            title: 'doctor',
-            startDate: selectedDay ? selectedDay.startStr : null,
-            endDate: selectedDay ? selectedDay.endStr : null,
-        };
 
         return (
             <React.Fragment>
-                <Container fluid="xl" className='container'>
-                    <div className="page-title-box">
-                        <Row className="align-items-center">
-                            <Col lg={6} sm={6} md={6}>
-                                <h3 className="page-title">{this.props.location.state.username + "_timesheet"}</h3>
+                {this.state.isLoading ? <LoadingSpinner /> :
+                    <Container fluid="xl" className='container'>
+                        <div className="page-title-box">
 
-                            </Col>
-                            <Col sm="6">
-                                <div className="float-right d-none d-md-block">
-                                </div>
-                            </Col>
-                        </Row>
-                    </div>
-                    <Row>
-                        <Col md="12">
-                            <Card>
-                                <CardBody>
-                                    <Row>
-                                        <Col lg={4} sm={4} md={4}>
-                                            <div
-                                                id="external-events"
-                                                style={{
-                                                    padding: "10px",
-                                                    width: "100%",
-                                                    height: "auto",
-                                                    maxHeight: "-webkit-fill-available"
-                                                }}
-                                            >
-                                                {this.state.getTotals ?
-                                                    this.getMonthTotalsTable() :
-                                                    null
-                                                }
+                            {!this.props.location.state.responsabile && <MonthFilter setNewMonth={this.setNewMonth} />}
 
-                                            </div>
+                            <Row className="align-items-center">
+                                <Col lg={6} sm={6} md={6}>
+                                    <h3 className="page-title">{this.props.location.state.username + "_timesheet"}</h3>
+                                </Col>
+                                <Col sm="6">
+                                    <div className="float-right d-none d-md-block">
+                                    </div>
+                                </Col>
+                            </Row>
+                        </div>
 
-                                            {!getControl &&
-                                                <div>
-                                                    {!this.props.location.state.responsabile && !this.state.approvalControl &&
-                                                        <button className='delete-button' title='elimina il timesheet' onClick={this.openDeleteModal}>
-                                                            <img className="menu" src="./images/bin.png"></img>
-                                                        </button>
-                                                    }
-
-
-                                                    <button className='excel-button' title='scarica rapportino excel' onClick={this.downloadExcel}>
-                                                        <a href="#" download>
-                                                            <img className="menu" src="./images/excel.png"></img>
-                                                        </a>
-                                                    </button>
-                                                    {!this.props.location.state.responsabile && !this.state.approvalControl &&
-                                                        <button className='richiesta-button' title='invio richiesta approvazione' onClick={this.sendTimesheetRequest}>
-                                                            <img className="menu" src="./images/richiesta.png"></img>
-                                                        </button>
-                                                    }
-                                                    {
-                                                        this.props.location.state.responsabile && !this.state.approvalControl &&
-                                                        <button className='richiesta-button' title='approva timesheet' onClick={this.openApprovalModal}>
-                                                            <img className="menu" src="./images/approve.png"></img>
-                                                        </button>
-
+                        <Row>
+                            <Col md="12">
+                                <Card>
+                                    <CardBody>
+                                        <Row>
+                                            <Col lg={4} sm={4} md={4}>
+                                                <div
+                                                    id="external-events"
+                                                    style={{
+                                                        padding: "10px",
+                                                        width: "100%",
+                                                        height: "auto",
+                                                        maxHeight: "-webkit-fill-available"
+                                                    }}
+                                                >
+                                                    {this.state.getTotals ?
+                                                        this.getMonthTotalsTable() :
+                                                        null
                                                     }
 
                                                 </div>
-                                            }
-                                            {
-                                                getControl && !this.props.location.state.responsabile &&
-                                                <Link to={{
-                                                    pathname: "/timesheet-create",
-                                                    state: {
-                                                        mese: this.state.mese,
-                                                        anno: this.state.anno,
-                                                        codicePersona: this.state.codicePersona,
+
+                                                {!getControl &&
+                                                    <div>
+                                                        {!this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                            <button className='delete-button' title='elimina il timesheet' onClick={this.openDeleteModal}>
+                                                                <img className="menu" src="./images/bin.png"></img>
+                                                            </button>
+                                                        }
+
+                                                        <ExcelDownloadButton
+                                                            anno={this.state.anno}
+                                                            mese={this.state.mese}
+                                                            codicePersona={this.props.location.state.codicePersona}
+                                                            username={this.props.location.state.username}
+                                                        />
+
+                                                        {!this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                            <RequestButton
+                                                                codicePersona={this.state.codicePersona}
+                                                                anno={this.state.anno}
+                                                                mese={this.state.mese}
+                                                                setSyncState={this.setSyncState}
+                                                            />
+                                                        }
+
+                                                        {
+                                                            this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                            <ApproveButton
+                                                                codicePersona={this.state.codicePersona}
+                                                                anno={this.state.anno}
+                                                                mese={this.state.mese}
+                                                                setSyncState={this.setSyncState}
+                                                            />
+                                                        }
+
+                                                    </div>
+                                                }
+                                                {
+                                                    getControl && !this.props.location.state.responsabile &&
+                                                    <Link to={{
+                                                        pathname: "/timesheet-create",
+                                                        state: {
+                                                            mese: this.state.mese,
+                                                            anno: this.state.anno,
+                                                            codicePersona: this.state.codicePersona,
+                                                        }
+                                                    }}>
+                                                        <button className='add-button' title='aggiungi timesheet'>
+                                                            <img className="menu" src="./images/add.png" ></img>
+                                                        </button>
+                                                    </Link>
+                                                }
+                                            </Col>
+                                            <Col lg={8} sm={8} md={8}>
+                                                <FullCalendar ref={this.calendarComponentRef} defaultView="dayGridMonth" plugins={[BootstrapTheme, dayGridPlugin, interactionPlugin]}
+                                                    initialDate={new Date(this.state.anno, this.state.mese - 1)}
+                                                    themeSystem="bootstrap"
+                                                    locale='it'
+                                                    firstDay={1}
+                                                    headerToolbar={
+                                                        {
+                                                            start: '',
+                                                            center: 'title',
+                                                            end: ''
+                                                        }
                                                     }
-                                                }}>
-                                                    <button className='add-button' title='aggiungi timesheet'>
-                                                        <img className="menu" src="./images/add.png" ></img>
-                                                    </button>
-                                                </Link>
-                                            }
-                                        </Col>
-                                        <Col lg={8} sm={8} md={8}>
-                                            <FullCalendar ref={this.calendarComponentRef} defaultView="dayGridMonth" plugins={[BootstrapTheme, dayGridPlugin, interactionPlugin]}
-                                                initialDate={new Date(this.props.location.state.anno, this.props.location.state.mese - 1)}
-                                                // initialDate={new Date(2022, 4)}
-                                                themeSystem="bootstrap"
-                                                locale='it'
-                                                firstDay={1}
-                                                headerToolbar={
-                                                    {
-                                                        start: 'prev',
+                                                    buttonText={
+                                                        {
+                                                            prev: '<<',
+                                                            next: '>>'
+                                                        }
+                                                    }
+                                                    header={{
+                                                        left: 'prev',
                                                         center: 'title',
-                                                        end: 'next'
-                                                    }
-                                                }
-                                                buttonText={
-                                                    {
-                                                        prev: '<<',
-                                                        next: '>>'
-                                                    }
-                                                }
-                                                header={{
-                                                    left: 'prev',
-                                                    center: 'title',
-                                                    right: 'next today'
-                                                }}
-                                                datesSet={(element) => {
-                                                    this.setNewMonth(element)
-                                                }}
-                                                select={this.modal}
-                                                editable={true}
-                                                navLinks={false}
-                                                selectable={true}
-                                                events={this.state.calendarEvents}
-                                                id="calendar"
-                                            />
-                                        </Col>
-                                    </Row>
-                                </CardBody>
-                            </Card>
-                            <Modal className="modal-lg" isOpen={this.state.modalIsOpen} toggle={this.modal} >
-                                <div className="modal-header">
-                                    <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5>
-                                    <button title='esci' onClick={() => this.setState({ modalIsOpen: false, adjustmentEntryModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
-                                        <img className="menu" src="./images/exit.png"></img>
-                                    </button>
-                                </div>
-
-                                <ModalBody className="postPropsStyle">
-                                    <div className='postStyleProps'>
-                                        {!this.state.adjustmentEntryModal &&
-                                            <EntryView anno={this.state.anno}
-                                                mese={this.state.mese}
-                                                entries={this.state.entriesView}
-                                                adjustmentEntryModal={this.updateModal}
-                                                removeEntry={this.removeEntry}
-                                                removeAll={this.removeDailyEntries}
-                                                updateControl={this.state.approvalControl} />
-                                        }
-
-                                        {this.state.adjustmentEntryModal && !this.state.approvalControl &&
-                                            <div className='postStylePropsModal'>
-                                                <EntriesImpl
-                                                    columns={12}
-                                                    addEntries={this.updateEntries}
-                                                    anno={this.props.anno}
-                                                    mese={this.props.mese}
-                                                    codicePersona={this.props.location.codicePersona}
-                                                    adjustment={true}
+                                                        right: 'next today'
+                                                    }}
+                                                    // datesSet={this.setNewMonth}
+                                                    select={this.modal}
+                                                    editable={true}
+                                                    navLinks={false}
+                                                    selectable={true}
+                                                    events={this.state.calendarEvents}
+                                                    id="calendar"
                                                 />
-                                            </div>
-                                        }
+                                            </Col>
+                                        </Row>
+                                    </CardBody>
+                                </Card>
 
+
+                                <Modal className="modal-lg" isOpen={this.state.modalIsOpen} toggle={this.modal} >
+                                    <div className="modal-header">
+                                        <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5>
+                                        <button title='esci' onClick={() => this.setState({ modalIsOpen: false, adjustmentEntryModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
+                                            <img className="menu" src="./images/exit.png"></img>
+                                        </button>
                                     </div>
-                                </ModalBody>
-                            </Modal>
-                            <Modal className="modal-lg" isOpen={this.state.showDeleteModal} toggle={this.openDeleteModal} >
-                                <div className="modal-header">
-                                    {/* <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5> */}
-                                    <button onClick={() => this.setState({ showDeleteModal: false })} className="button-close" title='esci' >
-                                        <img className="menu" src="./images/exit.png"></img>
-                                    </button>
-                                </div>
-                                <ModalBody className="postPropsStyle">
-                                    <Typography className='modalText' style={{ fontSize: "150%" }}>
-                                        Desideri eliminare il seguente timesheet?
-                                    </Typography>
-                                </ModalBody>
-                                <ModalFooter>
-                                    <button className='modalBackButton' title='annulla' onClick={() => this.setState({ showDeleteModal: false })}>
-                                        <img className="menu" src="./images/annulla.png"></img>
-                                    </button>
-                                    <button className='modalDeleteButton' title='conferma' onClick={() => { this.removeTimesheet() }}>
-                                        <a href="/timesheet" >
-                                            <img className="menu" src="./images/conferma.png"></img>
-                                        </a>
-                                    </button>
-                                </ModalFooter>
-                            </Modal>
-                            <Modal className="modal-lg" isOpen={this.state.approvalModal} toggle={this.openApprovalModal} >
-                                <div className="modal-header">
-                                    <h5 className="modal-title mt-0" id="myLargeModalLabel">Stato di Approvazione</h5>
-                                    <button title='esci' onClick={() => this.setState({ approvalModal: false })} className="button-close">
-                                        <img className="menu" src="./images/exit.png"></img>
-                                    </button>
-                                </div>
-                                <ModalBody className="postPropsStyle">
-                                    <TextField
-                                        style={{ width: "100%" }}
-                                        id="select stato"
-                                        select
-                                        name='approvalStatus'
-                                        label="Stato di Approvazione"
-                                        value={this.state.approvalStatus}
-                                        required
-                                        onChange={this.setApprovalStatus}
-                                    >
-                                        {approvalStatus.map((option) => (
-                                            <MenuItem value={option.value} >
-                                                {option.value}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </ModalBody>
-                                <ModalFooter>
-                                    <button className='modalDeleteButton' title='conferma' onClick={() => {
-                                        this.approveTimesheet()
-                                        this.setState({ approvalModal: false })
-                                    }}>
-                                        <img className="menu" src="./images/conferma.png"></img>
-                                    </button>
-                                </ModalFooter>
-                            </Modal>
-                        </Col>
-                    </Row>
 
-                </Container>
+                                    <ModalBody className="postPropsStyle">
+                                        <div className='postStyleProps'>
+                                            {!this.state.adjustmentEntryModal &&
+                                                <EntryView anno={this.state.anno}
+                                                    mese={this.state.mese}
+                                                    entries={this.state.entriesView}
+                                                    adjustmentEntryModal={this.updateModal}
+                                                    removeEntry={this.removeEntry}
+                                                    removeAll={this.removeDailyEntries}
+                                                    updateControl={this.state.approvalControl} />
+                                            }
+
+                                            {this.state.adjustmentEntryModal && !this.state.approvalControl &&
+                                                <div className='postStylePropsModal'>
+                                                    <EntriesImpl
+                                                        columns={12}
+                                                        addEntries={this.updateEntries}
+                                                        anno={this.props.anno}
+                                                        mese={this.props.mese}
+                                                        codicePersona={this.props.location.state.codicePersona}
+                                                        adjustment={true}
+                                                    />
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </ModalBody>
+                                </Modal>
+
+                                <DeleteModal
+                                    open={this.state.showDeleteModal}
+                                    toggle={this.openDeleteModal}
+                                    close={this.closeDeleteModal}
+                                    delete={this.removeTimesheet}
+                                    keyCode={null}
+                                    typography={" Desideri eliminare il seguente timesheet?"}
+                                />                      
+
+                            </Col>
+                        </Row>
+
+                    </Container>
+                }
 
             </React.Fragment >
         )

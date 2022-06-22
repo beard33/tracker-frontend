@@ -5,6 +5,7 @@ import { Day, DayPicker } from 'react-day-picker';
 import { useState, useEffect } from 'react';
 import it from 'date-fns/locale/it';
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import { getWeekendDays } from '../utils/Utils';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function DayPickerGrid(props) {
@@ -14,12 +15,10 @@ export default function DayPickerGrid(props) {
     let weekendDays = [];
     let confirmedDates = [];
 
-    const monthsWithThirtyDays = [4, 6, 9, 11]
     const footer =
         days && days.length > 0 ? (
             <p>Conferma le date selezionate</p>
         ) : (
-
             <p>seleziona 1 o più date</p>
         );
 
@@ -37,36 +36,19 @@ export default function DayPickerGrid(props) {
     const weekendStyle = {
         color: "red"
     }
-
-
-    const getWeekendDays = () => {
-        let endDay;
-        if (props.mese === 2) {
-            props.anno % 4 === 0 ? endDay = 29 : endDay = 28;
-        } else {
-            if (monthsWithThirtyDays.find(el => el === props.mese)) {
-                endDay = 30;
-            } else {
-                endDay = 31;
-            }
-        }
-        for (let i = 1; i <= endDay; i++) {
-            let date = new Date(props.anno, props.mese, i)
-            if (date.getDay() == 0 || date.getDay() == 6) {
-                weekendDays.push(date)
-            }
-        }
-
+    
+    const setWeekendDays = () => {
+        weekendDays = getWeekendDays(props.mese, props.anno)
     }
-
-
-
 
     const addDays = () => {
         props.addDays(days)
         setDays([])        
     }
 
+    /**
+     * metodo per settare la lista dei giorni con i dati popolati
+     */
     const setModified = () => {
         modifiedDays = props.modifiedDays
         confirmedDates = props.confirmedDates
@@ -78,6 +60,11 @@ export default function DayPickerGrid(props) {
         })
     }
 
+    /**
+     * metodo per aprire la visualizzazione oppure selezionare più date
+     * @param {*} day 
+     * @param {*} modifiers 
+     */
     const onDayClick = (day, modifiers) => {
         if (modifiedDays.find(d => d.getDate() === day.getDate())) {
             console.log("DATE MODIFICATE")
@@ -99,7 +86,7 @@ export default function DayPickerGrid(props) {
 
     return (
         <React.Fragment>
-            {getWeekendDays()}
+            {setWeekendDays()}
             {setModified()}
 
             <Col xl={5} style={{ marginTop: "2%" }}>
@@ -107,8 +94,7 @@ export default function DayPickerGrid(props) {
                     <DayPicker
 
                         defaultMonth={defaultMonth}
-                        disableNavigation
-                        // mode="multiple"
+                        disableNavigation                        
                         min={1}
                         selected={days}
                         onDayClick={onDayClick}

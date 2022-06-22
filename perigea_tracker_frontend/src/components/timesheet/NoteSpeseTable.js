@@ -4,8 +4,7 @@ import { Button } from 'react-bootstrap';
 
 
 export default function NoteSpeseTable(props) {
-    let noteSpesa = props.noteSpese
-    console.log(noteSpesa)
+    let noteSpesa = props.noteSpese   
     let listItems;
 
     const removeNota = (type) => {

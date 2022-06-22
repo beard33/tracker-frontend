@@ -19,10 +19,8 @@ export default function EntryView(props) {
 
     return (
         <React.Fragment>
-            {entries.map((entry) => {
-                console.log(entry)
+            {entries.map((entry) => {               
                 return (
-
                     <Form className='postStylePropsModal' style={{ width: "100%" }}>
                         <div className='info'>
                             <Form.Row>

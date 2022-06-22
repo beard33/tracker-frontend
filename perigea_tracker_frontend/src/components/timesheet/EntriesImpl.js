@@ -33,6 +33,10 @@ export default function EntriesImpl(props) {
         console.log(entryFields)
     }
 
+    /**
+     * metodo per l'inserimento automatico della commessa nel body
+     * @param {*} e 
+     */
     const insertCommessa = (e) => {
         const commessa = commesse.find(el => el.descrizioneCommessa === e.target.value)
         setEntryFields({
@@ -48,8 +52,12 @@ export default function EntriesImpl(props) {
         getAziende()
     }, []);
 
-    const getCommesse = () => {
-        AxiosInstance({
+
+    /**
+     * chiamata axios per la lettura di tutte le commesse
+     */
+    const getCommesse = async () => {
+        await AxiosInstance({
             url: "commesse/read-all-commesse"
         }).then((response) => {
             loadCommesse(response);
@@ -72,8 +80,11 @@ export default function EntriesImpl(props) {
         console.log(commesse)
     }
 
-    const getAziende = () => {
-        AxiosInstance({
+    /**
+     * chiamata axios per la lettura di tutte le aziende
+     */
+    const getAziende = async () => {
+        await AxiosInstance({
             url: "clienti/read-all"
         }).then((response) => {
             loadAziende(response);
@@ -82,7 +93,6 @@ export default function EntriesImpl(props) {
             alert("Error into loadAziende ", error)
         })
     }
-
     const loadAziende = (response) => {
         let results = []
         Object.values(response.data.data).map((element) => {
@@ -94,6 +104,10 @@ export default function EntriesImpl(props) {
         console.log(aziende)
     }
 
+    /**
+     * metodo per il settaggio delle note spesa
+     * @param {*} nota 
+     */
     const addNoteSpese = (nota) => {
         setNoteSpese(prevNoteSpese => [...prevNoteSpese, nota])
         console.log(noteSpese)
@@ -109,7 +123,9 @@ export default function EntriesImpl(props) {
         setNoteSpese(noteSpese.filter((nota) => nota.costoNotaSpese !== type))
     }
 
-
+    /**
+     * metodo per il popolamento dei dati
+     */
     const addEntries = () => {
         console.log(entryFields, noteSpese)
         props.addEntries(entryFields, noteSpese)

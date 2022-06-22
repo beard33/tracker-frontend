@@ -1,16 +1,12 @@
 import * as React from 'react';
 import Table from 'react-bootstrap/Table';
-import { Button } from 'react-bootstrap';
-import AxiosInstance from '../../axios/AxiosInstance';
+
 
 export default function MonthTotalsTable(props) {
     let commesse = props.commesse
-    let giorni = props.oreTotali/8
-
-    
+    let giorni = props.oreTotali/8    
 
     let tableItems = commesse.map((val) =>
-
         <tr>
             <td>{val.tipoCommessa === "F" ? val.ragioneSociale : val.descrizioneCommessa}</td>
             <td>{val.oreTotali}</td>

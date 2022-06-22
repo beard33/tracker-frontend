@@ -1,6 +1,3 @@
-//componente generico sidebar - ogni utente diverso visualizzerà elenchi diversi
-
-import { color } from '@mui/system';
 import { white } from 'material-ui/styles/colors';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -41,8 +38,27 @@ export default class Sidebar extends React.Component {
               </SubMenu>
 
               <SubMenu title="Timesheet">
-                <MenuItem><a href="/timesheet"> Timesheet</a></MenuItem>
-                <MenuItem><a href="/timesheet-grid">Timesheets Grid </a></MenuItem>
+                <MenuItem>
+                  <Link to={{
+                    pathname: "/timesheet-view",
+                    state: {
+                      responsabile: false,
+                      codicePersona: "2978f40f-69a8-4360-954b-c27746199c01",
+                      username: "samuel.genta",
+                      anno: new Date().getFullYear(),
+                      mese: new Date().getMonth()
+                    }
+                  }}>
+                    Timesheet
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link to={{
+                    pathname: "/timesheet-grid",
+                  }}>
+                    Timesheet Sottoposti
+                  </Link>
+                </MenuItem>
               </SubMenu>
 
 
