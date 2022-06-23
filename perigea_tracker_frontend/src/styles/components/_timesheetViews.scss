@@ -416,9 +416,22 @@
                                 border: 1px solid $greyPerigea;
                                 color: white;
                                 font-weight: bolder;
-
-
                             }
+
+                            .fc-event-extra {
+                                background-color: $violetPerigea;
+                                border: 1px solid $greyPerigea;
+                                color: white;
+                                font-weight: bolder;
+                            }
+
+                            .fc-event-festivo {
+                                background-color: $redPerigea;
+                                border: 1px solid $greyPerigea;
+                                color: white;
+                                font-weight: bolder;
+                            }
+
 
                             .fc-daygrid-day-number {
                                 padding: 5%;

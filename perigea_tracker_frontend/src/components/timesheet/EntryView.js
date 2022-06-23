@@ -47,7 +47,7 @@ export default function EntryView(props) {
                             <Form.Row>
                                 <TextField className='modal-text-field' label="trasferta"
                                     value={entry.trasferta} />
-                            </Form.Row>
+                            </Form.Row>                           
                             {entry.tipoCommessa === "F" &&
                                 <Form.Row>
                                     <NoteSpeseTable noteSpese={entry.noteSpesa} removePermission={false} />

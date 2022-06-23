@@ -4,7 +4,7 @@ import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import { Button, Form, Row, Container } from 'react-bootstrap';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import DayPickerGrid from './DayPickerGrid';
 import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
@@ -22,23 +22,28 @@ export default class TimesheetCreazione extends React.Component {
         modifiedDays: [],
         showEntryModal: false,
         adjustmentEntryModal: false,
-        entriesView: []
+        entriesView: [],
+        redirect: false,
+        festivi: []
+
     }
 
     componentWillMount() {
         this.setState({
             codicePersona: this.props.location.state.codicePersona,
             anno: this.props.location.state.anno,
-            mese: this.props.location.state.mese
+            mese: this.props.location.state.mese,
         })
+        console.log("PROPS", this.props.location.state)
     }
+
 
     /**
      * chiamata axios per la creazione di un timesheet mensile
      */
-    createTimesheetMensile = async () => {
+    createTimesheetMensile = () => {
         console.log("Inizio creazione di un timesheet mensile")
-        await AxiosInstance({
+        AxiosInstance({
             method: 'post',
             url: "timesheet/create",
             data: {
@@ -50,6 +55,8 @@ export default class TimesheetCreazione extends React.Component {
                 entries: this.state.entries
             }
         }).then(() => {
+            this.setState({ redirect: true })
+            alert("Creazione di un timesheet mensile effettuata con successo", this.data)
             console.log("Creazione di un timesheet mensile effettuata con successo", this.data)
         }).catch((error) => {
             console.log("Errore ", error)
@@ -251,6 +258,7 @@ export default class TimesheetCreazione extends React.Component {
                             modifiedDays={this.state.modifiedDays}
                             entryView={this.entryView}
                             confirmedDates={this.state.confirmedDates}
+                            festivi={this.props.location.state.festivi}
                         ></DayPickerGrid>
 
                         <EntriesImpl
@@ -263,20 +271,21 @@ export default class TimesheetCreazione extends React.Component {
                         />
                     </Row>
 
-                    <Link to={{
-                        pathname: "/timesheet-view",
-                        state: {
-                            responsabile: false,
-                            mese: this.state.mese - 1,
-                            anno: this.state.anno,
-                            codicePersona: "2978f40f-69a8-4360-954b-c27746199c01",
-                            username: "samuel.genta"
-                        }
-                    }}>
-                        <Button className='ButtonSave' onClick={this.onSaveClick} title="Salva timesheet">
-                            <img className="menu" src="./images/save.png"></img>
-                        </Button>
-                    </Link>
+                    <button className='ButtonSave' onClick={this.onSaveClick} title="Salva timesheet">
+                        <img className="menu" src="./images/save.png"></img>
+                    </button>
+
+                    {this.state.redirect &&
+                        <Redirect to={{
+                            pathname: "/timesheet-view",
+                            state: {
+                                responsabile: false,
+                                mese: this.state.mese - 1,
+                                anno: this.state.anno,
+                                codicePersona: "2978f40f-69a8-4360-954b-c27746199c01",
+                                username: "samuel.genta"
+                            }
+                        }}></Redirect>}
 
                 </Container>
 
@@ -297,6 +306,7 @@ export default class TimesheetCreazione extends React.Component {
                                     removeEntry={this.removeEntry}
                                     removeAll={this.removeEntries}
                                     updateControl={false}
+
                                 />
                             }
                             {this.state.adjustmentEntryModal &&

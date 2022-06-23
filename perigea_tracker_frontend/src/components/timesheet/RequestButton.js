@@ -22,7 +22,7 @@ export default function RequestButton(props) {
             props.setSyncState()
         }).catch((error) => {
             console.log("Errore ", error)
-            alert("Errore nell'invio della richiesta", error)
+            alert("ERRORE: il timesheet non è completo. Impossibile inviare la richiesta", error)
         })
     }
 

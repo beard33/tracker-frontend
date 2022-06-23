@@ -7,6 +7,7 @@ import it from 'date-fns/locale/it';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { getWeekendDays } from '../utils/Utils';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { red } from '@material-ui/core/colors';
 
 export default function DayPickerGrid(props) {
     const [days, setDays] = useState([]);
@@ -14,6 +15,7 @@ export default function DayPickerGrid(props) {
     let modifiedDays = [];
     let weekendDays = [];
     let confirmedDates = [];
+    let festivi = []
 
     const footer =
         days && days.length > 0 ? (
@@ -37,6 +39,8 @@ export default function DayPickerGrid(props) {
         color: "red"
     }
     
+    
+    
     const setWeekendDays = () => {
         weekendDays = getWeekendDays(props.mese, props.anno)
     }
@@ -50,9 +54,11 @@ export default function DayPickerGrid(props) {
      * metodo per settare la lista dei giorni con i dati popolati
      */
     const setModified = () => {
+        console.log("FESTIVI", props.festivi)
         modifiedDays = props.modifiedDays
         confirmedDates = props.confirmedDates
-        console.log(confirmedDates)
+        festivi = props.festivi
+        
         modifiedDays.map((day) => {
             if (confirmedDates.find(el => el.getDate() === day.getDate())) {
                 confirmedDates = confirmedDates.filter(el => el.getDate() !== day.getDate())
@@ -104,12 +110,14 @@ export default function DayPickerGrid(props) {
                         modifiers={{
                             modifiedDays: modifiedDays,
                             weekend: weekendDays,
-                            confirmedDates: confirmedDates
+                            confirmedDates: confirmedDates,
+                            festivi: festivi
                         }}
                         modifiersStyles={{
                             modifiedDays: modifiedDaysStyle,
                             weekend: weekendStyle,
-                            confirmedDates: confirmedDatesStyle
+                            confirmedDates: confirmedDatesStyle,
+                            festivi: weekendStyle
                         }}
                     />
                     <Button

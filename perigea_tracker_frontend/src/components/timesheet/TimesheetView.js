@@ -9,7 +9,6 @@ import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
 import MonthTotalsTable from './MonthTotalsTable';
 import { Link } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
 import LoadingSpinner from '../structural/LoadingSpinner';
 import { setNoteSpeseDay, getMonthEndDate } from '../utils/Utils';
 import MonthFilter from '../structural/MonthFilter';
@@ -20,9 +19,10 @@ import DeleteModal from '../structural/DeleteModal';
 
 
 
+
 let entries = []
 let getControl = true
-
+let notaStraordinario = ""
 
 class TimesheetView extends Component {
     constructor(props) {
@@ -42,7 +42,8 @@ class TimesheetView extends Component {
             showDeleteModal: false,
             approvalControl: false,
             sync: true,
-            isLoading: false
+            isLoading: false,
+            festivi: []
         }
         this.calendarComponentRef = React.createRef();
     }
@@ -54,15 +55,48 @@ class TimesheetView extends Component {
             anno: this.props.location.state.anno,
             mese: this.props.location.state.mese + 1,
         })
+        this.setFestivitaEvents()
         this.getTimesheets(this.props.location.state.anno, this.props.location.state.mese + 1)
 
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(this.state)
         if (prevState.sync !== this.state.sync) {
             this.getTimesheets(this.state.anno, this.state.mese)
         }
+    }
+
+    /**
+     * metodo per ottenere le festività
+     */
+    setFestivitaEvents = async () => {
+        await AxiosInstance({
+            method: "get",
+            url: `backoffice/festivita/read-all`,
+        }).then((response) => {
+            this.loadFestivi(response)
+        }).catch((error) => {
+            console.log("Error into delete ", error)
+            alert("Error into festività loading ", error)
+        })
+    }
+    loadFestivi = (response) => {
+        let event;
+        console.log(response.data.data)
+        response.data.data.map((festivo) => {
+            let data = new Date(festivo.data)
+            event = {
+                title: `${festivo.nomeFestivo}`,
+                start: data,
+                end: new Date(data.getFullYear(), data.getMonth(), data.getDate()+1),
+                allDay: true,
+                className: `fc-event-festivo`
+            }
+            this.setState((prevState) => ({
+                festivi: prevState.festivi.concat(data),
+                calendarEvents: prevState.calendarEvents.concat(event),
+            }))
+        })
     }
 
     /**
@@ -202,12 +236,22 @@ class TimesheetView extends Component {
                     })
                 }))
             }
-            event = {
-                title: `${entry.tipoCommessa === "F" ? entry.ragioneSociale : entry.descrizioneCommessa}` + "  " + entry.ore,
-                start: new Date(this.state.timesheet.anno, this.state.timesheet.mese - 1, entry.giorno),
-                end: new Date(this.state.timesheet.anno, this.state.timesheet.mese - 1, entry.giorno + 1),
-                allDay: true,
-                className: `fc-event-${entry.tipoCommessa}`
+            if (!entry.straordinario) {
+                event = {
+                    title: `${entry.tipoCommessa === "F" ? entry.ragioneSociale : entry.descrizioneCommessa}` + "  " + entry.ore,
+                    start: new Date(this.state.timesheet.anno, this.state.timesheet.mese - 1, entry.giorno),
+                    end: new Date(this.state.timesheet.anno, this.state.timesheet.mese - 1, entry.giorno + 1),
+                    allDay: true,
+                    className: `fc-event-${entry.tipoCommessa}`
+                }
+            } else {
+                event = {
+                    title: `${entry.ragioneSociale}` + "  " + entry.ore,
+                    start: new Date(this.state.timesheet.anno, this.state.timesheet.mese - 1, entry.giorno),
+                    end: new Date(this.state.timesheet.anno, this.state.timesheet.mese - 1, entry.giorno + 1),
+                    allDay: true,
+                    className: `fc-event-extra`
+                }
             }
             if (!this.state.calendarEvents.find(el =>
                 el.start.getDate() === event.start.getDate() &&
@@ -260,11 +304,20 @@ class TimesheetView extends Component {
      * @param {*} day 
      */
     dailyEntries = (day) => {
+
+        let oreGiornaliere = 0
         let entriesView = this.state.timesheet.entries.filter(el => el.giorno === day.getDate())
         if (entriesView.length === 0) {
             console.log("NO ENTRIES")
             this.updateModal()
         } else {
+            entriesView.map((data) => {
+                oreGiornaliere += data.ore
+            })
+            if (oreGiornaliere > 8 && oreGiornaliere <= 12) {
+                notaStraordinario = `sono state lavorate ${oreGiornaliere - 8} ore di straordinario`
+            }
+
             this.setState({ entriesView: entriesView })
             console.log(entriesView)
         }
@@ -520,6 +573,7 @@ class TimesheetView extends Component {
                                                             mese: this.state.mese,
                                                             anno: this.state.anno,
                                                             codicePersona: this.state.codicePersona,
+                                                            festivi: this.state.festivi
                                                         }
                                                     }}>
                                                         <button className='add-button' title='aggiungi timesheet'>
@@ -577,13 +631,17 @@ class TimesheetView extends Component {
                                     <ModalBody className="postPropsStyle">
                                         <div className='postStyleProps'>
                                             {!this.state.adjustmentEntryModal &&
-                                                <EntryView anno={this.state.anno}
-                                                    mese={this.state.mese}
-                                                    entries={this.state.entriesView}
-                                                    adjustmentEntryModal={this.updateModal}
-                                                    removeEntry={this.removeEntry}
-                                                    removeAll={this.removeDailyEntries}
-                                                    updateControl={this.state.approvalControl} />
+                                                <React.Fragment>
+                                                    <EntryView anno={this.state.anno}
+                                                        mese={this.state.mese}
+                                                        entries={this.state.entriesView}
+                                                        adjustmentEntryModal={this.updateModal}
+                                                        removeEntry={this.removeEntry}
+                                                        removeAll={this.removeDailyEntries}
+                                                        updateControl={this.state.approvalControl}
+                                                    />
+
+                                                </React.Fragment>
                                             }
 
                                             {this.state.adjustmentEntryModal && !this.state.approvalControl &&
@@ -601,6 +659,10 @@ class TimesheetView extends Component {
 
                                         </div>
                                     </ModalBody>
+                                    <ModalFooter>
+                                        <h6>NOTE GIORNALIERE: </h6>
+                                        <p>{notaStraordinario}</p>
+                                    </ModalFooter>
                                 </Modal>
 
                                 <DeleteModal
@@ -610,7 +672,7 @@ class TimesheetView extends Component {
                                     delete={this.removeTimesheet}
                                     keyCode={null}
                                     typography={" Desideri eliminare il seguente timesheet?"}
-                                />                      
+                                />
 
                             </Col>
                         </Row>
