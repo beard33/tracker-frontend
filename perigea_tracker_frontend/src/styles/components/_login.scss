@@ -9,15 +9,15 @@
 
 .div-login {
   background-repeat: no-repeat;
-  background-size: 100% ;
+  background-size: 100%;
   background-position: top;
   width: 100%;
   position: fixed;
   height: 100%;
-  
+
 }
 
-.form-box{
+.form-box {
   width: 380px;
   height: 390px;
   position: relative;
@@ -28,7 +28,7 @@
   border-radius: 6px;
 }
 
-.button-box{
+.button-box {
   width: 220px;
   margin: 35px auto;
   position: relative;
@@ -36,11 +36,11 @@
   border-radius: 6px;
 }
 
-.toggle-button{
+.toggle-button {
   padding: 10px 30px;
   cursor: pointer;
   background: transparent;
-  border:0;
+  border: 0;
   outline: none;
   position: relative;
   text-align: center;
@@ -48,12 +48,12 @@
 }
 
 
-#switch-login{
+#switch-login {
   color: whitesmoke;
 }
 
 
-#button{
+#button {
   top: 0;
   left: 0;
   position: absolute;
@@ -64,20 +64,41 @@
   transition: .5s;
 }
 
-.input-group{
+.input-group {
   top: 45px;
-  position: absolute;  
+  position: absolute;
   width: 200px;
   transform: translateX(-12px);
   margin-right: 5%;
   transition: .5s;
   align-items: center;
+
+  .submit-button {
+    width: 81%;
+    color: whitesmoke;
+    padding: 10px 30px;
+    cursor: pointer;
+    margin-top: 25%;
+    margin-left: 90%;
+    float: left;
+    background: linear-gradient(to right, #333333, #939294);
+    border: 0;
+    outline: none;
+    border-radius: 6px;
+    text-decoration: none;
+
+  }
+
+  .submit-button:hover {
+    color: $greyPerigea;
+    background: linear-gradient(to right, $orangePerigea, $lightOrangePerigea);
+  }
 }
 
 .input-field {
   width: 80%;
   padding: 10px 0px 10px 15px;
-  margin-top: 5%;  
+  margin-top: 5%;
   border-left: 0;
   border-top: 0;
   border-right: 0;
@@ -85,45 +106,27 @@
   outline: none;
   background: transparent;
   text-align: center;
-  
-  
+
+
 }
 
 
 
-.submit-button{
-  width: 100%;
-  color: whitesmoke;
-  padding: 10px 30px;
-  cursor: pointer;
-  // display: block;
-  margin-top: 100%;
-  margin-left: 90%;
-  float: left;
-  background: linear-gradient(to right, $greyPerigea, $lightGreyPerigea);
-  border: 0;      
-  outline:none;
-  border-radius: 6px;
-  text-decoration: none;
-  ;
-}
-.submit-button:hover{
-  color: $greyPerigea;
-  background: linear-gradient(to right, $orangePerigea, $lightOrangePerigea);
-}
 
-.recupero-credenziali{
+
+.recupero-credenziali {
   margin-top: 40%;
   text-align: center;
   position: absolute;
   transform: translateX(70px);
 }
-#login{
+
+#login {
   left: 50px;
 }
 
-#register{
-  left:450px;
+#register {
+  left: 450px;
 }
 
 #control_message {

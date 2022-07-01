@@ -34,7 +34,7 @@ export default function RouterApp() {
     <Switch>
       <Route path="/" exact component={LoginPage} />
       <Layout style={{ height: "100%" }}>
-        <Route path="/home" exact component={PersonalProfile} />
+        <Route path="/home" component={PersonalProfile} exact={true}/>
         <Route path="/message" exact component={Message} />
         <Route path="/inbox" exact component={Message} />
         <Route path="/grid2" exact component={Message} />

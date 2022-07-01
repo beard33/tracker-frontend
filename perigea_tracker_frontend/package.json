@@ -74,6 +74,7 @@
     "react-scripts": "^4.0.3",
     "reactstrap": "^9.0.2",
     "redux": "3.7.2",
+    "redux-thunk": "^2.4.1",
     "sass-loader": "6.0.6",
     "start-server-webpack-plugin": "^2.2.5",
     "style-loader": "0.18.2",
@@ -97,5 +98,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.9"
   }
 }
