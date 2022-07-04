@@ -22,6 +22,7 @@ import DeleteModal from '../structural/DeleteModal';
 
 
 
+
 let entries = []
 let getControl = true
 let notaStraordinario = ""

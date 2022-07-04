@@ -5,10 +5,11 @@ import Title from '../structural/Title';
 import SearchBar from '../structural/SearchBar';
 import MonthFilter from '../structural/MonthFilter';
 import LoadingSpinner from '../structural/LoadingSpinner';
+import { connect } from 'react-redux';
 
 
-const codiceResponsabile = "243a9d56-86a9-49a2-89c7-4e932685846f"
-export default class TimesheetGrid extends React.Component {
+
+class TimesheetGrid extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,7 +31,7 @@ export default class TimesheetGrid extends React.Component {
 
     componentDidMount() {
         this.setState({ anno: new Date().getFullYear(), mese: new Date().getMonth() })
-        this.getContattoResponsabile(codiceResponsabile)
+        this.getContattoResponsabile(this.props.codicePersona)
     }
 
 
@@ -61,7 +62,7 @@ export default class TimesheetGrid extends React.Component {
     */
     setNewMonth = (month, year) => {        
         this.setState({ mese: month-1, anno: year, sync: !this.state.sync, isLoading: true })
-        this.getContattoResponsabile(codiceResponsabile)
+        this.getContattoResponsabile(this.props.codicePersona)
     }
 
 
@@ -71,7 +72,7 @@ export default class TimesheetGrid extends React.Component {
     getTimesheetsSottoposti = (anno, mese) => {
         this.setState({ isLoading: true })       
         AxiosInstance({
-            url: `timesheet/read-all-by-responsabile/${anno}/${mese + 1}/${codiceResponsabile}`
+            url: `timesheet/read-all-by-responsabile/${anno}/${mese + 1}/${this.props.codicePersona}`
         }).then((response) => {           
             this.loadTimesheets(response.data.data)
         }).catch((error) => {
@@ -79,6 +80,7 @@ export default class TimesheetGrid extends React.Component {
         })
     }
     loadTimesheets = (response) => {
+        console.log(response)
         console.log("loadTimesheets")       
         let result = []
         Object.values(response).map((element) => {
@@ -136,7 +138,7 @@ export default class TimesheetGrid extends React.Component {
                         />
 
                         {
-                            Object.values(this.state.listCard).map((item) => {
+                            Object.values(this.state.searchList).map((item) => {
                                 return (
                                     <React.Fragment>
                                         <Field
@@ -154,3 +156,15 @@ export default class TimesheetGrid extends React.Component {
         )
     }
 }
+
+
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {      
+      scope: state.user.scope,
+      username: state.user.username,
+      codicePersona: state.user.codicePersona
+    }
+  }
+  
+  export default connect(mapStateToProps)(TimesheetGrid);

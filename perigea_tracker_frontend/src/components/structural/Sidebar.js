@@ -2,8 +2,9 @@ import { white } from 'material-ui/styles/colors';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { connect } from 'react-redux';
 
-export default class Sidebar extends React.Component {
+class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {}
@@ -43,8 +44,8 @@ export default class Sidebar extends React.Component {
                     pathname: "/timesheet-view",
                     state: {
                       responsabile: false,
-                      codicePersona: "2978f40f-69a8-4360-954b-c27746199c01",
-                      username: "samuel.genta",
+                      codicePersona: this.props.codicePersona,
+                      username: this.props.username,
                       anno: new Date().getFullYear(),
                       mese: new Date().getMonth()
                     }
@@ -70,3 +71,14 @@ export default class Sidebar extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {    
+    userEmail: state.user.email,    
+    username: state.user.username,
+    codicePersona: state.user.codicePersona
+  }
+}
+
+export default connect(mapStateToProps)(Sidebar);

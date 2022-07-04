@@ -9,9 +9,10 @@ import DayPickerGrid from './DayPickerGrid';
 import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
 import { setNoteSpeseDay } from '../utils/Utils';
+import { connect } from 'react-redux';
 
 
-export default class TimesheetCreazione extends React.Component {
+class TimesheetCreazione extends React.Component {
     state = {
         codicePersona: "",
         anno: 0,
@@ -282,8 +283,8 @@ export default class TimesheetCreazione extends React.Component {
                                 responsabile: false,
                                 mese: this.state.mese - 1,
                                 anno: this.state.anno,
-                                codicePersona: "2978f40f-69a8-4360-954b-c27746199c01",
-                                username: "samuel.genta"
+                                codicePersona: this.props.codicePersona,
+                                username: this.props.username
                             }
                         }}></Redirect>}
 
@@ -326,6 +327,17 @@ export default class TimesheetCreazione extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {    
+      userEmail: state.user.email,    
+      username: state.user.username,
+      codicePersona: state.user.codicePersona
+    }
+  }
+  
+  export default connect(mapStateToProps)(TimesheetCreazione);
 
 
 
