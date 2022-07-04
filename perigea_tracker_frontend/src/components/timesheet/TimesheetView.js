@@ -15,7 +15,9 @@ import MonthFilter from '../structural/MonthFilter';
 import ExcelDownloadButton from '../timesheet/ExcelDownLoadButton';
 import RequestButton from '../timesheet/RequestButton';
 import ApproveButton from '../timesheet/ApproveButton';
+import Title from '../structural/Title';
 import DeleteModal from '../structural/DeleteModal';
+
 
 
 
@@ -490,6 +492,7 @@ class TimesheetView extends Component {
 
         return (
             <React.Fragment>
+                <Title></Title>
                 {this.state.isLoading ? <LoadingSpinner /> :
                     <Container fluid="xl" className='container'>
                         <div className="page-title-box">

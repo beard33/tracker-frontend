@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Field from '../structural/Field';
 import SearchBar from '../structural/SearchBar';
 import DeleteModal from '../structural/DeleteModal';
+import Title from '../structural/Title';
 
 
 
@@ -236,6 +237,7 @@ export default class CommesseGrid extends React.Component {
     render() {
         return (
             <React.Fragment>
+               <Title></Title>
                 <div className="card-grid">
 
                     {!this.props.cliente &&

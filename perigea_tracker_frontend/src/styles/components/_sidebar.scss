@@ -1,7 +1,6 @@
-
-$highlight-color: $menuColor !default;
-$submenu-bg-color:  $menuColor !default;
-$submenu-bg-color-collapsed:  $menuColor !default;
+$highlight-color: $menuColor  !default;
+$submenu-bg-color: $menuColor  !default;
+$submenu-bg-color-collapsed: $menuColor  !default;
 $backgroundPerigea: $backgroundPerigea;
 @import '~react-pro-sidebar/dist/scss/styles.scss';
 
@@ -13,6 +12,7 @@ $backgroundPerigea: $backgroundPerigea;
   -webkit-transform: translateX(0);
   transform: translateX(0);
   color: rgb(243, 237, 237) !important;
+
   &.open {
     -webkit-transform: translateX(350px);
     transform: translateX(350px);
@@ -21,11 +21,91 @@ $backgroundPerigea: $backgroundPerigea;
   }
 }
 
+.personal-menu {
+
+  float: right;
+  position: absolute;
+  top: 57.4px;
+  left: 1300px;
+  -webkit-transform: translateX(0);
+  transform: translateX(0) ;
+ 
+
+  color: rgb(243, 237, 237) !important;
+
+  .pro-menu {
+    height: 0%;
+
+    .pro-sidebar-right {
+      -webkit-transform: translateX(117px);
+      min-width: 0px;
+      width: 72%;
+      height: 0%;
+      transform: translateX(117px) translateY(-120px);;
+    
+      .pro-sidebar-inner {
+        background: #1d1d1d;
+        height: 0%;
+        position: relative;
+        z-index: 101;
+        width: 100%;
+
+        .pro-sidebar-layout {
+          height: 0%;
+          overflow-y: auto;
+          overflow-x: hidden;
+          position: relative;
+          display: flex;
+          flex-direction: inherit;
+          z-index: 101;
+        }
+      }
+
+    }
+  }
+
+  &.open {
+    -webkit-transform: translateX(350px);
+    transform: translateX(0px);
+    position: fixed;
+    height: 100%;
+
+    .pro-menu {
+      .pro-sidebar-right {
+        -webkit-transform: translateX(117px);
+        min-width: 0px;
+        width: 72%;
+        height: 100vh;;        
+        transform: translateX(117px) translateY(0px);
+
+        .pro-sidebar-inner {
+          background: #1d1d1d;
+          height: 15%;
+          position: relative;
+          z-index: 101;
+          width: 100%;
+
+          .pro-sidebar-layout {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: inherit;
+            z-index: 101;
+          }
+        }
+      }
+    }
+  }
+}
+
 .pro-sidebar {
   -webkit-transform: translateX(0);
   transform: translateX(0);
   height: 100vh;
   color: rgb(250, 246, 246) !important;
+
   &.open {
     width: 30%;
     color: rgb(250, 246, 246) !important;
@@ -41,10 +121,11 @@ $backgroundPerigea: $backgroundPerigea;
 .pro-sidebar-inner {
   width: 350px;
   float: left;
-  color: $greyPerigea !important;
+  color: $greyPerigea  !important;
   -webkit-transform: translateX(0);
-  transform: translateX(0); 
+  transform: translateX(0);
   height: 100vh;
+
   &.open {
     width: 30%;
   }
@@ -53,10 +134,11 @@ $backgroundPerigea: $backgroundPerigea;
 .pro-sidebar-layout {
   // background: rgb(0,0,0);
   // background: linear-gradient(0deg, rgba(75,7,84,1) 9%, rgba(0,0,0,1) 100%);
-  background-color:#333333;
+  background-color: #333333;
   -webkit-transform: translateX(0);
   transform: translateX(0);
   height: 100vh;
+
   &.open {
     width: 30%;
   }

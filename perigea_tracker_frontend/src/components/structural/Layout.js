@@ -2,15 +2,24 @@ import React,{useState} from 'react';
 import Footer from './Footer';
 import NavigationBar from './NavigationBar';
 import Sidebar from './Sidebar';
+import CollapseMenu from './CollapseMenu';
+
+
 
 export default function Layout({children}) {
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [personalMenu, setPersonalMenu] = useState(false)
 
   const menuToggle = () =>{
       setIsMenuOpen(!isMenuOpen);
   };
 
+  const personalMenuToggle = () => {
+    setPersonalMenu(!personalMenu);
+    console.log(personalMenu)
+  }
+ 
   return (
     <div className="view"> 
     
@@ -24,12 +33,15 @@ export default function Layout({children}) {
         profile2="./images/fotoProfiloGenerica.png"
         isMenuOpen={isMenuOpen}
         onMenuToggle={menuToggle}
+        onPersonalMenuToggle={personalMenuToggle}
       />
 
       <Sidebar
         isMenuOpen={isMenuOpen}
         onMenuToggle={menuToggle}
       />
+
+      <CollapseMenu isMenuOpen={personalMenu} />
 
       <div className={`centralbody${isMenuOpen === true ? ' open' : ''}`}>
           {children}
@@ -44,3 +56,4 @@ export default function Layout({children}) {
     </div>
   )
 }
+

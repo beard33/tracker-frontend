@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { withRouter, Switch, Route } from "react-router-dom"
-import Message from '../components/functional/Message';
-import PersonalProfile from '../components/functional/PersonalProfile';
+import Message from '../components/general/Message';
+import PersonalProfile from '../components/general/PersonalProfile';
 import View from '../components/structural/View';
 import Cliente from '../components/AziendeEsterne/Cliente';
 import Consulente from '../components/utenti/Consulente';
