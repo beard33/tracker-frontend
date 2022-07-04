@@ -26,8 +26,8 @@ $backgroundPerigea: $backgroundPerigea;
   float: right;
   position: absolute;
   top: 57.4px;
-  left: 1300px;
-  -webkit-transform: translateX(0);
+  left: 88%;
+  
   transform: translateX(0) ;
   margin-left: -0.05%;
  
@@ -37,8 +37,7 @@ $backgroundPerigea: $backgroundPerigea;
   .pro-menu {
     height: 0%;
 
-    .pro-sidebar-right {
-      -webkit-transform: translateX(117px);
+    .pro-sidebar-right {      
       min-width: 0px;
       width: 50%;
       height: 0%;
@@ -49,7 +48,7 @@ $backgroundPerigea: $backgroundPerigea;
         height: 0%;
         position: relative;
         z-index: 101;
-        border-bottom-left-radius: 100%;
+        border-bottom-left-radius: 10px;
         width: 100%;
 
         .pro-sidebar-layout {
