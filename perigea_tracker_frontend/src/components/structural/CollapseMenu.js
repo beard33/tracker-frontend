@@ -45,10 +45,10 @@ function CollaspseMenu(props) {
 
                             <MenuItem>
                                 <Link to={{ pathname: "/your-profile", state: "edit" }} title="modifica profilo">
-                                    <img className="menu" src="./images/edit-profile.png" style={{ width: "100%", height: "100%", marginLeft: "0px", cursor: "pointer" }}></img>
+                                    <img className="menu" src="./images/edit-profile.png" style={{ width: "100%", height: "100%", marginLeft: "-1px", cursor: "pointer" }}></img>
                                 </Link>
                             </MenuItem>
-                            <MenuItem style={{ marginTop: "10%" }}>
+                            <MenuItem style={{ marginTop: "10%", marginLeft:"-1px" }}>
                                 <a href="/" onClick={logOut} title="logout">
                                     <LogoutIcon />
                                 </a>

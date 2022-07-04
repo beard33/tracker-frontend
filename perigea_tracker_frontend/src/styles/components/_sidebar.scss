@@ -29,6 +29,7 @@ $backgroundPerigea: $backgroundPerigea;
   left: 1300px;
   -webkit-transform: translateX(0);
   transform: translateX(0) ;
+  margin-left: -0.05%;
  
 
   color: rgb(243, 237, 237) !important;
@@ -39,7 +40,7 @@ $backgroundPerigea: $backgroundPerigea;
     .pro-sidebar-right {
       -webkit-transform: translateX(117px);
       min-width: 0px;
-      width: 72%;
+      width: 50%;
       height: 0%;
       transform: translateX(117px) translateY(-120px);;
     
@@ -48,6 +49,7 @@ $backgroundPerigea: $backgroundPerigea;
         height: 0%;
         position: relative;
         z-index: 101;
+        border-radius: 100%;
         width: 100%;
 
         .pro-sidebar-layout {
@@ -58,6 +60,7 @@ $backgroundPerigea: $backgroundPerigea;
           display: flex;
           flex-direction: inherit;
           z-index: 101;
+          border-radius: 10px;
         }
       }
 
@@ -69,6 +72,8 @@ $backgroundPerigea: $backgroundPerigea;
     transform: translateX(0px);
     position: fixed;
     height: 100%;
+    margin-left: 0.4%;
+   ;
 
     .pro-menu {
       .pro-sidebar-right {
@@ -83,7 +88,8 @@ $backgroundPerigea: $backgroundPerigea;
           height: 15%;
           position: relative;
           z-index: 101;
-          width: 100%;
+          width: 105%;
+          border-radius: 100%;
 
           .pro-sidebar-layout {
             height: 100%;
@@ -93,6 +99,7 @@ $backgroundPerigea: $backgroundPerigea;
             display: flex;
             flex-direction: inherit;
             z-index: 101;
+            border-radius: 10px;
           }
         }
       }
