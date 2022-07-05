@@ -15,6 +15,12 @@ class AuthService {
     logout() {
         localStorage.removeItem("user");
     }
+    // refresh() {
+    //     let user = JSON.parse(localStorage.getItem("user"));
+    //     const refreshToken = user.refresh_token;
+    //     user.access_token = refreshToken;
+    //     localStorage.setItem("user", JSON.stringify(user))
+    // }
 }
 
 export default new AuthService();

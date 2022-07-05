@@ -23,6 +23,11 @@ export default function reducer(state = initialState, action) {
                 isLoggedIn: false,
                 user: null
             };
+        case "REFRESH_TOKEN":
+            return {
+                ...state,
+                user: {...user, accessToken: payload}
+            }
         default:
             return state;
     }

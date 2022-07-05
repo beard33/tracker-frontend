@@ -66,12 +66,7 @@ function CollaspseMenu(props) {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        nome: state.user.name,
-        cognome: state.user.lastname,
-        userEmail: state.user.email,
-        type: state.user.type,
-        scope: state.user.scope,
-        username: state.user.username
+      user: state.user
     }
 }
 

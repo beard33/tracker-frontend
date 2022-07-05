@@ -17,6 +17,7 @@ import RequestButton from '../timesheet/RequestButton';
 import ApproveButton from '../timesheet/ApproveButton';
 import Title from '../structural/Title';
 import DeleteModal from '../structural/DeleteModal';
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -53,14 +54,15 @@ class TimesheetView extends Component {
 
 
     componentDidMount() {
-        this.setState({
-            codicePersona: this.props.location.state.codicePersona,
-            anno: this.props.location.state.anno,
-            mese: this.props.location.state.mese + 1,
-        })
-        this.setFestivitaEvents()
-        this.getTimesheets(this.props.location.state.anno, this.props.location.state.mese + 1)
-
+        if (this.props.location.state) {
+            this.setState({
+                codicePersona: this.props.location.state.codicePersona,
+                anno: this.props.location.state.anno,
+                mese: this.props.location.state.mese + 1,
+            })
+            this.setFestivitaEvents()
+            this.getTimesheets(this.props.location.state.anno, this.props.location.state.mese + 1)
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -91,7 +93,7 @@ class TimesheetView extends Component {
             event = {
                 title: `${festivo.nomeFestivo}`,
                 start: data,
-                end: new Date(data.getFullYear(), data.getMonth(), data.getDate()+1),
+                end: new Date(data.getFullYear(), data.getMonth(), data.getDate() + 1),
                 allDay: true,
                 className: `fc-event-festivo`
             }
@@ -493,197 +495,200 @@ class TimesheetView extends Component {
 
         return (
             <React.Fragment>
-                <Title></Title>
-                {this.state.isLoading ? <LoadingSpinner /> :
-                    <Container fluid="xl" className='container'>
-                        <div className="page-title-box">
+                {this.props.location.state.codicePersona ?
+                    <React.Fragment>
+                        <Title></Title>
+                        {this.state.isLoading ? <LoadingSpinner /> :
+                            <Container fluid="xl" className='container'>
+                                <div className="page-title-box">
 
-                            {!this.props.location.state.responsabile && <MonthFilter setNewMonth={this.setNewMonth} />}
+                                    {!this.props.location.state.responsabile && <MonthFilter setNewMonth={this.setNewMonth} />}
 
-                            <Row className="align-items-center">
-                                <Col lg={6} sm={6} md={6}>
-                                    <h3 className="page-title">{this.props.location.state.username + "_timesheet"}</h3>
-                                </Col>
-                                <Col sm="6">
-                                    <div className="float-right d-none d-md-block">
-                                    </div>
-                                </Col>
-                            </Row>
-                        </div>
+                                    <Row className="align-items-center">
+                                        <Col lg={6} sm={6} md={6}>
+                                            <h3 className="page-title">{this.props.location.state.username + "_timesheet"}</h3>
+                                        </Col>
+                                        <Col sm="6">
+                                            <div className="float-right d-none d-md-block">
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </div>
 
-                        <Row>
-                            <Col md="12">
-                                <Card>
-                                    <CardBody>
-                                        <Row>
-                                            <Col lg={4} sm={4} md={4}>
-                                                <div
-                                                    id="external-events"
-                                                    style={{
-                                                        padding: "10px",
-                                                        width: "100%",
-                                                        height: "auto",
-                                                        maxHeight: "-webkit-fill-available"
-                                                    }}
-                                                >
-                                                    {this.state.getTotals ?
-                                                        this.getMonthTotalsTable() :
-                                                        null
-                                                    }
+                                <Row>
+                                    <Col md="12">
+                                        <Card>
+                                            <CardBody>
+                                                <Row>
+                                                    <Col lg={4} sm={4} md={4}>
+                                                        <div
+                                                            id="external-events"
+                                                            style={{
+                                                                padding: "10px",
+                                                                width: "100%",
+                                                                height: "auto",
+                                                                maxHeight: "-webkit-fill-available"
+                                                            }}
+                                                        >
+                                                            {this.state.getTotals ?
+                                                                this.getMonthTotalsTable() :
+                                                                null
+                                                            }
 
-                                                </div>
+                                                        </div>
 
-                                                {!getControl &&
-                                                    <div>
-                                                        {!this.props.location.state.responsabile && !this.state.approvalControl &&
-                                                            <button className='delete-button' title='elimina il timesheet' onClick={this.openDeleteModal}>
-                                                                <img className="menu" src="./images/bin.png"></img>
-                                                            </button>
+                                                        {!getControl &&
+                                                            <div>
+                                                                {!this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                                    <button className='delete-button' title='elimina il timesheet' onClick={this.openDeleteModal}>
+                                                                        <img className="menu" src="./images/bin.png"></img>
+                                                                    </button>
+                                                                }
+
+                                                                <ExcelDownloadButton
+                                                                    anno={this.state.anno}
+                                                                    mese={this.state.mese}
+                                                                    codicePersona={this.props.location.state.codicePersona}
+                                                                    username={this.props.location.state.username}
+                                                                />
+
+                                                                {!this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                                    <RequestButton
+                                                                        codicePersona={this.state.codicePersona}
+                                                                        anno={this.state.anno}
+                                                                        mese={this.state.mese}
+                                                                        setSyncState={this.setSyncState}
+                                                                    />
+                                                                }
+
+                                                                {
+                                                                    this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                                    <ApproveButton
+                                                                        codicePersona={this.state.codicePersona}
+                                                                        anno={this.state.anno}
+                                                                        mese={this.state.mese}
+                                                                        setSyncState={this.setSyncState}
+                                                                    />
+                                                                }
+
+                                                            </div>
                                                         }
-
-                                                        <ExcelDownloadButton
-                                                            anno={this.state.anno}
-                                                            mese={this.state.mese}
-                                                            codicePersona={this.props.location.state.codicePersona}
-                                                            username={this.props.location.state.username}
+                                                        {
+                                                            getControl && !this.props.location.state.responsabile &&
+                                                            <Link to={{
+                                                                pathname: "/timesheet-create",
+                                                                state: {
+                                                                    mese: this.state.mese,
+                                                                    anno: this.state.anno,
+                                                                    codicePersona: this.state.codicePersona,
+                                                                    festivi: this.state.festivi
+                                                                }
+                                                            }}>
+                                                                <button className='add-button' title='aggiungi timesheet'>
+                                                                    <img className="menu" src="./images/add.png" ></img>
+                                                                </button>
+                                                            </Link>
+                                                        }
+                                                    </Col>
+                                                    <Col lg={8} sm={8} md={8}>
+                                                        <FullCalendar ref={this.calendarComponentRef} defaultView="dayGridMonth" plugins={[BootstrapTheme, dayGridPlugin, interactionPlugin]}
+                                                            initialDate={new Date(this.state.anno, this.state.mese - 1)}
+                                                            themeSystem="bootstrap"
+                                                            locale='it'
+                                                            firstDay={1}
+                                                            headerToolbar={
+                                                                {
+                                                                    start: '',
+                                                                    center: 'title',
+                                                                    end: ''
+                                                                }
+                                                            }
+                                                            buttonText={
+                                                                {
+                                                                    prev: '<<',
+                                                                    next: '>>'
+                                                                }
+                                                            }
+                                                            header={{
+                                                                left: 'prev',
+                                                                center: 'title',
+                                                                right: 'next today'
+                                                            }}
+                                                            // datesSet={this.setNewMonth}
+                                                            select={this.modal}
+                                                            editable={true}
+                                                            navLinks={false}
+                                                            selectable={true}
+                                                            events={this.state.calendarEvents}
+                                                            id="calendar"
                                                         />
+                                                    </Col>
+                                                </Row>
+                                            </CardBody>
+                                        </Card>
 
-                                                        {!this.props.location.state.responsabile && !this.state.approvalControl &&
-                                                            <RequestButton
-                                                                codicePersona={this.state.codicePersona}
-                                                                anno={this.state.anno}
+
+                                        <Modal className="modal-lg" isOpen={this.state.modalIsOpen} toggle={this.modal} >
+                                            <div className="modal-header">
+                                                <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5>
+                                                <button title='esci' onClick={() => this.setState({ modalIsOpen: false, adjustmentEntryModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
+                                                    <img className="menu" src="./images/exit.png"></img>
+                                                </button>
+                                            </div>
+
+                                            <ModalBody className="postPropsStyle">
+                                                <div className='postStyleProps'>
+                                                    {!this.state.adjustmentEntryModal &&
+                                                        <React.Fragment>
+                                                            <EntryView anno={this.state.anno}
                                                                 mese={this.state.mese}
-                                                                setSyncState={this.setSyncState}
+                                                                entries={this.state.entriesView}
+                                                                adjustmentEntryModal={this.updateModal}
+                                                                removeEntry={this.removeEntry}
+                                                                removeAll={this.removeDailyEntries}
+                                                                updateControl={this.state.approvalControl}
                                                             />
-                                                        }
 
-                                                        {
-                                                            this.props.location.state.responsabile && !this.state.approvalControl &&
-                                                            <ApproveButton
-                                                                codicePersona={this.state.codicePersona}
-                                                                anno={this.state.anno}
-                                                                mese={this.state.mese}
-                                                                setSyncState={this.setSyncState}
+                                                        </React.Fragment>
+                                                    }
+
+                                                    {this.state.adjustmentEntryModal && !this.state.approvalControl &&
+                                                        <div className='postStylePropsModal'>
+                                                            <EntriesImpl
+                                                                columns={12}
+                                                                addEntries={this.updateEntries}
+                                                                anno={this.props.anno}
+                                                                mese={this.props.mese}
+                                                                codicePersona={this.props.location.state.codicePersona}
+                                                                adjustment={true}
                                                             />
-                                                        }
-
-                                                    </div>
-                                                }
-                                                {
-                                                    getControl && !this.props.location.state.responsabile &&
-                                                    <Link to={{
-                                                        pathname: "/timesheet-create",
-                                                        state: {
-                                                            mese: this.state.mese,
-                                                            anno: this.state.anno,
-                                                            codicePersona: this.state.codicePersona,
-                                                            festivi: this.state.festivi
-                                                        }
-                                                    }}>
-                                                        <button className='add-button' title='aggiungi timesheet'>
-                                                            <img className="menu" src="./images/add.png" ></img>
-                                                        </button>
-                                                    </Link>
-                                                }
-                                            </Col>
-                                            <Col lg={8} sm={8} md={8}>
-                                                <FullCalendar ref={this.calendarComponentRef} defaultView="dayGridMonth" plugins={[BootstrapTheme, dayGridPlugin, interactionPlugin]}
-                                                    initialDate={new Date(this.state.anno, this.state.mese - 1)}
-                                                    themeSystem="bootstrap"
-                                                    locale='it'
-                                                    firstDay={1}
-                                                    headerToolbar={
-                                                        {
-                                                            start: '',
-                                                            center: 'title',
-                                                            end: ''
-                                                        }
+                                                        </div>
                                                     }
-                                                    buttonText={
-                                                        {
-                                                            prev: '<<',
-                                                            next: '>>'
-                                                        }
-                                                    }
-                                                    header={{
-                                                        left: 'prev',
-                                                        center: 'title',
-                                                        right: 'next today'
-                                                    }}
-                                                    // datesSet={this.setNewMonth}
-                                                    select={this.modal}
-                                                    editable={true}
-                                                    navLinks={false}
-                                                    selectable={true}
-                                                    events={this.state.calendarEvents}
-                                                    id="calendar"
-                                                />
-                                            </Col>
-                                        </Row>
-                                    </CardBody>
-                                </Card>
 
-
-                                <Modal className="modal-lg" isOpen={this.state.modalIsOpen} toggle={this.modal} >
-                                    <div className="modal-header">
-                                        <h5 className="modal-title mt-0" id="myLargeModalLabel">Dati Giornalieri</h5>
-                                        <button title='esci' onClick={() => this.setState({ modalIsOpen: false, adjustmentEntryModal: false })} type="button" className="button-close" data-dismiss="modal" aria-label="Close">
-                                            <img className="menu" src="./images/exit.png"></img>
-                                        </button>
-                                    </div>
-
-                                    <ModalBody className="postPropsStyle">
-                                        <div className='postStyleProps'>
-                                            {!this.state.adjustmentEntryModal &&
-                                                <React.Fragment>
-                                                    <EntryView anno={this.state.anno}
-                                                        mese={this.state.mese}
-                                                        entries={this.state.entriesView}
-                                                        adjustmentEntryModal={this.updateModal}
-                                                        removeEntry={this.removeEntry}
-                                                        removeAll={this.removeDailyEntries}
-                                                        updateControl={this.state.approvalControl}
-                                                    />
-
-                                                </React.Fragment>
-                                            }
-
-                                            {this.state.adjustmentEntryModal && !this.state.approvalControl &&
-                                                <div className='postStylePropsModal'>
-                                                    <EntriesImpl
-                                                        columns={12}
-                                                        addEntries={this.updateEntries}
-                                                        anno={this.props.anno}
-                                                        mese={this.props.mese}
-                                                        codicePersona={this.props.location.state.codicePersona}
-                                                        adjustment={true}
-                                                    />
                                                 </div>
-                                            }
+                                            </ModalBody>
+                                            <ModalFooter>
+                                                <h6>NOTE GIORNALIERE: </h6>
+                                                <p>{notaStraordinario}</p>
+                                            </ModalFooter>
+                                        </Modal>
 
-                                        </div>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <h6>NOTE GIORNALIERE: </h6>
-                                        <p>{notaStraordinario}</p>
-                                    </ModalFooter>
-                                </Modal>
+                                        <DeleteModal
+                                            open={this.state.showDeleteModal}
+                                            toggle={this.openDeleteModal}
+                                            close={this.closeDeleteModal}
+                                            delete={this.removeTimesheet}
+                                            keyCode={null}
+                                            typography={" Desideri eliminare il seguente timesheet?"}
+                                        />
 
-                                <DeleteModal
-                                    open={this.state.showDeleteModal}
-                                    toggle={this.openDeleteModal}
-                                    close={this.closeDeleteModal}
-                                    delete={this.removeTimesheet}
-                                    keyCode={null}
-                                    typography={" Desideri eliminare il seguente timesheet?"}
-                                />
+                                    </Col>
+                                </Row>
 
-                            </Col>
-                        </Row>
-
-                    </Container>
-                }
-
+                            </Container>
+                        }
+                    </React.Fragment>
+                    : <Redirect to={{ pathname: "/" }} />}
             </React.Fragment >
         )
     }

@@ -8,42 +8,47 @@ import Form from "react-bootstrap/Form";
 import { connect } from 'react-redux';
 import UserInfoTable from './UserInfoTable';
 import Title from '../structural/Title';
+import { Redirect } from 'react-router-dom';
 
 
 
 
 
 function ProfilePersonal(props) {
-  const admin = props.type;
-  const userEmail = props.userEmail;
+  const admin = props.user ? props.user.type : "";
+  const userEmail = props.user ? props.user.userEmail : "";
+
 
   return (
     <React.Fragment>
       <Title></Title>
-      <div className="profile-container">
+      {props.user ?
 
-        <WelcomeHeader img="../images/fotoProfiloGenerica.png" name={`${props.nome} ${props.cognome}`} admin={""} userEmail={""} />
+        <div className="profile-container">
 
-        <UserInfoTable
-          username={props.username}
-          scope={props.scope}
-          type={props.type}
-          mail={props.userEmail}
-        />
+          <WelcomeHeader img="../images/fotoProfiloGenerica.png" name={`${props.user.name} ${props.user.lastname}`} admin={""} userEmail={""} />
 
-        {props.location.state &&
-          <React.Fragment>
-            <div className="common-input-label">Avatar</div>
-            <TextButton text={"Upload"} />
+          <UserInfoTable
+            username={props.user.username}
+            scope={props.user.scope}
+            type={props.user.type}
+            mail={props.user.email}
+          />
 
-            <div className="common-input-label">Curriculum</div>
-            <TextButton text={"Upload"} />
+          {props.location.state &&
+            <React.Fragment>
+              <div className="common-input-label">Avatar</div>
+              <TextButton text={"Upload"} />
 
-            <UploadFileButton />
-          </React.Fragment>
-        }
-     
-      </div>
+              <div className="common-input-label">Curriculum</div>
+              <TextButton text={"Upload"} />
+
+              <UploadFileButton />
+            </React.Fragment>
+          }
+
+        </div>
+        : <Redirect to={{ pathname: "/" }} />}
     </React.Fragment>
   )
 }
@@ -51,12 +56,7 @@ function ProfilePersonal(props) {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    nome: state.user.name,
-    cognome: state.user.lastname,
-    userEmail: state.user.email,
-    type: state.user.type,
-    scope: state.user.scope,
-    username: state.user.username
+    user: state.user
   }
 }
 

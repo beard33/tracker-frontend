@@ -8,6 +8,7 @@ import { Link, Redirect } from 'react-router-dom';
 import DayPickerGrid from './DayPickerGrid';
 import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
+
 import { setNoteSpeseDay } from '../utils/Utils';
 import { connect } from 'react-redux';
 
@@ -219,6 +220,7 @@ class TimesheetCreazione extends React.Component {
     render() {
         return (
             <React.Fragment>
+                {this.props.user ? null : <Redirect to={{ pathname: "/" }} />}
                 <Container fluid="xl">
                     <div className="postStyleProps" style={{ marginLeft: "0%", width: "102%" }} >
                         <h3>Timesheet References</h3>
@@ -283,8 +285,8 @@ class TimesheetCreazione extends React.Component {
                                 responsabile: false,
                                 mese: this.state.mese - 1,
                                 anno: this.state.anno,
-                                codicePersona: this.props.codicePersona,
-                                username: this.props.username
+                                codicePersona: this.props.user.codicePersona,
+                                username: this.props.user.username
                             }
                         }}></Redirect>}
 
@@ -330,14 +332,12 @@ class TimesheetCreazione extends React.Component {
 
 const mapStateToProps = (state) => {
     console.log(state)
-    return {    
-      userEmail: state.user.email,    
-      username: state.user.username,
-      codicePersona: state.user.codicePersona
+    return {
+        user: state.user    
     }
-  }
-  
-  export default connect(mapStateToProps)(TimesheetCreazione);
+}
+
+export default connect(mapStateToProps)(TimesheetCreazione);
 
 
 

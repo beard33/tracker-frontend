@@ -26,3 +26,11 @@ export const logout = () => (dispatch) => {
     });
 }
 
+export const refreshToken = (accessToken) => (dispatch) => {
+    // AuthService.refresh()
+    dispatch({
+        type: "REFRESH_TOKEN",
+        payload: accessToken
+    })
+}
+
