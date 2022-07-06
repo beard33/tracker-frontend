@@ -6,10 +6,10 @@ import TextField from '@material-ui/core/TextField';
 import DatiEconomiciDipendente from "./DatiEconomiciDipendente";
 import Title from "../structural/Title";
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
-
-export default class Dipendente extends React.Component {
+class Dipendente extends React.Component {
     constructor(props) {
         super(props);
 
@@ -257,3 +257,11 @@ export default class Dipendente extends React.Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(Dipendente);

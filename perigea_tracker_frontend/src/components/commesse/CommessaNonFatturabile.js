@@ -7,9 +7,10 @@ import { MenuItem } from '@mui/material';
 import { commessaType } from '../enum/CommesseEnums';
 import AxiosInstance from '../../axios/AxiosInstance';
 import Title from '../structural/Title';
+import { connect } from 'react-redux';
 
 
-export default class CommessaNonFatturabile extends React.Component {
+class CommessaNonFatturabile extends React.Component {
     state = {
         codiceCommessa: "",
         tipoCommessa: "",
@@ -97,3 +98,12 @@ export default class CommessaNonFatturabile extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(CommessaNonFatturabile);

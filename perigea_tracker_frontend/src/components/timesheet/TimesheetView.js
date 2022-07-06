@@ -18,6 +18,7 @@ import ApproveButton from '../timesheet/ApproveButton';
 import Title from '../structural/Title';
 import DeleteModal from '../structural/DeleteModal';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
 
@@ -693,4 +694,11 @@ class TimesheetView extends Component {
         )
     }
 }
-export default TimesheetView;
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(TimesheetView);

@@ -8,10 +8,11 @@ import Ruoli from './Ruoli';
 import RuoliTable from './RuoliTable';
 import { MenuItem } from '@mui/material';
 import { utenteStatus, anagraficaType } from '../enum/AnagraficaEnums';
+import { connect } from 'react-redux';
 
 
 
-export default class Anagrafica extends Component {
+class Anagrafica extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -350,3 +351,11 @@ export default class Anagrafica extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(Anagrafica);

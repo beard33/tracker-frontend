@@ -4,10 +4,11 @@ import AxiosInstance from "../../axios/AxiosInstance";
 import AddButton from '../structural/AddButton';
 import DeleteModal from '../structural/DeleteModal';
 import SearchBar from '../structural/SearchBar';
+import { connect } from 'react-redux';
 
 let endpoint;
 
-export default class UtentiGrid extends React.Component {
+class UtentiGrid extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -187,3 +188,11 @@ export default class UtentiGrid extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(UtentiGrid);

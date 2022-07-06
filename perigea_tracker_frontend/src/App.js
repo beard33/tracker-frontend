@@ -20,7 +20,7 @@ class App extends React.Component {
   // }
 
   logout = () => {
-    dispatch(logout());    
+    AuthService.logout()   
   }
 
   render() {

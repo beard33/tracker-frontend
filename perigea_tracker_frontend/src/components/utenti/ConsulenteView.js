@@ -9,9 +9,10 @@ import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
 import RuoliTable from './RuoliTable';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Title from '../structural/Title';
 
-export default class ConsulenteView extends React.Component {
+class ConsulenteView extends React.Component {
   state = {
     utente: "",
     codicePersona: "",
@@ -220,3 +221,11 @@ export default class ConsulenteView extends React.Component {
     )
   };
 }
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(ConsulenteView);

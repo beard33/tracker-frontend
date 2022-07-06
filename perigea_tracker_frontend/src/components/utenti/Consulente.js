@@ -7,11 +7,12 @@ import TextField from '@material-ui/core/TextField';
 import DatiEconomiciConsulente from "./DatiEconomiciConsulente";
 import Title from "../structural/Title";
 import { Redirect } from "react-router-dom";
+import { connect } from 'react-redux';
 
 
 
 
-export default class Consulente extends React.Component {
+class Consulente extends React.Component {
     state = {
         utente: "",
         codicePersona: '',
@@ -249,3 +250,11 @@ export default class Consulente extends React.Component {
     }
 
 }
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(Consulente);

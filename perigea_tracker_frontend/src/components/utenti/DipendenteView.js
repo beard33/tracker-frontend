@@ -10,9 +10,11 @@ import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 import Title from '../structural/Title';
 import RuoliTable from './RuoliTable';
+import LoadingSpinner from '../structural/LoadingSpinner';
+import { connect } from 'react-redux';
 
 
-export default class DipendenteView extends React.Component {
+class DipendenteView extends React.Component {
   state = {
     utente: "",
     personale: {
@@ -23,7 +25,8 @@ export default class DipendenteView extends React.Component {
       codiceResponsabile: "",
       economics: ""
     },
-    usernameResponsabile: ""
+    usernameResponsabile: "",
+    isLoading: false
   }
 
   componentDidMount = () => {
@@ -35,16 +38,19 @@ export default class DipendenteView extends React.Component {
    * metodo axios per la lettura del dipendente by codicePersona
    */
   readDipendenteById = async () => {
+    this.setState({ isLoading: true })
     await AxiosInstance({
       method: "get",
-      url: `dipendenti/read/${this.props.location.codicePersona}`
+      url: `dipendenti/read/${this.props.location.codicePersona}`,
+
     }).then((response) => {
       this.loadUtente(response);
     }).catch((error) => {
       console.log("Error into loadUtenti ", error)
+      this.setState({ isLoading: false })
     })
   }
-  loadUtente = (response) => {    
+  loadUtente = (response) => {
     this.setState({
       utente: response.data.data.utente,
       personale: {
@@ -55,8 +61,9 @@ export default class DipendenteView extends React.Component {
         codiceResponsabile: response.data.data.codiceResponsabile,
         economics: response.data.data.economics
       }
-    })    
+    })
     this.getUsernameResponsabile()
+    this.setState({ isLoading: false })
   }
 
   /**
@@ -66,14 +73,15 @@ export default class DipendenteView extends React.Component {
     AxiosInstance({
       method: "get",
       url: `dipendenti/read/${this.state.personale.codiceResponsabile}`
-    }).then((response) => {      
+    }).then((response) => {
       this.loadUsernameResponsabile(response.data.data);
     }).catch((error) => {
       console.log("Error into loadUtenti ", error)
+      this.setState({ isLoading: false })
     })
   }
   loadUsernameResponsabile = (response) => {
-    this.setState({ usernameResponsabile: response.utente.username })    
+    this.setState({ usernameResponsabile: response.utente.username })
   }
 
 
@@ -84,7 +92,7 @@ export default class DipendenteView extends React.Component {
    */
   getData = (e) => {
     if (e) {
-      return Object.keys(e).map((key) => {      
+      return Object.keys(e).map((key) => {
         if (key !== "password" &&
           key !== "createTimestamp" &&
           key !== "createUser" &&
@@ -114,96 +122,112 @@ export default class DipendenteView extends React.Component {
     return (
       <React.Fragment>
         <Title></Title>
-        <div>
-          <WelcomeHeader
-            img="../images/default-profile-picture.png"
-            name={this.state.utente.nome + " " + this.state.utente.cognome}
-            admin={"Dipendente"}
-            userEmail={this.state.utente.username}
-            db={true}
-          />
-          <div className='userAccordion'>
-            <Accordion expanded>
-              <AccordionSummary
-                className='accordionSummary'
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography>Anagrafica</Typography>
-              </AccordionSummary>
-              <AccordionDetails className='accordionDetails'>
-                {this.getData(this.state.utente)}
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                className='accordionSummary'
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id="panel2a-header"
-              >
-                <Typography>Dati Aziendali</Typography>
-              </AccordionSummary>
-              <AccordionDetails className='accordionDetails'>
-                <div>
-                  <TextField
-                    label={"Tipo Personale"}
-                    value={this.state.personale.tipo}
-                  ></TextField>
-                  <TextField
-                    label={"Data Assunzione"}
-                    value={this.state.personale.dataAssunzione}
-                  ></TextField>
-                  <TextField
-                    label={"Data Cessazione"}
-                    value={this.state.personale.dataCessazione}
-                  ></TextField>
-                  <TextField
-                    label={"Responsabile"}
-                    value={this.state.usernameResponsabile}
-                  ></TextField>
+
+        {this.state.isLoading ? <LoadingSpinner /> :
+          <React.Fragment>
+            {this.props.user ?
+              <div>
+                <WelcomeHeader
+                  img="../images/default-profile-picture.png"
+                  name={this.state.utente.nome + " " + this.state.utente.cognome}
+                  admin={"Dipendente"}
+                  userEmail={this.state.utente.username}
+                  db={true}
+                />
+                <div className='userAccordion'>
+                  <Accordion expanded>
+                    <AccordionSummary
+                      className='accordionSummary'
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography>Anagrafica</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails className='accordionDetails'>
+                      {this.getData(this.state.utente)}
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      className='accordionSummary'
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography>Dati Aziendali</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails className='accordionDetails'>
+                      <div>
+                        <TextField
+                          label={"Tipo Personale"}
+                          value={this.state.personale.tipo}
+                        ></TextField>
+                        <TextField
+                          label={"Data Assunzione"}
+                          value={this.state.personale.dataAssunzione}
+                        ></TextField>
+                        <TextField
+                          label={"Data Cessazione"}
+                          value={this.state.personale.dataCessazione}
+                        ></TextField>
+                        <TextField
+                          label={"Responsabile"}
+                          value={this.state.usernameResponsabile}
+                        ></TextField>
+                      </div>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      className='accordionSummary'
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel3a-content"
+                      id="panel3a-header"
+                    >
+                      <Typography>Dati Economici</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails className='accordionDetails'>
+                      {this.getData(this.state.personale.economics)}
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion expanded >
+                    <AccordionSummary
+                      aria-controls="panel3a-content"
+                      id="panel3a-header"
+                    >
+                      <Typography></Typography>
+                    </AccordionSummary>
+                    <AccordionDetails className='accordionDetails'>
+                      <Link to={{
+                        pathname: "/anagrafica-dipendenti",
+                        updateProps: {
+                          update: true,
+                          user: this.state
+                        }
+                      }}>
+                        <button className="button-update" title='modifica dipendente'
+                          type="button" >
+                          <img className="menu" src="./images/update.png"></img>
+                        </button>
+                      </Link>
+                    </AccordionDetails>
+                  </Accordion>
                 </div>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                className='accordionSummary'
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel3a-content"
-                id="panel3a-header"
-              >
-                <Typography>Dati Economici</Typography>
-              </AccordionSummary>
-              <AccordionDetails className='accordionDetails'>
-                {this.getData(this.state.personale.economics)}
-              </AccordionDetails>
-            </Accordion>
-            <Accordion expanded >
-              <AccordionSummary
-                aria-controls="panel3a-content"
-                id="panel3a-header"
-              >
-                <Typography></Typography>
-              </AccordionSummary>
-              <AccordionDetails className='accordionDetails'>
-                <Link to={{
-                  pathname: "/anagrafica-dipendenti",
-                  updateProps: {
-                    update: true,
-                    user: this.state
-                  }
-                }}>
-                  <button className="button-update" title='modifica dipendente'
-                    type="button" >
-                    <img className="menu" src="./images/update.png"></img>
-                  </button>
-                </Link>
-              </AccordionDetails>
-            </Accordion>
-          </div>
-        </div>
+              </div>
+              : <Redirect to={{ pathname: "/" }} />}
+          </React.Fragment>
+        }
       </React.Fragment>
     )
   };
 }
+
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(DipendenteView);

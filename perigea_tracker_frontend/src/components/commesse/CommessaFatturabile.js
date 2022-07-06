@@ -7,10 +7,11 @@ import AxiosInstance from '../../axios/AxiosInstance';
 import { commessaFatturabileType, commessaType } from '../enum/CommesseEnums';
 import Title from '../structural/Title';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 
 
-export default class CommessaFatturabile extends React.Component {
+class CommessaFatturabile extends React.Component {
     state = {
         codiceCommessa: "",
         tipoCommessa: "",
@@ -427,3 +428,12 @@ export default class CommessaFatturabile extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(CommessaFatturabile);

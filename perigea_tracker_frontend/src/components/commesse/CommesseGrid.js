@@ -6,10 +6,10 @@ import Field from '../structural/Field';
 import SearchBar from '../structural/SearchBar';
 import DeleteModal from '../structural/DeleteModal';
 import Title from '../structural/Title';
+import { connect } from 'react-redux';
 
 
-
-export default class CommesseGrid extends React.Component {
+class CommesseGrid extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -307,3 +307,11 @@ export default class CommesseGrid extends React.Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(CommesseGrid);

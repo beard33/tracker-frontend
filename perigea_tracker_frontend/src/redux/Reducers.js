@@ -1,6 +1,6 @@
 
 const user = JSON.parse(localStorage.getItem("user"));
-const initialState = user ? { isLoggedIn: true, user } : { isLoggedIn: false, user: null };
+const initialState = user ? { isLoggedIn: true, user, history: [] } : { isLoggedIn: false, user: null, history: [] };
 
 export default function reducer(state = initialState, action) {
     const { type, payload } = action;
@@ -26,7 +26,7 @@ export default function reducer(state = initialState, action) {
         case "REFRESH_TOKEN":
             return {
                 ...state,
-                user: {...user, accessToken: payload}
+                user: {...user, access_token: payload}
             }
         default:
             return state;

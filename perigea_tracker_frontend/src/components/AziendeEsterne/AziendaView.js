@@ -9,10 +9,11 @@ import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 import CommesseGrid from '../commesse/CommesseGrid'
+import { connect } from 'react-redux';
 
 let type;
 
-export default class AziendaView extends React.Component {
+class AziendaView extends React.Component {
     state = {
         azienda: ""
     }
@@ -167,3 +168,11 @@ export default class AziendaView extends React.Component {
         )
     };
 }
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(AziendaView);

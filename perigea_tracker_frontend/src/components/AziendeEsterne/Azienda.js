@@ -6,8 +6,9 @@ import AxiosInstance from '../../axios/AxiosInstance';
 import { Link } from 'react-router-dom';
 import { pagamentoType } from '../enum/AziendaEnums';
 import { MenuItem } from '@mui/material';
+import { connect } from 'react-redux';
 
-export default class Azienda extends React.Component {
+class Azienda extends React.Component {
     state = {
         codiceAzienda: '',
         ragioneSociale: '',
@@ -291,4 +292,13 @@ export default class Azienda extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(Azienda);
 

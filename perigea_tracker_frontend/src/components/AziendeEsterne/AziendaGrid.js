@@ -4,10 +4,11 @@ import AxiosInstance from "../../axios/AxiosInstance";
 import DeleteModal from '../structural/DeleteModal'
 import AddButton from '../structural/AddButton'
 import SearchBar from '../structural/SearchBar';
+import { connect } from 'react-redux';
 
 
 let endpoint;
-export default class AziendaGrid extends React.Component {
+class AziendaGrid extends React.Component {
   constructor(props) {
     super(props);
 
@@ -185,3 +186,11 @@ export default class AziendaGrid extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(AziendaGrid);

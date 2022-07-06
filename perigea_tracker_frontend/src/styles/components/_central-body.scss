@@ -18,7 +18,7 @@
     margin: 0;
     padding: 0;
 
-    .box-field-1-cliente{
+    .box-field-1-cliente {
       width: calc(168vw/2.6);
       height: calc(15vw/2.6);
 
@@ -34,14 +34,14 @@
       border: 1px solid $greyPerigea;
       // box-shadow: 10px 10px 5px $greyPerigea;
 
-      .card-image{
+      .card-image {
         height: 65%;
         width: 60%;
         bottom: 0;
         transform: scale(0.13, 1.4) translateX(-240%) translateY(18%);
         border-radius: 50%;
         margin-bottom: 0%;
-        background-color:#333333;
+        background-color: #333333;
         border: 2px solid #333333;
       }
 
@@ -102,14 +102,14 @@
       border: 1px solid $greyPerigea;
       // box-shadow: 10px 10px 5px $greyPerigea;
 
-      .card-image{
+      .card-image {
         height: 65%;
         width: 60%;
         bottom: 0;
-        transform: scale(0.095,1.4) translateX(-310%) translateY(18%);
+        transform: scale(0.095, 1.4) translateX(-310%) translateY(18%);
         border-radius: 50%;
         margin-bottom: 0%;
-        background-color:#333333;
+        background-color: #333333;
         border: 2px solid #333333;
       }
 
@@ -170,14 +170,14 @@
       border: 1px solid $greyPerigea;
       // box-shadow: 10px 10px 5px $greyPerigea;
 
-      .card-image{
+      .card-image {
         height: 65%;
         width: 60%;
         bottom: 0;
-        transform: scale(0.095,1.4) translateX(-310%) translateY(18%);
+        transform: scale(0.095, 1.4) translateX(-310%) translateY(18%);
         border-radius: 50%;
         margin-bottom: 0%;
-        background-color:#333333;
+        background-color: #333333;
         border: 2px solid #333333;
       }
 
@@ -238,14 +238,14 @@
       border: 1px solid $greyPerigea;
       // box-shadow: 10px 10px 5px $greyPerigea;
 
-      .card-image{
+      .card-image {
         height: 65%;
         width: 60%;
         bottom: 0;
         transform: scale(0.13, 1.4) translateX(-240%) translateY(18%);
         border-radius: 50%;
         margin-bottom: 0%;
-        background-color:#333333;
+        background-color: #333333;
         border: 2px solid #333333;
       }
 
@@ -330,7 +330,8 @@
       margin-top: 0%;
       justify-content: space-around;
       padding: 1.5%;
-      .menu{
+
+      .menu {
         width: 50px;
         height: 50px;
       }
@@ -339,7 +340,7 @@
     .add-field-show-button:hover {
       background-color: transparent;
       color: black;
-     
+
     }
 
     .add-card-show-button {
@@ -389,14 +390,14 @@
       border: 1px solid transparent;
       box-shadow: 10px 10px 5px $lightGreyPerigea;
 
-      .card-image{
+      .card-image {
         height: 65%;
         width: 60%;
         bottom: 0;
         transform: scale(0.16, 1.4) translateX(-192%) translateY(18%);
         border-radius: 50%;
         margin-bottom: 0%;
-        background-color:#333333;
+        background-color: #333333;
         border: 2px solid #333333;
       }
 
@@ -482,10 +483,11 @@
       border: solid transparent 1px;
       font-weight: bold;
 
-      
+
     }
 
     .page-titles {
+  
       width: 100%;
       // background: rgb(0,0,0);
       // background: linear-gradient(0deg, rgb(102, 97, 103) 9%, rgba(0,0,0,1) 100%);
@@ -519,10 +521,10 @@
         color: black;
       }
 
-      .box-field-1-cliente{
+      .box-field-1-cliente {
         width: calc(127vw/2.6);
         height: calc(15vw/2.6);
-  
+
         border-radius: 10px;
         background-color: #ffd64fe0;
         // background: rgb(0,0,0);
@@ -534,18 +536,18 @@
         margin-bottom: 0%;
         border: 1px solid $greyPerigea;
         // box-shadow: 10px 10px 5px $greyPerigea;
-  
-        .card-image{
+
+        .card-image {
           height: 65%;
           width: 60%;
           bottom: 0;
           transform: scale(0.16, 1.4) translateX(-192%) translateY(18%);
           border-radius: 50%;
           margin-bottom: 0%;
-          background-color:#333333;
+          background-color: #333333;
           border: 2px solid #333333;
         }
-  
+
         .view-button {
           // display:block;
           float: left;
@@ -565,7 +567,7 @@
           font-size: calc(4.5vw/3.5);
           position: absolute
         }
-  
+
         .delete-button {
           // display:block;
           float: right;
@@ -587,10 +589,10 @@
         }
       }
 
-      .box-field-2-cliente{
+      .box-field-2-cliente {
         width: calc(127vw/2.6);
         height: calc(15vw/2.6);
-  
+
         border-radius: 10px;
         background-color: $lightGreyPerigea;
         // background: rgb(0,0,0);
@@ -602,18 +604,18 @@
         margin-bottom: 0%;
         border: 1px solid $greyPerigea;
         // box-shadow: 10px 10px 5px $greyPerigea;
-  
-        .card-image{
+
+        .card-image {
           height: 65%;
           width: 60%;
           bottom: 0;
           transform: scale(0.16, 1.4) translateX(-192%) translateY(18%);
           border-radius: 50%;
           margin-bottom: 0%;
-          background-color:#333333;
+          background-color: #333333;
           border: 2px solid #333333;
         }
-  
+
         .view-button {
           // display:block;
           float: left;
@@ -633,7 +635,7 @@
           font-size: calc(4.5vw/3.5);
           position: absolute
         }
-  
+
         .delete-button {
           // display:block;
           float: right;
@@ -671,14 +673,14 @@
         border: 1px solid $greyPerigea;
         // box-shadow: 10px 10px 5px $lightGreyPerigea;
 
-        .card-image{
+        .card-image {
           height: 65%;
           width: 60%;
           bottom: 0;
-          transform: scale(0.095,1.4) translateX(-310%) translateY(18%);
+          transform: scale(0.095, 1.4) translateX(-310%) translateY(18%);
           border-radius: 50%;
           margin-bottom: 0%;
-          background-color:#333333;
+          background-color: #333333;
           border: 2px solid #333333;
         }
 
@@ -740,14 +742,14 @@
         // box-shadow: 10px 10px 5px $greyPerigea;
 
 
-        .card-image{
+        .card-image {
           height: 65%;
           width: 60%;
           bottom: 0;
-          transform: scale(0.095,1.4) translateX(-310%) translateY(18%);
+          transform: scale(0.095, 1.4) translateX(-310%) translateY(18%);
           border-radius: 50%;
           margin-bottom: 0%;
-          background-color:#333333;
+          background-color: #333333;
           border: 2px solid #333333;
         }
 
@@ -807,14 +809,14 @@
         border: 1px solid #ffd64fe0;
         box-shadow: 10px 10px 5px $lightGreyPerigea;
 
-        .card-image{
+        .card-image {
           height: 65%;
           width: 60%;
           bottom: 0;
           transform: scale(0.16, 1.4) translateX(-192%) translateY(18%);
           border-radius: 50%;
           margin-bottom: 0%;
-          background-color:#333333;
+          background-color: #333333;
           border: 2px solid #333333;
         }
 
@@ -883,7 +885,8 @@
     margin-top: 1%;
     text-align: center;
     border: transparent;
-    .menu  {
+
+    .menu {
       width: 50px;
       height: 50px;
       margin-left: 5px;
@@ -892,7 +895,7 @@
 
   .button-update:hover {
     background-color: transparent;
-    color: black;    
+    color: black;
   }
 
   .userAccordion {
@@ -906,8 +909,8 @@
       background-color: $orangePerigea;
       font-size: 30%;
       color: $greyPerigea;
-      
-      .accordion-text{
+
+      .accordion-text {
         font-weight: bold;
       }
     }
@@ -915,7 +918,7 @@
     .accordionDetails {
       justify-content: space-around;
 
-      .table-button{
+      .table-button {
         background-color: transparent;
         margin-left: 30%;
         border: transparent;
@@ -951,7 +954,7 @@
     font-weight: bold;
     border: solid transparent 1px;
 
- 
+
   }
 
   .ButtonSave {
@@ -977,7 +980,7 @@
     background-color: transparent;
     color: black;
     font-weight: bold;
-    border: solid transparent 2px;    
+    border: solid transparent 2px;
   }
 
 }

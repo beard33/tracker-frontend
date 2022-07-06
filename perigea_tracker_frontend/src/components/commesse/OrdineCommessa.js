@@ -5,9 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import AxiosInstance from '../../axios/AxiosInstance';
 import Title from '../structural/Title';
 import { MenuItem } from '@mui/material';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-export default class OrdineCommessa extends React.Component {
+class OrdineCommessa extends React.Component {
     state = {
         aziende: [],
         cliente: '',
@@ -181,3 +182,11 @@ export default class OrdineCommessa extends React.Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(OrdineCommessa);

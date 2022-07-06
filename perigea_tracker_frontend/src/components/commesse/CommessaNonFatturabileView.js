@@ -8,10 +8,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
 import Title from '../structural/Title';
+import { connect } from 'react-redux';
 
 
-
-export default class CommessaNonFatturabileView extends React.Component {
+class CommessaNonFatturabileView extends React.Component {
     state = {
         commessaNonFatturabile: ""
     }
@@ -103,7 +103,12 @@ export default class CommessaNonFatturabileView extends React.Component {
             </React.Fragment>
         )
     }
-
-
-
 }
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(CommessaNonFatturabileView);

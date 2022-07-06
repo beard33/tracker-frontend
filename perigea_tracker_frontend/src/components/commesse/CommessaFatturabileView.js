@@ -14,9 +14,10 @@ import AssegnazioneCommessa from './AssegnazioneCommessa';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import UtentiAssegnati from './UtentiAssegnatiCommessa';
+import { connect } from 'react-redux';
 
 
-export default class CommessaFatturabileView extends React.Component {
+class CommessaFatturabileView extends React.Component {
     state = {
         commessaFatturabile: "",
         estensioniCommessa: [],
@@ -436,3 +437,11 @@ export default class CommessaFatturabileView extends React.Component {
     }
 
 }
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(CommessaFatturabileView);
