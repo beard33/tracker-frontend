@@ -22,7 +22,7 @@ function ProfilePersonal(props) {
   return (
     <React.Fragment>
       <Title></Title>
-      {/* <HistoryArrows /> */}
+
       {props.user ?
 
         <div className="profile-container">

@@ -1,6 +1,7 @@
 import axios from "axios";
 import AxiosInstance from "../axios/AxiosInstance";
-import { refreshToken } from "../redux/Actions";
+import { refreshToken, logout } from "../redux/Actions";
+
 
 
 
@@ -10,6 +11,8 @@ const setup = (store) => {
         console.log(token)
         if (token) {
             config.headers["Authorization"] = 'Bearer' + token;
+        }else{
+            dispatch(logout())
         }
         
         return config;

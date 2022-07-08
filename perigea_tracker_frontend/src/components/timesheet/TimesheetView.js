@@ -563,7 +563,8 @@ class TimesheetView extends Component {
                                                                 }
 
                                                                 {
-                                                                    this.props.location.state.responsabile && !this.state.approvalControl &&
+                                                                    this.props.location.state.responsabile && 
+                                                                    (!this.state.approvalControl || this.props.user.scope.includes("ROLE_MANAGEMENT" || "AMMINISTRAZIONE")) &&
                                                                     <ApproveButton
                                                                         codicePersona={this.state.codicePersona}
                                                                         anno={this.state.anno}
@@ -647,13 +648,13 @@ class TimesheetView extends Component {
                                                                 adjustmentEntryModal={this.updateModal}
                                                                 removeEntry={this.removeEntry}
                                                                 removeAll={this.removeDailyEntries}
-                                                                updateControl={this.state.approvalControl}
+                                                                updateControl={!this.state.approvalControl || this.props.user.scope.includes("MANAGEMENT" || "AMMINISTRAZIONE") ? false : true}
                                                             />
 
                                                         </React.Fragment>
                                                     }
 
-                                                    {this.state.adjustmentEntryModal && !this.state.approvalControl &&
+                                                    {this.state.adjustmentEntryModal && (!this.state.approvalControl || this.props.user.scope.includes("MANAGEMENT" || "AMMINISTRAZIONE")) &&
                                                         <div className='postStylePropsModal'>
                                                             <EntriesImpl
                                                                 columns={12}

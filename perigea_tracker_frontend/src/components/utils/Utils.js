@@ -73,3 +73,14 @@ const getWeekendDays = (mese, anno) => {
 }
 export { getWeekendDays }
 
+
+/**
+ * metodo per la conversione in lista dello scope dell'utente redux
+ * @param {*} scope 
+ * @returns 
+ */
+const getAuthorithiesList = (scope) => {
+    const list = scope.split(" ")
+    return list
+}
+export { getAuthorithiesList };

@@ -24,8 +24,6 @@ function NavigationBar(props) {
       {console.log(props.location, props.history)}
       <header className={`navigation-bar${props.isMenuOpen === true ? ' open' : ''}`} /*style={{backgroundImage:`url("./images/SfondoLogin.jpg")`}}*/ >
 
-
-
         <div className={`logo-sidebar${props.isMenuOpen === true ? ' open' : ''}`} >
           <HistoryArrows goBack={goBack} goForward={goForward} location={props.location}/>
           <a href="/home"><img className="img-logo" src={props.logo}></img></a>

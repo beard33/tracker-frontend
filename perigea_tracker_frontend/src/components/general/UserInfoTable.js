@@ -1,17 +1,10 @@
 import * as React from 'react';
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap';
+import { getAuthorithiesList } from '../utils/Utils';
 
 
 export default function UserInfoTable(props) {
-
-    const getAuthorithiesList = (scope) => {
-        const list = scope.split(" ")
-        return list
-    }
-
-
-
 
     return (
         <React.Fragment>

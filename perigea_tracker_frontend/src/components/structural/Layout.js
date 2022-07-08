@@ -41,7 +41,7 @@ export default function Layout({children}) {
 
       <Sidebar
         isMenuOpen={isMenuOpen}
-        onMenuToggle={menuToggle}
+        onMenuToggle={menuToggle}        
       />
 
       <CollapseMenu isMenuOpen={personalMenu} />
