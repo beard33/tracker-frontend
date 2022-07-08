@@ -26,20 +26,33 @@ class Sidebar extends React.Component {
                   </div>
                   <MenuItem><a href="/home" onClick={this.props.onMenuToggle}>Home</a></MenuItem>
 
-
-                  <SubMenu title="Aziende">
-                    <MenuItem><a href="/fornitori" onClick={this.props.onMenuToggle}> Fornitori</a></MenuItem>
-                    <MenuItem><a href="/clienti" onClick={this.props.onMenuToggle}> Clienti</a></MenuItem>
-                  </SubMenu>
+                  {(this.props.user.scope.includes("ROLE_MANAGEMENT") ||
+                    this.props.user.scope.includes("ROLE_AMMINISTRAZIONE") ||
+                    this.props.user.scope.includes("ROLE_SALES")) ?
+                    <React.Fragment>
+                      <SubMenu title="Aziende">
+                        <MenuItem><a href="/fornitori" onClick={this.props.onMenuToggle}> Fornitori</a></MenuItem>
+                        <MenuItem><a href="/clienti" onClick={this.props.onMenuToggle}> Clienti</a></MenuItem>
+                      </SubMenu>
+                    </React.Fragment> :
+                    <div></div>
+                  }
 
                   <SubMenu title="Utenti">
                     <MenuItem><a href="/dipendenti" onClick={this.props.onMenuToggle}> Dipendenti</a></MenuItem>
                     <MenuItem><a href="/consulenti" onClick={this.props.onMenuToggle}> Consulenti</a></MenuItem>
                   </SubMenu>
 
-                  <SubMenu title="Commesse" onClick={this.props.onMenuToggle}>
-                    <MenuItem><a href="/commesse" onClick={this.props.onMenuToggle}> Commesse</a></MenuItem>
-                  </SubMenu>
+                  {(this.props.user.scope.includes("ROLE_MANAGEMENT") ||
+                    this.props.user.scope.includes("ROLE_AMMINISTRAZIONE") ||
+                    this.props.user.scope.includes("ROLE_SALES")) ?
+                    <React.Fragment>
+                      <SubMenu title="Commesse" onClick={this.props.onMenuToggle}>
+                        <MenuItem><a href="/commesse" onClick={this.props.onMenuToggle}> Commesse</a></MenuItem>
+                      </SubMenu>
+                    </React.Fragment> :
+                    <div></div>
+                  }
 
                   <SubMenu title="Timesheet">
                     <MenuItem>
@@ -56,13 +69,17 @@ class Sidebar extends React.Component {
                         Timesheet
                       </Link>
                     </MenuItem>
-                    <MenuItem>
-                      <Link to={{
-                        pathname: "/timesheet-grid",
-                      }} onClick={this.props.onMenuToggle}>
-                        Timesheet Sottoposti
-                      </Link>
-                    </MenuItem>
+                    {this.props.user.scope.includes("ROLE_REFERENTE") ?
+                      <MenuItem>
+                        <Link to={{
+                          pathname: "/timesheet-grid",
+                        }} onClick={this.props.onMenuToggle}>
+                          Timesheet Sottoposti
+                        </Link>
+                      </MenuItem> :
+                      <div></div>
+                    }
+
                   </SubMenu>
 
 
