@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import UserInfoTable from './UserInfoTable';
 import Title from '../structural/Title';
 import { Redirect } from 'react-router-dom';
-
+import HistoryArrows from '../structural/HistoryArrows';
 
 
 
@@ -22,6 +22,7 @@ function ProfilePersonal(props) {
   return (
     <React.Fragment>
       <Title></Title>
+      {/* <HistoryArrows /> */}
       {props.user ?
 
         <div className="profile-container">

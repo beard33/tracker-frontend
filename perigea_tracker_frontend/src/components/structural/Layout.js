@@ -6,6 +6,7 @@ import CollapseMenu from './CollapseMenu';
 
 
 
+
 export default function Layout({children}) {
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,6 +36,8 @@ export default function Layout({children}) {
         onMenuToggle={menuToggle}
         onPersonalMenuToggle={personalMenuToggle}
       />
+
+     
 
       <Sidebar
         isMenuOpen={isMenuOpen}
