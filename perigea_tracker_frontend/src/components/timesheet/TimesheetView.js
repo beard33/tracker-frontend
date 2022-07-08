@@ -564,7 +564,7 @@ class TimesheetView extends Component {
 
                                                                 {
                                                                     this.props.location.state.responsabile && 
-                                                                    (!this.state.approvalControl || this.props.user.scope.includes("ROLE_MANAGEMENT" || "AMMINISTRAZIONE")) &&
+                                                                    (!this.state.approvalControl || this.props.user.scope.includes("ROLE_MANAGEMENT") || this.props.user.scope.includes("AMMINISTRAZIONE")) &&
                                                                     <ApproveButton
                                                                         codicePersona={this.state.codicePersona}
                                                                         anno={this.state.anno}
@@ -648,7 +648,7 @@ class TimesheetView extends Component {
                                                                 adjustmentEntryModal={this.updateModal}
                                                                 removeEntry={this.removeEntry}
                                                                 removeAll={this.removeDailyEntries}
-                                                                updateControl={!this.state.approvalControl || this.props.user.scope.includes("MANAGEMENT" || "AMMINISTRAZIONE") ? false : true}
+                                                                updateControl={!this.state.approvalControl || this.props.user.scope.includes("MANAGEMENT") || this.props.user.scope.includes("AMMINISTRAZIONE") ? false : true}
                                                             />
 
                                                         </React.Fragment>

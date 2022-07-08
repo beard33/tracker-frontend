@@ -84,3 +84,22 @@ const getAuthorithiesList = (scope) => {
     return list
 }
 export { getAuthorithiesList };
+
+
+/**
+ * metodo per il controllo dell'autorizzazione
+ * @returns 
+ */
+const authorizationControl = (scope) => {
+    if (
+        scope.includes("ROLE_MANAGEMENT")
+        || scope.includes("ROLE_ADMIN")
+        || scope.includes("ROLE_AMMINISTRAZIONE")
+        || scope.includes("ROLE_HR")
+    ) {
+        return false
+    } else {
+        return true
+    }
+}
+export { authorizationControl }

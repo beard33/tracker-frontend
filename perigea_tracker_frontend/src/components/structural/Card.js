@@ -5,6 +5,7 @@ import Box from './Box';
 import CardDetails from './CardDetails';
 import CardImage from './CardImage';
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
 
 
@@ -20,11 +21,23 @@ const Card = (props) => {
           cardImage="../images/fotoProfiloGenerica.png"
         />}
 
-        <Link className='view-button' to={{ pathname: "/" + props.tipo + "-view", codicePersona: props.item.codicePersona }} >
-          <img className="view-image" title="vedi dettagli" src="./images/show-details.png"
-            style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
-          ></img>
-        </Link>
+        {((
+          props.user.scope.includes("ROLE_MANAGEMENT")
+          || props.user.scope.includes("ROLE_ADMIN")
+          || props.user.scope.includes("ROLE_AMMINISTRAZIONE")
+          || props.user.scope.includes("ROLE_HR")
+        ) || props.item.codicePersona === props.user.codicePersona) ?
+          <Link className='view-button' to={{ pathname: "/" + props.tipo + "-view", codicePersona: props.item.codicePersona }} >
+            <img className="view-image" title="vedi dettagli" src="./images/show-details.png"
+              style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
+            ></img>
+          </Link> :
+          <Link className='view-button' to={{ pathname: "/unauthorized" }}>
+            <img className="view-image" title="vedi dettagli" src="./images/show-details.png"
+              style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
+            ></img>
+          </Link>
+        }
 
         <button className='delete-button' onClick={() => { props.showDeleteModal(props.item.codicePersona) }}>
           <img className="bin" src="./images/bin.png"
@@ -44,13 +57,13 @@ const Card = (props) => {
       </Box>
 
     )
-  } else {    
+  } else {
     return (
       <Box className="card">
 
         {props.item.codiceAzienda !== "0c44f51f-60c6-425b-af85-77a91e703b8d" ?
           <CardImage className="image" cardImage="../images/company.png" /> :
-          <CardImage className="image" cardImage="../images/pianetaLogo.png" /> }
+          <CardImage className="image" cardImage="../images/pianetaLogo.png" />}
 
         <Link className='view-button' to={{ pathname: "/azienda-view", aziendaProps: { codiceAzienda: props.item.codiceAzienda, tipo: props.tipo } }} >
           <img className="view-image" src="./images/show-details.png"
@@ -75,4 +88,11 @@ const Card = (props) => {
     )
   }
 }
-export default Card;
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(Card);

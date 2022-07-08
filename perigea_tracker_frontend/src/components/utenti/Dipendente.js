@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import DatiEconomiciDipendente from "./DatiEconomiciDipendente";
 import Title from "../structural/Title";
 import { Redirect } from 'react-router-dom';
+import { getAuthorithiesList } from "../utils/Utils";
 import { connect } from 'react-redux';
 
 
@@ -55,7 +56,7 @@ class Dipendente extends React.Component {
     }
 
 
-    componentDidMount = () => {       
+    componentDidMount = () => {
         if (this.props.location.state.update.update) {
             this.setState({
                 tipo: "DIPENDENTE",
@@ -166,7 +167,7 @@ class Dipendente extends React.Component {
     /**
      * metodo di controllo per la distinzione tra quale chiamata effettuare
      */
-    onSAVEButtonClick = async () => {        
+    onSAVEButtonClick = async () => {
         if (this.props.location.state.update.update) {
             console.log("UPDATE")
             await this.updateDipendente()
@@ -226,16 +227,27 @@ class Dipendente extends React.Component {
                         </Grid>
                     </div>
 
-                    <h3>Dati Economici</h3>
                     <div>
-                        {!this.state.showComponent &&
-                            <button className="button-add"
-                                type="button"
-                                onClick={this.onADDButtonClick}
-                                disabled={this.state.showComponent}
-                            >
-                                ADD ECONOMICS
-                            </button>
+                        {
+                            !this.state.showComponent &&
+                            (
+                                this.props.user.scope.includes("ROLE_MANAGEMENT")
+                                || this.props.user.scope.includes("ROLE_ADMIN")
+                                || this.props.user.scope.includes("ROLE_AMMINISTRAZIONE")
+                                || this.props.user.scope.includes("ROLE_HR")
+                            ) &&
+                            <React.Fragment>
+                                <h3>Dati Economici</h3>
+                                <div>
+                                    <button className="button-add"
+                                        type="button"
+                                        onClick={this.onADDButtonClick}
+                                        disabled={this.state.showComponent}
+                                    >
+                                        ADD ECONOMICS
+                                    </button>
+                                </div>
+                            </React.Fragment>
                         }
                         {this.state.showComponent ?
                             <DatiEconomiciDipendente updateState={this.updateState} economics={this.state.economics} /> :
@@ -260,8 +272,8 @@ class Dipendente extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user
     }
-  }
-  
-  export default connect(mapStateToProps)(Dipendente);
+}
+
+export default connect(mapStateToProps)(Dipendente);

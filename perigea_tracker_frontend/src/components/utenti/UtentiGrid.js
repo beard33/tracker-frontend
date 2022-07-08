@@ -24,7 +24,7 @@ class UtentiGrid extends React.Component {
 
   componentDidMount = () => {
     console.log("componentDidMount start")
-    endpoint = this.checkPersonaleType()  
+    endpoint = this.checkPersonaleType()
     this.readAllUtenti(endpoint)
   }
 
@@ -90,7 +90,7 @@ class UtentiGrid extends React.Component {
    */
   deleteDipendente = (codicePersona) => {
     console.log("delete start")
-    endpoint = this.checkPersonaleType()    
+    endpoint = this.checkPersonaleType()
     AxiosInstance({
       method: 'delete',
       url: `${endpoint}/delete/${codicePersona}`
@@ -155,10 +155,16 @@ class UtentiGrid extends React.Component {
             placeholder={"username"}
           />
 
-          <AddButton
-            buttonName={"AGGIUNGI " + this.props.tipo.toUpperCase()}
-            pathname={"/anagrafica-" + this.props.tipo}
-          />
+          {(
+            this.props.user.scope.includes("ROLE_MANAGEMENT")
+            || this.props.user.scope.includes("ROLE_ADMIN")
+            || this.props.user.scope.includes("ROLE_AMMINISTRAZIONE")
+            || this.props.user.scope.includes("ROLE_HR")
+          ) &&
+            <AddButton
+              buttonName={"AGGIUNGI " + this.props.tipo.toUpperCase()}
+              pathname={"/anagrafica-" + this.props.tipo}
+            />}
 
           {
             Object.values(this.state.searchList).map((item) => {

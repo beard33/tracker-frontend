@@ -25,7 +25,9 @@ import CommessaFatturabileView from '../components/commesse/CommessaFatturabileV
 import Timesheet from '../components/timesheet/Timesheet';
 import TimesheetCreazione from '../components/timesheet/TimesheetCreazione';
 import TimesheetView from '../components/timesheet/TimesheetView';
+import UnauthorizedPage from '../components/general/UnauthorizedPage';
 import TimesheetGrid from '../components/timesheet/TimesheetGrid';
+
 
 
 export default function RouterApp() {
@@ -57,7 +59,7 @@ export default function RouterApp() {
         <Route path="/dipendenti-view" exact component={DipendenteView} />
         <Route path="/consulenti-view" exact component={ConsulenteView} />
         <Route path="/azienda-view" exact component={AziendaView} />
-
+        <Route path="/unauthorized" exact component={UnauthorizedPage} />
         <Route path="/commessa-fatturabile" exact component={CommessaFatturabile} />
         <Route path="/ordine-commessa" exact component={OrdineCommessa} />
         <Route path="/commessa-non-fatturabile" exact render={() => <CommessaNonFatturabile />} />

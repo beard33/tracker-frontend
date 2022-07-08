@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import Title from '../structural/Title';
 import RuoliTable from './RuoliTable';
 import LoadingSpinner from '../structural/LoadingSpinner';
+import { authorizationControl } from '../utils/Utils';
 import { connect } from 'react-redux';
 
 
@@ -178,7 +179,7 @@ class DipendenteView extends React.Component {
                       </div>
                     </AccordionDetails>
                   </Accordion>
-                  <Accordion>
+                  <Accordion disabled={authorizationControl(this.props.user.scope)}>
                     <AccordionSummary
                       className='accordionSummary'
                       expandIcon={<ExpandMoreIcon />}

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Box from './Box';
-
+import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import FieldImage from './FieldImage';
 import FieldDetails from './FIeldDetails';
@@ -121,4 +121,11 @@ const Field = (props) => {
     }
 }
 
-export default Field;
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+      user: state.user
+    }
+  }
+  
+  export default connect(mapStateToProps)(Field);

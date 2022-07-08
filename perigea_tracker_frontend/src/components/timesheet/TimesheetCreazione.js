@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 class TimesheetCreazione extends React.Component {
     state = {
         codicePersona: "",
+        username: "",
         anno: 0,
         mese: 0,
         days: [],
@@ -27,11 +28,11 @@ class TimesheetCreazione extends React.Component {
         entriesView: [],
         redirect: false,
         festivi: []
-
     }
 
     componentWillMount() {
         this.setState({
+            username: this.props.user.username,
             codicePersona: this.props.location.state.codicePersona,
             anno: this.props.location.state.anno,
             mese: this.props.location.state.mese,
@@ -233,9 +234,8 @@ class TimesheetCreazione extends React.Component {
                                     <Form.Row className="infoForm">
                                         <TextField
                                             style={{ width: "27%" }}
-                                            label="codice Persona"
-                                            value={this.state.codicePersona}
-                                            onChange={(e) => { this.setState({ codicePersona: e.target.value }) }}
+                                            label="username"
+                                            value={this.state.username}
                                         ></TextField>
                                         <TextField
                                             style={{ width: "27%" }}
@@ -333,7 +333,7 @@ class TimesheetCreazione extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        user: state.user    
+        user: state.user
     }
 }
 
