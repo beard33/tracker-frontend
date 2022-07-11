@@ -45,7 +45,7 @@ class Sidebar extends React.Component {
 
                   {(this.props.user.scope.includes("ROLE_MANAGEMENT") ||
                     this.props.user.scope.includes("ROLE_AMMINISTRAZIONE") ||
-                    this.props.user.scope.includes("ROLE_SALES")) ?
+                    this.props.user.scope.includes("ROLE_HR") || this.props.user.scope.includes("ROLE_SALES")) ?
                     <React.Fragment>
                       <SubMenu title="Commesse" onClick={this.props.onMenuToggle}>
                         <MenuItem><a href="/commesse" onClick={this.props.onMenuToggle}> Commesse</a></MenuItem>
