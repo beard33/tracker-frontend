@@ -4,6 +4,8 @@ import AxiosInstance from "../../axios/AxiosInstance";
 import AddButton from '../structural/AddButton';
 import DeleteModal from '../structural/DeleteModal';
 import SearchBar from '../structural/SearchBar';
+import { redirect } from '../../redux/Actions';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 let endpoint;
@@ -23,6 +25,9 @@ class UtentiGrid extends React.Component {
 
 
   componentDidMount = () => {
+    if (!this.props.navBar) {
+      this.props.dispatch(redirect(this.props.location))
+    }
     console.log("componentDidMount start")
     endpoint = this.checkPersonaleType()
     this.readAllUtenti(endpoint)
@@ -197,8 +202,11 @@ class UtentiGrid extends React.Component {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    user: state.user
+    user: state.user,
+    counter: state.counter,
+    history: state.history,
+    navBar: state.navBar
   }
 }
 
-export default connect(mapStateToProps)(UtentiGrid);
+export default withRouter(connect(mapStateToProps)(UtentiGrid));

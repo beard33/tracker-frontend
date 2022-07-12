@@ -1,18 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { link } from '../../redux/Actions';
+import { connect } from 'react-redux';
 
-export default function AddButton(props) {
+function AddButton(props) {
 
     return (
         <React.Fragment>
             <div className="box-card">
                 <Link to={{
                     pathname: props.pathname,
-                    updateProps: { update: false }
+                    state: { update: false }
                 }}
                     style={{ textDecoration: "none" }}>
                     <button
-                        className="add-card-show-button"
+                        className="add-card-show-button" onClick={() => {props.dispatch(link())}}
                     >
                         {props.buttonName}
                     </button>
@@ -21,3 +23,4 @@ export default function AddButton(props) {
         </React.Fragment>
     )
 } 
+export default connect()(AddButton);

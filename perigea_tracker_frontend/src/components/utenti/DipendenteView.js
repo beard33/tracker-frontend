@@ -7,7 +7,8 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { redirect, link } from '../../redux/Actions';
 import Title from '../structural/Title';
 import RuoliTable from './RuoliTable';
 import LoadingSpinner from '../structural/LoadingSpinner';
@@ -31,6 +32,9 @@ class DipendenteView extends React.Component {
   }
 
   componentDidMount = () => {
+    if (!this.props.navBar) {
+      this.props.dispatch(redirect(this.props.location))
+    }
     console.log("DIPENDENTE-VIEW start")
     this.readDipendenteById()
   }
@@ -42,7 +46,7 @@ class DipendenteView extends React.Component {
     this.setState({ isLoading: true })
     await AxiosInstance({
       method: "get",
-      url: `dipendenti/read/${this.props.location.codicePersona}`,
+      url: `dipendenti/read/${this.props.location.state.codicePersona}`,
 
     }).then((response) => {
       this.loadUtente(response);
@@ -202,11 +206,11 @@ class DipendenteView extends React.Component {
                     <AccordionDetails className='accordionDetails'>
                       <Link to={{
                         pathname: "/anagrafica-dipendenti",
-                        updateProps: {
+                        state: {
                           update: true,
                           user: this.state
                         }
-                      }}>
+                      }} onClick={() => {this.props.dispatch(link())}}>
                         <button className="button-update" title='modifica dipendente'
                           type="button" >
                           <img className="menu" src="./images/update.png"></img>
@@ -227,8 +231,11 @@ class DipendenteView extends React.Component {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    user: state.user
+    user: state.user,
+    counter: state.counter,
+    history: state.history,
+    navBar: state.navBar
   }
 }
 
-export default connect(mapStateToProps)(DipendenteView);
+export default withRouter(connect(mapStateToProps)(DipendenteView));

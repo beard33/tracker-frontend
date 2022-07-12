@@ -7,8 +7,9 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import CommesseGrid from '../commesse/CommesseGrid'
+import { redirect, link } from '../../redux/Actions';
 import { authorizationControl } from '../utils/Utils';
 import { connect } from 'react-redux';
 
@@ -20,6 +21,9 @@ class AziendaView extends React.Component {
     }
 
     componentDidMount = () => {
+        if (!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+        }
         console.log("AZIENDA-VIEW start")
         type = this.checkAziendaType()
         this.readAziendaById()
@@ -32,7 +36,7 @@ class AziendaView extends React.Component {
     readAziendaById = async () => {
         await AxiosInstance({
             method: "get",
-            url: `${this.props.location.aziendaProps.tipo}/read-by-id/${this.props.location.aziendaProps.codiceAzienda}`
+            url: `${this.props.location.state.tipo}/read-by-id/${this.props.location.state.codiceAzienda}`
         }).then((response) => {
             this.loadAzienda(response);
         }).catch((error) => {
@@ -45,10 +49,10 @@ class AziendaView extends React.Component {
      * metodo di memorizzazione della risposta della chiamata axios
      * @param {*} response 
      */
-    loadAzienda = (response) => {       
+    loadAzienda = (response) => {
         this.setState({
             azienda: response.data.data
-        })        
+        })
     }
 
 
@@ -82,8 +86,8 @@ class AziendaView extends React.Component {
      * @returns 
      */
     checkAziendaType = () => {
-        let tipo;        
-        switch (this.props.location.aziendaProps.tipo) {
+        let tipo;
+        switch (this.props.location.state.tipo) {
             case "clienti":
                 tipo = "Cliente"
                 break;
@@ -136,7 +140,7 @@ class AziendaView extends React.Component {
                                 <AccordionDetails className='accordionDetails'>
                                     <CommesseGrid
                                         cliente={true}
-                                        codiceAzienda={this.props.location.aziendaProps.codiceAzienda}
+                                        codiceAzienda={this.props.location.state.codiceAzienda}
                                     />
                                 </AccordionDetails>
                             </Accordion>
@@ -150,12 +154,12 @@ class AziendaView extends React.Component {
                             </AccordionSummary>
                             <AccordionDetails className='accordionDetails'>
                                 <Link to={{
-                                    pathname: `add-${this.props.location.aziendaProps.tipo}`,
+                                    pathname: `add-${this.props.location.state.tipo}`,
                                     state: {
                                         update: true,
                                         azienda: this.state
                                     }
-                                }}>
+                                }} onClick={() => {this.props.dispatch(link())}}>
                                     <button className="button-update" title='modifica dipendente'
                                         type="button" >
                                         <img className="menu" src="./images/update.png"></img>
@@ -172,8 +176,11 @@ class AziendaView extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
-  
-  export default connect(mapStateToProps)(AziendaView);
+}
+
+export default withRouter(connect(mapStateToProps)(AziendaView));

@@ -2,6 +2,7 @@
 import React from 'react';
 import Box from './Box';
 import { connect } from 'react-redux';
+import { link } from '../../redux/Actions';
 import { Link } from "react-router-dom";
 import FieldImage from './FieldImage';
 import FieldDetails from './FIeldDetails';
@@ -12,7 +13,7 @@ import FieldDetails from './FIeldDetails';
 const Field = (props) => {
     if (props.tipo === "F") {
         return (
-        <Box className={!props.cliente ? "field-1": "field-1-cliente"}>
+            <Box className={!props.cliente ? "field-1" : "field-1-cliente"}>
 
                 {<FieldImage className="image"
                     cardImage="../images/comm-fatt.png"
@@ -20,8 +21,10 @@ const Field = (props) => {
 
                 <Link className='view-button' to={{
                     pathname: "/commessa-fatturabile-view",
-                    codiceCommessa: props.commessa.codiceCommessa
-                }} >
+                    state: {
+                        codiceCommessa: props.commessa.codiceCommessa
+                    }
+                }} onClick={() => { props.dispatch(link()) }}>
                     <img className="view-image" src="./images/show-details.png" title='vedi dettagli'
                         style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
                     ></img>
@@ -47,7 +50,7 @@ const Field = (props) => {
         )
     } else if (props.tipo === "S") {
         return (
-            <Box className={!props.cliente ? "field-2": "field-2-cliente"}>
+            <Box className={!props.cliente ? "field-2" : "field-2-cliente"}>
 
                 {<FieldImage className="image"
                     cardImage="../images/comm-noFatt.png"
@@ -56,8 +59,10 @@ const Field = (props) => {
                 <Link className='view-button'
                     to={{
                         pathname: "/commessa-non-fatturabile-view",
-                        codiceCommessa: props.commessa.codiceCommessa
-                    }} >
+                        state: {
+                            codiceCommessa: props.commessa.codiceCommessa
+                        }
+                    }} onClick={() => { props.dispatch(link()) }} >
                     <img className="view-image" src="./images/show-details.png" title='vedi dettagli'
                         style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
                     ></img>
@@ -94,12 +99,12 @@ const Field = (props) => {
                     state: {
                         responsabile: true,
                         anno: props.timesheet.anno,
-                        mese: props.timesheet.mese-1,
+                        mese: props.timesheet.mese - 1,
                         codicePersona: props.timesheet.codicePersona,
                         username: `${props.timesheet.nome}.${props.timesheet.cognome}`,
                         contattoResponsabile: props.contattoResponsabile
                     }
-                }} >
+                }} onClick={() => { props.dispatch(link()) }}>
                     <img className="view-image" title='vedi dettagli' src="./images/show-details.png"
                         style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
                     ></img>
@@ -112,7 +117,7 @@ const Field = (props) => {
                     anno={props.timesheet.anno}
                     mese={props.timesheet.mese}
                     approvalStatus={props.timesheet.approvalStatus}
-                    
+
                 />
 
             </Box>
@@ -124,8 +129,8 @@ const Field = (props) => {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user
     }
-  }
-  
-  export default connect(mapStateToProps)(Field);
+}
+
+export default connect(mapStateToProps)(Field);

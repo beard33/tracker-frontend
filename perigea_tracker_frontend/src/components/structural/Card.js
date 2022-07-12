@@ -4,6 +4,7 @@ import React from 'react';
 import Box from './Box';
 import CardDetails from './CardDetails';
 import CardImage from './CardImage';
+import { link } from '../../redux/Actions';
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -12,6 +13,9 @@ import { connect } from 'react-redux';
 
 const Card = (props) => {
 
+  const handleClick = () => {
+    props.dispatch(link())
+  }
 
   if (props.tipo === "dipendenti" || props.tipo === "consulenti") {
     return (
@@ -27,12 +31,12 @@ const Card = (props) => {
           || props.user.scope.includes("ROLE_AMMINISTRAZIONE")
           || props.user.scope.includes("ROLE_HR")
         ) || props.item.codicePersona === props.user.codicePersona) ?
-          <Link className='view-button' to={{ pathname: "/" + props.tipo + "-view", codicePersona: props.item.codicePersona }} >
+          <Link className='view-button' onClick={handleClick} to={{ pathname: "/" + props.tipo + "-view", state: { codicePersona: props.item.codicePersona } }} >
             <img className="view-image" title="vedi dettagli" src="./images/show-details.png"
               style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
             ></img>
           </Link> :
-          <Link className='view-button' to={{ pathname: "/unauthorized" }}>
+          <Link className='view-button' onClick={handleClick} to={{ pathname: "/unauthorized" }}>
             <img className="view-image" title="vedi dettagli" src="./images/show-details.png"
               style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
             ></img>
@@ -65,7 +69,7 @@ const Card = (props) => {
           <CardImage className="image" cardImage="../images/company.png" /> :
           <CardImage className="image" cardImage="../images/pianetaLogo.png" />}
 
-        <Link className='view-button' to={{ pathname: "/azienda-view", aziendaProps: { codiceAzienda: props.item.codiceAzienda, tipo: props.tipo } }} >
+        <Link className='view-button' onClick={handleClick} to={{ pathname: "/azienda-view", state: { codiceAzienda: props.item.codiceAzienda, tipo: props.tipo } }} >
           <img className="view-image" src="./images/show-details.png"
             style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
           ></img>

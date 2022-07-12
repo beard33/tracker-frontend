@@ -6,7 +6,8 @@ import { MenuItem } from '@mui/material';
 import AxiosInstance from '../../axios/AxiosInstance';
 import { commessaFatturabileType, commessaType } from '../enum/CommesseEnums';
 import Title from '../structural/Title';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { redirect, link } from '../../redux/Actions';
 import { connect } from 'react-redux';
 
 
@@ -43,6 +44,9 @@ class CommessaFatturabile extends React.Component {
     }
 
     componentDidMount = () => {
+        if (!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+        }
         if (this.props.location.state.update) {
             this.setState(this.props.location.state.commessa)
             this.setState({
@@ -100,7 +104,7 @@ class CommessaFatturabile extends React.Component {
                 cliente: this.state.cliente,
                 ordineCommessa: this.state.ordineCommessa
             }
-        }).then(() => {           
+        }).then(() => {
             console.log("Creazione di una commessa fatturabile e relativo ordine effettuata con successo", this.data)
         }).catch((error) => {
             console.log("Errore ", error)
@@ -111,7 +115,7 @@ class CommessaFatturabile extends React.Component {
     /**
      * chiamata axios per l'update di una commessa fatturabile
      */
-    updateCommessaFatturabile = async () => {        
+    updateCommessaFatturabile = async () => {
         await AxiosInstance({
             method: 'put',
             url: "commesse/update-commessa-fatturabile",
@@ -144,7 +148,7 @@ class CommessaFatturabile extends React.Component {
                 percentualeSconto: this.state.percentualeSconto,
                 responsabileCommerciale: this.state.responsabileCommerciale
             }
-        }).then(() => {            
+        }).then(() => {
             console.log("Update di una commessa fatturabile e relativo ordine effettuata con successo", this.data)
         }).catch((error) => {
             console.log("Errore ", error)
@@ -411,8 +415,8 @@ class CommessaFatturabile extends React.Component {
                     <Form>
                         <div>
                             <Link className='view-button' to={{
-                                pathname: "/commesse"                                
-                            }} >
+                                pathname: "/commesse"
+                            }} onClick={() => {this.props.dispatch(link())}} >
                                 <button className="ButtonSave"
                                     type="button"
                                     title={this.props.location.state.update ? "APPLICA MODIFICHE" : "SALVA"}
@@ -432,8 +436,11 @@ class CommessaFatturabile extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
-  
-  export default connect(mapStateToProps)(CommessaFatturabile);
+}
+
+export default withRouter(connect(mapStateToProps)(CommessaFatturabile));

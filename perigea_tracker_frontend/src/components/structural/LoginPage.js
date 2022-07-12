@@ -25,7 +25,7 @@ function LoginPage(props) {
     console.log(credentials)
     const { dispatch, history } = props
     dispatch(login(credentials.username[0], credentials.password[0]))
-      .then(() => {
+      .then(() => {        
         setRedirect(true)
         setIsLoading(false)
       }).catch(() => {

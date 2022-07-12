@@ -8,11 +8,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
 import RuoliTable from './RuoliTable';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { redirect, link } from '../../redux/Actions';
 import { connect } from 'react-redux';
 import { authorizationControl } from '../utils/Utils';
 import LoadingSpinner from '../structural/LoadingSpinner';
 import Title from '../structural/Title';
+import { id } from 'date-fns/locale';
 
 class ConsulenteView extends React.Component {
   state = {
@@ -30,6 +32,9 @@ class ConsulenteView extends React.Component {
   }
 
   componentDidMount = () => {
+    if(!this.props.navBar) {
+      this.props.dispatch(redirect(this.props.location))
+    }
     console.log("CONSULENTE-VIEW start")
     this.readUtenteById()
   }
@@ -41,7 +46,7 @@ class ConsulenteView extends React.Component {
     this.setState({ isLoading: true })
     await AxiosInstance({
       method: "get",
-      url: `consulenti/read/${this.props.location.codicePersona}`
+      url: `consulenti/read/${this.props.location.state.codicePersona}`
     }).then((response) => {
       this.loadUtente(response);
     }).catch((error) => {
@@ -209,11 +214,11 @@ class ConsulenteView extends React.Component {
                 <AccordionDetails className='accordionDetails'>
                   <Link to={{
                     pathname: "/anagrafica-consulenti",
-                    updateProps: {
+                    state: {
                       update: true,
                       user: this.state
                     }
-                  }}>
+                  }} onClick={() => {this.props.dispatch(link())}}>
                     <button className="button-update"
                       type="button" >
                       <img className="menu" src="./images/update.png"></img>
@@ -232,7 +237,10 @@ class ConsulenteView extends React.Component {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    user: state.user
+    user: state.user,
+    counter: state.counter,
+    history: state.history,
+    navBar: state.navBar
   }
 }
 

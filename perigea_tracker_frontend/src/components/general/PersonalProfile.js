@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import WelcomeHeader from "../structural/WelcomeHeader";
 import TextButton from "../structural/TextButton";
 import UploadFileButton from '../structural/UploadFileButton';
-import Grid from "@material-ui/core";
-import TextField from '@material-ui/core/TextField';
-import Form from "react-bootstrap/Form";
 import { connect } from 'react-redux';
 import UserInfoTable from './UserInfoTable';
+import { redirect } from '../../redux/Actions';
 import Title from '../structural/Title';
-import { Redirect } from 'react-router-dom';
-import HistoryArrows from '../structural/HistoryArrows';
+import { Redirect, withRouter } from 'react-router-dom';
+
 
 
 
@@ -18,6 +16,11 @@ function ProfilePersonal(props) {
   const admin = props.user ? props.user.type : "";
   const userEmail = props.user ? props.user.userEmail : "";
 
+  useEffect(() => {
+    if (!props.navBar) {
+      props.dispatch(redirect(props.location))
+    }
+  }, []);
 
   return (
     <React.Fragment>
@@ -57,8 +60,10 @@ function ProfilePersonal(props) {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    user: state.user
+    user: state.user,
+    counter: state.counter,
+    history: state.history,
+    navBar: state.navBar
   }
 }
-
-export default connect(mapStateToProps)(ProfilePersonal);
+export default withRouter(connect(mapStateToProps)(ProfilePersonal));

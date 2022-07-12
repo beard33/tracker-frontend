@@ -8,7 +8,6 @@ import AxiosInstance from '../../axios/AxiosInstance';
 import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
 import MonthTotalsTable from './MonthTotalsTable';
-import { Link } from 'react-router-dom';
 import LoadingSpinner from '../structural/LoadingSpinner';
 import { setNoteSpeseDay, getMonthEndDate } from '../utils/Utils';
 import MonthFilter from '../structural/MonthFilter';
@@ -17,7 +16,8 @@ import RequestButton from '../timesheet/RequestButton';
 import ApproveButton from '../timesheet/ApproveButton';
 import Title from '../structural/Title';
 import DeleteModal from '../structural/DeleteModal';
-import { Redirect } from 'react-router-dom';
+import { redirect, link } from '../../redux/Actions';
+import { Redirect, withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 
@@ -55,6 +55,9 @@ class TimesheetView extends Component {
 
 
     componentDidMount() {
+        if(!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+        }
         if (this.props.location.state) {
             this.setState({
                 codicePersona: this.props.location.state.codicePersona,
@@ -586,7 +589,7 @@ class TimesheetView extends Component {
                                                                     festivi: this.state.festivi
                                                                 }
                                                             }}>
-                                                                <button className='add-button' title='aggiungi timesheet'>
+                                                                <button className='add-button' title='aggiungi timesheet' onClick={() => {this.props.dispatch(link())}}>
                                                                     <img className="menu" src="./images/add.png" ></img>
                                                                 </button>
                                                             </Link>
@@ -698,8 +701,11 @@ class TimesheetView extends Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+      user: state.user,
+      counter: state.counter,
+      history: state.history,
+      navBar: state.navBar
     }
   }
   
-  export default connect(mapStateToProps)(TimesheetView);
+  export default withRouter(connect(mapStateToProps)(TimesheetView));

@@ -272,8 +272,11 @@ class Dipendente extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        user: state.user
+      user: state.user,
+      counter: state.counter,
+      history: state.history,
+      navBar: state.navBar
     }
-}
+  }
 
 export default connect(mapStateToProps)(Dipendente);

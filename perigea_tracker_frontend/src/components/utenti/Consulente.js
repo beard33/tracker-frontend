@@ -6,7 +6,8 @@ import AxiosInstance from "../../axios/AxiosInstance";
 import TextField from '@material-ui/core/TextField';
 import DatiEconomiciConsulente from "./DatiEconomiciConsulente";
 import Title from "../structural/Title";
-import { Redirect } from "react-router-dom";
+import { redirect, link } from "../../redux/Actions";
+import { Redirect, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 
 
@@ -39,6 +40,9 @@ class Consulente extends React.Component {
 
 
     componentDidMount = () => {
+        if (!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+          }
         if (this.props.location.state.update.update) {
             this.setState({
                 tipo: "CONSULENTE",
@@ -92,7 +96,7 @@ class Consulente extends React.Component {
                 costo: this.state.costo,
                 economics: this.state.showComponent ? this.state.economics : null
             }
-        }).then(() => {           
+        }).then(() => {
             console.log("Salvataggio del dipendente effettuato con successo", this.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
@@ -117,7 +121,7 @@ class Consulente extends React.Component {
                 partitaIva: this.state.partitaIva,
                 costo: this.state.costo
             }
-        }).then(() => {           
+        }).then(() => {
             console.log("Update del consulente effettuato con successo", this.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
@@ -136,7 +140,7 @@ class Consulente extends React.Component {
             data: {
                 economics: this.state.economics
             }
-        }).then(() => {         
+        }).then(() => {
             console.log("update dei dati economici effettuato con successo", this.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
@@ -154,9 +158,10 @@ class Consulente extends React.Component {
             if (this.state.showComponent) {
                 await this.updateEconomics()
             }
-        } else {           
+        } else {
             await this.saveConsulente()
         }
+        this.props.dispatch(link())
         this.setState({ redirect: true })
     }
 
@@ -219,31 +224,42 @@ class Consulente extends React.Component {
                         </Grid>
                     </div>
 
-                    <h3>Dati Economici</h3>
-                    <div>
-                        {!this.state.showComponent &&
-                            <button className="button-add"
-                                type="button"
-                                onClick={this.onADDButtonClick}
-                                disabled={this.state.showComponent}
-                            >
-                                ADD ECONOMICS
-                            </button>}
+                    {
+                        !this.state.showComponent &&
+                        (
+                            this.props.user.scope.includes("ROLE_MANAGEMENT")
+                            || this.props.user.scope.includes("ROLE_ADMIN")
+                            || this.props.user.scope.includes("ROLE_AMMINISTRAZIONE")
+                            || this.props.user.scope.includes("ROLE_HR")
+                        ) &&
+                        <React.Fragment>
+                            <h3>Dati Economici</h3>
+                            <div>
+                                <button className="button-add"
+                                    type="button"
+                                    onClick={this.onADDButtonClick}
+                                    disabled={this.state.showComponent}
+                                >
+                                    ADD ECONOMICS
+                                </button>
+                            </div>
+                        </React.Fragment>
+                    }
 
-                        {this.state.showComponent ?
-                            <DatiEconomiciConsulente updateState={this.updateState} economics={this.state.economics} /> :
-                            null
-                        }
+                    {this.state.showComponent ?
+                        <DatiEconomiciConsulente updateState={this.updateState} economics={this.state.economics} /> :
+                        null
+                    }
 
-                        <button className="ButtonSave" type="button" onClick={this.onSAVEButtonClick} title="SALVA">
-                            <img className="menu" src="./images/save.png"></img>
-                        </button>
+                    <button className="ButtonSave" type="button" onClick={this.onSAVEButtonClick} title="SALVA">
+                        <img className="menu" src="./images/save.png"></img>
+                    </button>
 
-                        {this.state.redirect ? <Redirect to={{ pathname: "/consulenti" }} /> : null}
-
-                    </div>
+                    {this.state.redirect ? <Redirect to={{ pathname: "/consulenti" }} /> : null}
 
                 </div>
+
+
             </React.Fragment>
 
         )
@@ -253,8 +269,11 @@ class Consulente extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
-  
-  export default connect(mapStateToProps)(Consulente);
+}
+
+export default withRouter(connect(mapStateToProps)(Consulente));

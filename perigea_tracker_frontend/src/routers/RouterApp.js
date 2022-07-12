@@ -22,7 +22,6 @@ import CommessaNonFatturabile from '../components/commesse/CommessaNonFatturabil
 import CommesseGrid from '../components/commesse/CommesseGrid';
 import CommessaNonFatturabileView from '../components/commesse/CommessaNonFatturabileView';
 import CommessaFatturabileView from '../components/commesse/CommessaFatturabileView';
-import Timesheet from '../components/timesheet/Timesheet';
 import TimesheetCreazione from '../components/timesheet/TimesheetCreazione';
 import TimesheetView from '../components/timesheet/TimesheetView';
 import UnauthorizedPage from '../components/general/UnauthorizedPage';
@@ -36,7 +35,7 @@ export default function RouterApp() {
     <Switch>
       <Route path="/" exact component={LoginPage} />
       <Layout style={{ height: "100%" }}>
-        <Route path="/home" component={PersonalProfile} exact={true}/>
+        <Route path="/home" component={PersonalProfile} exact={true} />
         <Route path="/message" exact component={Message} />
         <Route path="/inbox" exact component={Message} />
         <Route path="/grid2" exact component={Message} />
@@ -66,11 +65,10 @@ export default function RouterApp() {
         <Route path="/commesse" exact render={() => <CommesseGrid />} />
         <Route path="/commessa-non-fatturabile-view" exact component={CommessaNonFatturabileView} />
         <Route path="/commessa-fatturabile-view" exact component={CommessaFatturabileView} />
-        <Route path="/timesheet" exact component={Timesheet} />
         <Route path="/timesheet-create" exact component={TimesheetCreazione} />
         <Route path="/timesheet-view" exact component={TimesheetView} />
         <Route path="/timesheet-grid" exact component={TimesheetGrid} />
-       
+
 
 
       </Layout>

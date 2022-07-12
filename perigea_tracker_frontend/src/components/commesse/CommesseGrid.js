@@ -6,6 +6,8 @@ import Field from '../structural/Field';
 import SearchBar from '../structural/SearchBar';
 import DeleteModal from '../structural/DeleteModal';
 import Title from '../structural/Title';
+import { redirect, link } from '../../redux/Actions';
+import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 
@@ -19,12 +21,17 @@ class CommesseGrid extends React.Component {
             keyCode: "",
             searchValue: "",
             showSpecificSearches: false,
-            searchList: ""
+            searchList: "",
+            newFatturabile: false,
+            newNoFatturabile: false
         }
     }
 
     componentDidMount = () => {
         console.log("COMMESSA_GRID start")
+        if (!this.props.navBar && !this.props.cliente) {
+            this.props.dispatch(redirect(this.props.location))
+        }
         {
             this.props.cliente ?
                 this.getCommesseByAzienda(this.props.codiceAzienda) :
@@ -113,7 +120,7 @@ class CommesseGrid extends React.Component {
      * @param {*} response 
      */
     loadAllCommesse = (response) => {
-        console.log("loadAllCommesse")        
+        console.log("loadAllCommesse")
         let result = []
         Object.values(response.data.data).map((element) => {
             result.push({
@@ -121,7 +128,7 @@ class CommesseGrid extends React.Component {
                 tipoCommessa: element.tipoCommessa,
                 descrizioneCommessa: element.descrizioneCommessa
             })
-        })       
+        })
         this.setState({
             listCard: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1),
             searchList: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1)
@@ -147,13 +154,23 @@ class CommesseGrid extends React.Component {
             <React.Fragment>
                 <div>
                     {(!this.props.cliente || this.props.codiceAzienda !== "0c44f51f-60c6-425b-af85-77a91e703b8d") &&
-                        <button className='modalFatturabileButton'>
-                            <a className='buttonLink' href='/ordine-commessa' update={false}>FATTURABILE</a>
+                        <button className='modalFatturabileButton'
+                            onClick={() => {
+                                this.props.dispatch(link())
+                                this.setState({ newFatturabile: true })
+                            }}
+                        >
+                            FATTURABILE
                         </button>
                     }
                     {(!this.props.cliente || this.props.codiceAzienda === "0c44f51f-60c6-425b-af85-77a91e703b8d") &&
-                        <button className='modalNoFatturabileButton'>
-                            <a className='buttonLink' href='/commessa-non-fatturabile'> NON FATTURABILE </a>
+                        <button className='modalNoFatturabileButton'
+                            onClick={() => {
+                                this.props.dispatch(link())
+                                this.setState({ newNoFatturabile: true })
+                            }}
+                        >
+                            NON FATTURABILE
                         </button>
                     }
                 </div>
@@ -237,7 +254,7 @@ class CommesseGrid extends React.Component {
     render() {
         return (
             <React.Fragment>
-               <Title></Title>
+                {!this.props.cliente && <Title></Title>}
                 <div className="card-grid">
 
                     {!this.props.cliente &&
@@ -303,6 +320,8 @@ class CommesseGrid extends React.Component {
                     </Modal>
 
                 </div>
+                {this.state.newFatturabile && <Redirect to={{ pathname: "/ordine-commessa" }} />}
+                {this.state.newNoFatturabile && <Redirect to={{ pathname: "/commessa-non-fatturabile" }} />}
             </React.Fragment>
         )
     }
@@ -310,8 +329,11 @@ class CommesseGrid extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
-  
-  export default connect(mapStateToProps)(CommesseGrid);
+}
+
+export default withRouter(connect(mapStateToProps)(CommesseGrid));

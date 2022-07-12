@@ -4,7 +4,8 @@ import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import { Button, Form, Row, Container } from 'react-bootstrap';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter} from 'react-router-dom';
+import { redirect, link } from '../../redux/Actions';
 import DayPickerGrid from './DayPickerGrid';
 import EntriesImpl from './EntriesImpl';
 import EntryView from './EntryView';
@@ -31,6 +32,9 @@ class TimesheetCreazione extends React.Component {
     }
 
     componentWillMount() {
+        if(!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+        }
         this.setState({
             username: this.props.user.username,
             codicePersona: this.props.location.state.codicePersona,
@@ -70,6 +74,7 @@ class TimesheetCreazione extends React.Component {
 
     onSaveClick = () => {
         console.log(this.state)
+        this.props.dispatch(link())
         this.createTimesheetMensile()
     }
 
@@ -288,7 +293,8 @@ class TimesheetCreazione extends React.Component {
                                 codicePersona: this.props.user.codicePersona,
                                 username: this.props.user.username
                             }
-                        }}></Redirect>}
+                        }}>
+                        </Redirect>}
 
                 </Container>
 
@@ -333,11 +339,13 @@ class TimesheetCreazione extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        user: state.user
+      user: state.user,
+      counter: state.counter,
+      history: state.history,
+      navBar: state.navBar
     }
-}
-
-export default connect(mapStateToProps)(TimesheetCreazione);
+  }
+export default withRouter(connect(mapStateToProps)(TimesheetCreazione));
 
 
 

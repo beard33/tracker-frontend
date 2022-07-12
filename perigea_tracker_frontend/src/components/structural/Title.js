@@ -26,7 +26,7 @@ export default class Title extends React.Component {
     return(
       <div className="path">
         {elements.map((value, index) => {
-          if(index < elements.length-1){     
+          if(index < elements.length){     
             return(      
               <Link to={location.pathname} key={index}>{this.upperCaseItem(value)+'>'}</Link>   
             ) 

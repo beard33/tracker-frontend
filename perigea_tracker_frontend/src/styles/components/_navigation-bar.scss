@@ -180,7 +180,21 @@ img.img-profile2 {
     background-color: $lightGreyPerigea;
   }
 
-  .button-left:disabled{
+  .button-left:disabled {
     color: #333333;
+  }
+
+  .button-left:disabled:hover {
+    color: #333333;
+    background-color: #333333;
+  }
+
+  .button-right:disabled {
+    color: #333333;
+  }
+
+  .button-right:disabled:hover {
+    color: #333333;
+    background-color: #333333;
   }
 }

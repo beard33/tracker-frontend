@@ -5,8 +5,9 @@ import TextField from '@material-ui/core/TextField';
 import AxiosInstance from '../../axios/AxiosInstance';
 import Title from '../structural/Title';
 import { MenuItem } from '@mui/material';
+import { redirect, link } from '../../redux/Actions';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 class OrdineCommessa extends React.Component {
     state = {
@@ -23,6 +24,9 @@ class OrdineCommessa extends React.Component {
     }
 
     componentDidMount = () => {
+        if (!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+        }
         this.getAziende()
     }
 
@@ -56,7 +60,7 @@ class OrdineCommessa extends React.Component {
     }
 
 
-    render() {       
+    render() {
         return (
             <React.Fragment>
                 <Title></Title>
@@ -166,7 +170,7 @@ class OrdineCommessa extends React.Component {
                                     },
                                     update: false
                                 }
-                            }}>
+                            }} onClick={() => {this.props.dispatch(link())}}>
                                 <button className="button-avanti"
                                     type="button"
                                     title='AVANTI'
@@ -185,8 +189,11 @@ class OrdineCommessa extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
-  
-  export default connect(mapStateToProps)(OrdineCommessa);
+}
+
+export default withRouter(connect(mapStateToProps)(OrdineCommessa));

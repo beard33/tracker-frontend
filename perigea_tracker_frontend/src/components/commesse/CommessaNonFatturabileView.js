@@ -6,6 +6,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
+import { withRouter } from 'react-router-dom';
+import { redirect } from '../../redux/Actions';
 import TextField from '@material-ui/core/TextField';
 import Title from '../structural/Title';
 import { connect } from 'react-redux';
@@ -17,6 +19,9 @@ class CommessaNonFatturabileView extends React.Component {
     }
 
     componentDidMount = () => {
+        if (!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+        }
         console.log("COMMESSA_NON_FATTURABILE-VIEW start")
         this.readCommessaNonFatturabile()
     }
@@ -27,14 +32,14 @@ class CommessaNonFatturabileView extends React.Component {
     readCommessaNonFatturabile = async () => {
         await AxiosInstance({
             method: "get",
-            url: `commesse/read-commessa-non-fatturabile/${this.props.location.codiceCommessa}`
+            url: `commesse/read-commessa-non-fatturabile/${this.props.location.state.codiceCommessa}`
         }).then((response) => {
             this.loadCommessa(response);
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
         })
     }
-    loadCommessa = (response) => {        
+    loadCommessa = (response) => {
         this.setState({
             commessaNonFatturabile: response.data.data
         })
@@ -57,7 +62,7 @@ class CommessaNonFatturabileView extends React.Component {
                             item !== "lastUpdateUser") {
                             return (
                                 <TextField
-                                    style={{marginLeft: "2.5%", width: "30%"}}
+                                    style={{ marginLeft: "2.5%", width: "30%" }}
                                     label={item}
                                     value={(e[key])[item]}
                                 ></TextField>
@@ -107,8 +112,11 @@ class CommessaNonFatturabileView extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
-  
-  export default connect(mapStateToProps)(CommessaNonFatturabileView);
+}
+
+export default withRouter(connect(mapStateToProps)(CommessaNonFatturabileView));

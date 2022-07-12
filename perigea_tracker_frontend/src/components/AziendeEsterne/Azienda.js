@@ -3,8 +3,10 @@ import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import AxiosInstance from '../../axios/AxiosInstance';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { pagamentoType } from '../enum/AziendaEnums';
+import { link } from '../../redux/Actions';
+import { redirect } from '../../redux/Actions';
 import { MenuItem } from '@mui/material';
 import { connect } from 'react-redux';
 
@@ -27,10 +29,13 @@ class Azienda extends React.Component {
         notePerLaFatturazione: ''
     }
 
-    componentDidMount = () => {  
-        console.log("AZIENDA start", this.props.updateProps.update)      
-        if (this.props.updateProps.update) {
-            this.setState(this.props.updateProps.azienda.azienda)
+    componentDidMount = () => {
+        if (!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+        }
+        console.log("AZIENDA start", this.props.location.state.update)
+        if (this.props.location.state.update) {
+            this.setState(this.props.location.state.azienda.azienda)
         }
     }
 
@@ -41,15 +46,15 @@ class Azienda extends React.Component {
     checkPropsType = () => {
         let endpoint;
         switch (this.props.type) {
-          case "cliente":
-            endpoint = "clienti"
-            break;
-          case "fornitore":
-            endpoint = "fornitori"
-            break;
+            case "cliente":
+                endpoint = "clienti"
+                break;
+            case "fornitore":
+                endpoint = "fornitori"
+                break;
         }
         return endpoint;
-      }
+    }
 
     /**
      * chiamata axios per iol salvataggio del cliente
@@ -100,7 +105,7 @@ class Azienda extends React.Component {
         })
     }
 
-    
+
     /**
      * chiamata axios per l'update di un fornitore
      */
@@ -117,8 +122,9 @@ class Azienda extends React.Component {
         })
     }
 
-    
+
     saveAzienda = () => {
+        this.props.dispatch(link())
         if (this.props.type == "cliente") {
             this.saveCliente()
         } else {
@@ -128,13 +134,14 @@ class Azienda extends React.Component {
 
 
     UpdateAzienda = () => {
+        this.props.dispatch(link())
         if (this.props.type == "cliente") {
             this.updateCliente()
         } else {
             this.updateFornitore()
         }
     }
-    
+
 
     render() {
 
@@ -280,7 +287,7 @@ class Azienda extends React.Component {
                     <div>
                         <Link to={{ pathname: `/${this.checkPropsType()}` }}>
                             <button className="ButtonSave" type="button"
-                                onClick={!this.props.updateProps.update ? this.saveAzienda : this.UpdateAzienda}
+                                onClick={!this.props.location.state.update ? this.saveAzienda : this.UpdateAzienda}
                                 title='SALVA'
                             >
                                 <img className="menu" src="./images/save.png"></img>
@@ -296,9 +303,12 @@ class Azienda extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
-  
-  export default connect(mapStateToProps)(Azienda);
+}
+
+export default withRouter(connect(mapStateToProps)(Azienda));
 

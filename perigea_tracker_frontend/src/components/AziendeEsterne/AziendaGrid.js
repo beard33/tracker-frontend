@@ -4,6 +4,8 @@ import AxiosInstance from "../../axios/AxiosInstance";
 import DeleteModal from '../structural/DeleteModal'
 import AddButton from '../structural/AddButton'
 import SearchBar from '../structural/SearchBar';
+import { withRouter } from 'react-router-dom';
+import { redirect } from '../../redux/Actions';
 import { connect } from 'react-redux';
 
 
@@ -24,6 +26,9 @@ class AziendaGrid extends React.Component {
 
 
   componentDidMount = () => {
+    if (!this.props.navBar) {
+      this.props.dispatch(redirect(this.props.location))
+    }
     console.log("AZIENDA-GRID start")
     endpoint = this.checkAziendaType()
     this.readAllAziende(endpoint)
@@ -76,7 +81,7 @@ class AziendaGrid extends React.Component {
         partitaIva: element.partitaIva,
         acronimoCliente: element.acronimoCliente
       })
-    });    
+    });
     this.setState({
       listCard: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1),
       searchList: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1)
@@ -114,7 +119,7 @@ class AziendaGrid extends React.Component {
     this.setState({
       showDeleteModal: true,
       keyCode: codiceAzienda
-    })   
+    })
   };
 
   closeDeleteModal = () => {
@@ -147,10 +152,10 @@ class AziendaGrid extends React.Component {
       <React.Fragment>
         <div className="card-grid">
 
-          <SearchBar 
-             searchValue={this.state.searchValue}
-             dynamicSearch={this.dynamicSearch}
-             placeholder={"ragione sociale"}
+          <SearchBar
+            searchValue={this.state.searchValue}
+            dynamicSearch={this.dynamicSearch}
+            placeholder={"ragione sociale"}
           />
 
           <AddButton
@@ -189,8 +194,11 @@ class AziendaGrid extends React.Component {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    user: state.user
+    user: state.user,
+    counter: state.counter,
+    history: state.history,
+    navBar: state.navBar
   }
 }
 
-export default connect(mapStateToProps)(AziendaGrid);
+export default withRouter(connect(mapStateToProps)(AziendaGrid));

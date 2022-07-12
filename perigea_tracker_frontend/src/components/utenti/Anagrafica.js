@@ -3,9 +3,10 @@ import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import UploadFileButton from '../structural/UploadFileButton'
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Ruoli from './Ruoli';
 import RuoliTable from './RuoliTable';
+import { redirect, link } from '../../redux/Actions';
 import { MenuItem } from '@mui/material';
 import { utenteStatus, anagraficaType } from '../enum/AnagraficaEnums';
 import { connect } from 'react-redux';
@@ -49,8 +50,11 @@ class Anagrafica extends Component {
 
 
   componentDidMount = () => {
-    if (this.props.updateProps.update) {
-      this.setState(this.props.updateProps.user.utente)
+    if (!this.props.navBar) {
+      this.props.dispatch(redirect(this.props.location))
+    }
+    if (this.props.location.state.update) {
+      this.setState(this.props.location.state.user.utente)
     }
   }
 
@@ -330,16 +334,18 @@ class Anagrafica extends Component {
 
           <Form>
             <div className="button-container">
-              <Link to={{
-                pathname: this.checkPersonaleType(),
-                state: {
-                  utente: this.state,
-                  update: this.props.updateProps
-
-                }
-              }}>
+              <Link
+                to={{
+                  pathname: this.checkPersonaleType(),
+                  state: {
+                    utente: this.state,
+                    update: this.props.location.state
+                  }
+                }}
+                
+              >
                 <button className="button-avanti"
-                  type="button" title='AVANTI' >
+                  type="button" title='AVANTI' onClick={() => { this.props.dispatch(link()) }}>
                   <img className="menu" src="./images/avanti.png"></img>
                 </button>
               </Link>
@@ -354,8 +360,11 @@ class Anagrafica extends Component {
 const mapStateToProps = (state) => {
   console.log(state)
   return {
-    user: state.user
+    user: state.user,
+    counter: state.counter,
+    history: state.history,
+    navBar: state.navBar
   }
 }
 
-export default connect(mapStateToProps)(Anagrafica);
+export default withRouter(connect(mapStateToProps)(Anagrafica));

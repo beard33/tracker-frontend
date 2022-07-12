@@ -5,8 +5,9 @@ import Title from '../structural/Title';
 import SearchBar from '../structural/SearchBar';
 import MonthFilter from '../structural/MonthFilter';
 import LoadingSpinner from '../structural/LoadingSpinner';
+import { redirect } from '../../redux/Actions';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 
 
@@ -31,6 +32,9 @@ class TimesheetGrid extends React.Component {
     }
 
     componentDidMount() {
+        if(!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+        }
         this.setState({ anno: new Date().getFullYear(), mese: new Date().getMonth() })
         this.getContattoResponsabile(this.props.user.codicePersona)
     }
@@ -168,8 +172,11 @@ class TimesheetGrid extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        user: state.user
+      user: state.user,
+      counter: state.counter,
+      history: state.history,
+      navBar: state.navBar
     }
-}
+  }
 
-export default connect(mapStateToProps)(TimesheetGrid);
+export default withRouter(connect(mapStateToProps)(TimesheetGrid));

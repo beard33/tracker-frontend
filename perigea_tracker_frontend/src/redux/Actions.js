@@ -34,10 +34,28 @@ export const refreshToken = (accessToken) => (dispatch) => {
     })
 }
 
-export const goBack = (prevLocation) => (dispatch) => {
+export const goBack = () => (dispatch) => {
     dispatch({
-        type:"BACK",
-        payload: prevLocation
+        type: "BACK"
+    })
+}
+
+export const goForward = () => (dispatch) => {
+    dispatch({
+        type: "FORWARD"        
+    })
+}
+
+export const redirect = (location) => (dispatch) => {
+    dispatch({
+        type:"REDIRECT",
+        payload: location
+    })
+}
+
+export const link = () => (dispatch) => {
+    dispatch({
+        type: "LINK"
     })
 }
 

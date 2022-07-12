@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Form from "react-bootstrap/Form";
 import { Grid } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { redirect, link } from '../../redux/Actions';
 import { MenuItem } from '@mui/material';
 import { commessaType } from '../enum/CommesseEnums';
 import AxiosInstance from '../../axios/AxiosInstance';
@@ -18,6 +19,9 @@ class CommessaNonFatturabile extends React.Component {
     }
 
     componentDidMount = () => {
+        if (!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+        }
         this.setState({ tipoCommessa: "S" })
     }
 
@@ -25,6 +29,7 @@ class CommessaNonFatturabile extends React.Component {
      * chiamata axios per la creazione di una commessa non fatturabile
      */
     createCommessaNonFatturabile = async () => {
+        this.props.dispatch(link())
         console.log("create commessa non fatturabile start ", this.state)
         await AxiosInstance({
             method: 'post',
@@ -41,7 +46,7 @@ class CommessaNonFatturabile extends React.Component {
             alert("Errore nella creazione", error)
         })
     }
-    
+
 
     render() {
         return (
@@ -102,8 +107,11 @@ class CommessaNonFatturabile extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
-  
-  export default connect(mapStateToProps)(CommessaNonFatturabile);
+}
+
+export default withRouter(connect(mapStateToProps)(CommessaNonFatturabile));

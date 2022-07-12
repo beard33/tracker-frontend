@@ -11,8 +11,9 @@ import Title from '../structural/Title';
 import EstensioniTable from './EstensioniTable';
 import EstensioneCommessaCreate from './EstensioneCommessaCreazione';
 import AssegnazioneCommessa from './AssegnazioneCommessa';
+import { redirect, link } from '../../redux/Actions';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import UtentiAssegnati from './UtentiAssegnatiCommessa';
 import { connect } from 'react-redux';
 
@@ -30,6 +31,9 @@ class CommessaFatturabileView extends React.Component {
     }
 
     componentDidMount = () => {
+        if (!this.props.navBar) {
+            this.props.dispatch(redirect(this.props.location))
+          }
         console.log("COMMESSA_FATTURABILE-VIEW start")
         this.getCommessa()
         this.getEstensioniCommessa()
@@ -51,7 +55,7 @@ class CommessaFatturabileView extends React.Component {
     getCommessa = async () => {
         await AxiosInstance({
             method: "get",
-            url: `commesse/read-commessa-fatturabile/${this.props.location.codiceCommessa}`
+            url: `commesse/read-commessa-fatturabile/${this.props.location.state.codiceCommessa}`
         }).then((response) => {
             this.loadCommessa(response);
         }).catch((error) => {
@@ -72,7 +76,7 @@ class CommessaFatturabileView extends React.Component {
     getUtentiAssegnati = async () => {
         await AxiosInstance({
             method: "get",
-            url: `assegnazione-commesse/read-utenti-assegnati-by-commessa/${this.props.location.codiceCommessa}`
+            url: `assegnazione-commesse/read-utenti-assegnati-by-commessa/${this.props.location.state.codiceCommessa}`
         }).then((response) => {
             this.loadUtentiAssegnati(response);
         }).catch((error) => {
@@ -99,7 +103,7 @@ class CommessaFatturabileView extends React.Component {
     getAssegnazioniByCommessa = async () => {
         await AxiosInstance({
             method: "get",
-            url: `assegnazione-commesse/read-all-assegnazioni-by-commessa/${this.props.location.codiceCommessa}`
+            url: `assegnazione-commesse/read-all-assegnazioni-by-commessa/${this.props.location.state.codiceCommessa}`
         }).then((response) => {
             this.loadAssegnazioni(response);
         }).catch((error) => {
@@ -140,7 +144,7 @@ class CommessaFatturabileView extends React.Component {
     getEstensioniCommessa = async () => {
         await AxiosInstance({
             method: "get",
-            url: `commesse/read-estensione-commessa/${this.props.location.codiceCommessa}`
+            url: `commesse/read-estensione-commessa/${this.props.location.state.codiceCommessa}`
         }).then((response) => {
             this.loadEstensioni(response)
         }).catch((error) => {
@@ -186,7 +190,7 @@ class CommessaFatturabileView extends React.Component {
     removeAssegnazioneCommessa = async (codicePersona) => {
         await AxiosInstance({
             method: "delete",
-            url: `assegnazione-commesse/delete/commessa/${this.props.location.codiceCommessa}/dipendente/${codicePersona}`
+            url: `assegnazione-commesse/delete/commessa/${this.props.location.state.codiceCommessa}/dipendente/${codicePersona}`
         }).then((response) => {
             console.log("utente rimosso dagli utenti assegnati alla commessa")
         }).catch((error) => {
@@ -348,7 +352,7 @@ class CommessaFatturabileView extends React.Component {
                             <AccordionDetails className='accordionDetails'>
                                 <EstensioniTable
                                     estensioni={this.state.estensioniCommessa}
-                                    codiceCommessa={this.props.location.codiceCommessa}
+                                    codiceCommessa={this.props.location.state.codiceCommessa}
                                     deleteEstensione={this.deleteEstensioneCommessa}
                                 />
                                 <button className="button-update"
@@ -396,7 +400,7 @@ class CommessaFatturabileView extends React.Component {
                                         update: true,
                                         commessa: this.state.commessaFatturabile
                                     }
-                                }} >
+                                }} onClick={() => {this.props.dispatch(link())}}>
                                     <button className="button-update" title='modifica commessa'
                                         type="button" >
                                         <img className="menu" src="./images/update.png"></img>
@@ -416,7 +420,7 @@ class CommessaFatturabileView extends React.Component {
                         </button>
                     </div>
                     <ModalBody className="postPropsStyle">
-                        <EstensioneCommessaCreate codiceCommessa={this.props.location.codiceCommessa} closeModal={this.closeModal} />
+                        <EstensioneCommessaCreate codiceCommessa={this.props.location.state.codiceCommessa} closeModal={this.closeModal} />
                     </ModalBody>
                 </Modal>
 
@@ -428,7 +432,7 @@ class CommessaFatturabileView extends React.Component {
                         </button>
                     </div>
                     <ModalBody className="postPropsStyle">
-                        <AssegnazioneCommessa codiceCommessa={this.props.location.codiceCommessa} update={false} closeModal={this.closeModal} />
+                        <AssegnazioneCommessa codiceCommessa={this.props.location.state.codiceCommessa} update={false} closeModal={this.closeModal} />
                     </ModalBody>
                 </Modal>
 
@@ -440,8 +444,11 @@ class CommessaFatturabileView extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user
+      user: state.user,
+      counter: state.counter,
+      history: state.history,
+      navBar: state.navBar
     }
   }
   
-  export default connect(mapStateToProps)(CommessaFatturabileView);
+  export default withRouter(connect(mapStateToProps)(CommessaFatturabileView));
