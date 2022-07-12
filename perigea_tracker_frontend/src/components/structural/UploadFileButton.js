@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import AxiosInstance from "../../axios/AxiosInstance";
+import { connect } from "react-redux";
 import ReactDOM from "react-dom";
 
 
-export default class UploadFileButton extends Component {
+class UploadFileButton extends Component {
   constructor(props) {
     super(props);
 
@@ -10,22 +12,36 @@ export default class UploadFileButton extends Component {
       selectedFile: ''
     }
 
-    // bind methods
-    this.handleFileUpload = this.handleFileUpload.bind(this);
+
   }
 
-  handleFileUpload = e => {
-    console.log(e.target.files[0]);
-    let files = e.target.files;
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    console.log("e.target.result ", e.target.result)
-    reader.onload = (e) => {
-      this.setState({
-        selectedFile: e.target.result,
-      })
-    }
-  };
+
+  uploadCurriculum = async () => {
+    const formData = new FormData();
+    formData.append('file', this.state.selectedFile);
+    console.log(formData)
+    await AxiosInstance({
+      method: 'post',
+      url: `curriculum/${this.props.user.codicePersona}`,
+      data: formData,
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }).then(() => {
+      alert("Upload del curriculum effettuato con successo")
+    }).catch((error) => {
+      console.log("Error into loadUtenti ", error)
+    })
+  }
+
+
+  handleFileUpload = (e) => {
+    console.log(e)
+    this.setState({
+      selectedFile: e.target.files[0],
+    })
+  }
+
 
   render() {
     return (
@@ -36,17 +52,25 @@ export default class UploadFileButton extends Component {
           type="file"
           style={
             {
-              width:"90%",
+              width: "90%",
               marginLeft: "3%",
               marginTop: "3%"
             }}
         />
         <button
           className="button-upload"
-          onClick={() => this.refs.fileInput.click()}>
-          Upload immagine profilo
+          onClick={() => this.uploadCurriculum()}>
+          Upload Curriculum
         </button>
       </React.Fragment>
     );
   }
 }
+const mapStateToProps = (state) => {
+
+  return {
+    user: state.user,
+  }
+}
+
+export default connect(mapStateToProps)(UploadFileButton);

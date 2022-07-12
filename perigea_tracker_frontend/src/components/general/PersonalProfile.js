@@ -44,8 +44,8 @@ function ProfilePersonal(props) {
               <div className="common-input-label">Avatar</div>
               <TextButton text={"Upload"} />
 
-              <div className="common-input-label">Curriculum</div>
-              <TextButton text={"Upload"} />
+              {/* <div className="common-input-label">Curriculum</div>
+              <TextButton text={"Upload"} /> */}
 
               <UploadFileButton />
             </React.Fragment>
