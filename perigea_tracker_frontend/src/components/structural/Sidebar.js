@@ -96,7 +96,7 @@ function Sidebar(props) {
 
 
 const mapStateToProps = (state) => {
-  console.log(state)
+
   return {
     user: state.user,
     counter: state.counter,

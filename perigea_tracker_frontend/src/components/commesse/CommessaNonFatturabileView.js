@@ -10,12 +10,14 @@ import { withRouter } from 'react-router-dom';
 import { redirect } from '../../redux/Actions';
 import TextField from '@material-ui/core/TextField';
 import Title from '../structural/Title';
+import LoadingSpinner from '../structural/LoadingSpinner';
 import { connect } from 'react-redux';
 
 
 class CommessaNonFatturabileView extends React.Component {
     state = {
-        commessaNonFatturabile: ""
+        commessaNonFatturabile: "",
+        isLoading: false
     }
 
     componentDidMount = () => {
@@ -30,6 +32,7 @@ class CommessaNonFatturabileView extends React.Component {
      * metodi per la lettura della commessa non fatturabile
      */
     readCommessaNonFatturabile = async () => {
+        this.setState({ isLoading: true })
         await AxiosInstance({
             method: "get",
             url: `commesse/read-commessa-non-fatturabile/${this.props.location.state.codiceCommessa}`
@@ -37,11 +40,13 @@ class CommessaNonFatturabileView extends React.Component {
             this.loadCommessa(response);
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
+            this.setState({ isLoading: false })
         })
     }
     loadCommessa = (response) => {
         this.setState({
-            commessaNonFatturabile: response.data.data
+            commessaNonFatturabile: response.data.data,
+            isLoading: false
         })
         console.log(this.state.commessaNonFatturabile.commessa.codiceCommessa)
     }
@@ -79,32 +84,34 @@ class CommessaNonFatturabileView extends React.Component {
         return (
             <React.Fragment>
                 <Title></Title>
-                <div>
-                    <WelcomeHeader
-                        img="../images/comm-noFatt.png"
-                        name={""}
-                        admin={"Commessa Non Fatturabile"}
-                        userEmail={""}
-                        db={true}
-                    />
-                    <div className='userAccordion'>
-                        <Accordion expanded>
-                            <AccordionSummary
-                                className='accordionSummary'
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography className='accordion-text'>Dati Commessa</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='accordionDetails'>
-                                {this.getData(this.state.commessaNonFatturabile)}
-                            </AccordionDetails>
-                        </Accordion>
+                {this.state.isLoading ? <LoadingSpinner /> :
+                    <div>
+                        <WelcomeHeader
+                            img="../images/comm-noFatt.png"
+                            name={""}
+                            admin={"Commessa Non Fatturabile"}
+                            userEmail={""}
+                            db={true}
+                        />
+                        <div className='userAccordion'>
+                            <Accordion expanded>
+                                <AccordionSummary
+                                    className='accordionSummary'
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography className='accordion-text'>Dati Commessa</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='accordionDetails'>
+                                    {this.getData(this.state.commessaNonFatturabile)}
+                                </AccordionDetails>
+                            </Accordion>
 
 
+                        </div>
                     </div>
-                </div>
+                }
             </React.Fragment>
         )
     }

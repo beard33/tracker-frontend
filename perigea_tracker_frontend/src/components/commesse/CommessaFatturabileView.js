@@ -14,6 +14,7 @@ import AssegnazioneCommessa from './AssegnazioneCommessa';
 import { redirect, link } from '../../redux/Actions';
 import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
+import LoadingSpinner from '../structural/LoadingSpinner';
 import UtentiAssegnati from './UtentiAssegnatiCommessa';
 import { connect } from 'react-redux';
 
@@ -27,13 +28,14 @@ class CommessaFatturabileView extends React.Component {
         assegnazioneModal: false,
         utentiAssegnati: [],
         infoUtentiCommessa: [],
-        sync: true
+        sync: true,
+        isLoading: false
     }
 
     componentDidMount = () => {
         if (!this.props.navBar) {
             this.props.dispatch(redirect(this.props.location))
-          }
+        }
         console.log("COMMESSA_FATTURABILE-VIEW start")
         this.getCommessa()
         this.getEstensioniCommessa()
@@ -53,6 +55,7 @@ class CommessaFatturabileView extends React.Component {
      * metodi per la lettura della commessa tramite il codice commessa
      */
     getCommessa = async () => {
+        this.setState({ isLoading: true })
         await AxiosInstance({
             method: "get",
             url: `commesse/read-commessa-fatturabile/${this.props.location.state.codiceCommessa}`
@@ -60,9 +63,10 @@ class CommessaFatturabileView extends React.Component {
             this.loadCommessa(response);
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
+            this.setState({ isLoading: false })
         })
     }
-    loadCommessa = (response) => {       
+    loadCommessa = (response) => {
         this.setState({
             commessaFatturabile: response.data.data,
         })
@@ -81,6 +85,7 @@ class CommessaFatturabileView extends React.Component {
             this.loadUtentiAssegnati(response);
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
+            this.setState({ isLoading: false })
         })
         this.getAssegnazioniByCommessa()
     }
@@ -92,7 +97,7 @@ class CommessaFatturabileView extends React.Component {
                 mailAziendale: element.mailAziendale,
                 username: element.username,
             })
-        });       
+        });
         this.setState({ utentiAssegnati: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1) })
     }
 
@@ -108,6 +113,7 @@ class CommessaFatturabileView extends React.Component {
             this.loadAssegnazioni(response);
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
+            this.setState({ isLoading: false })
         })
     }
     loadAssegnazioni = (arg) => {
@@ -134,7 +140,7 @@ class CommessaFatturabileView extends React.Component {
             }
             result.push(utenteCommessa)
         })
-        this.setState({ infoUtentiCommessa: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1) })
+        this.setState({ infoUtentiCommessa: result.sort((cardA, cardB) => (cardA.nome > cardB.nome) ? 1 : -1), isLoading: false })
     }
 
 
@@ -149,9 +155,10 @@ class CommessaFatturabileView extends React.Component {
             this.loadEstensioni(response)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
+            this.setState({ isLoading: false })
         })
     }
-    loadEstensioni = (response) => {        
+    loadEstensioni = (response) => {
         let result = []
         Object.values(response.data.data).map((element) => {
             result.push({
@@ -159,7 +166,7 @@ class CommessaFatturabileView extends React.Component {
                 importoInternoEstensione: element.importoInternoEstensione,
                 dataFineEstensione: element.dataFineEstensione
             })
-        })        
+        })
         this.setState({ estensioniCommessa: result.sort((cardA, cardB) => (cardA.tipoCommessa > cardB.tipoCommessa) ? 1 : -1) })
     }
 
@@ -305,112 +312,113 @@ class CommessaFatturabileView extends React.Component {
         return (
             <React.Fragment>
                 <Title></Title>
-                <div>
-                    <WelcomeHeader
-                        img="../images/comm-fatt.png"
-                        name={""}
-                        admin={"Commessa"}
-                        userEmail={"Fatturabile"}
-                        db={true}
-                    />
-                    <div className='userAccordion'>
-                        <Accordion expanded>
-                            <AccordionSummary
-                                className='accordionSummary'
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography className='accordion-text'>Dati Commessa</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='accordionDetails'>
-                                {this.getDatiCommessa(this.state.commessaFatturabile)}
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
-                            <AccordionSummary
-                                className='accordionSummary'
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography className='accordion-text'>Dati Numerici</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='accordionDetails'>
-                                {this.getDatiNumerici(this.state.commessaFatturabile)}
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
-                            <AccordionSummary
-                                className='accordionSummary'
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography className='accordion-text'>Estensioni Commessa</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='accordionDetails'>
-                                <EstensioniTable
-                                    estensioni={this.state.estensioniCommessa}
-                                    codiceCommessa={this.props.location.state.codiceCommessa}
-                                    deleteEstensione={this.deleteEstensioneCommessa}
-                                />
-                                <button className="button-update"
-                                    title='estendi commessa'
-                                    type="button"
-                                    onClick={this.openModalEstensioni}
+                {this.state.isLoading ? <LoadingSpinner /> :
+                    <div>
+                        <WelcomeHeader
+                            img="../images/comm-fatt.png"
+                            name={""}
+                            admin={"Commessa"}
+                            userEmail={"Fatturabile"}
+                            db={true}
+                        />
+                        <div className='userAccordion'>
+                            <Accordion expanded>
+                                <AccordionSummary
+                                    className='accordionSummary'
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
                                 >
-                                    <img className="menu" src="./images/estensione.png"></img>
-                                </button>
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
-                            <AccordionSummary
-                                className='accordionSummary'
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography className='accordion-text'>Utenti Assegnati</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='accordionDetails'>
-                                <UtentiAssegnati
-                                    utentiAssegnati={this.state.infoUtentiCommessa}
-                                    removeAssegnazioneCommessa={this.removeAssegnazioneCommessa}
-                                />
-                                <button className='button-update' title='assegna commessa' type='button'
-                                    onClick={this.openModalAssegnazioni}
-                                    style={{ marginRight: "2%" }}
+                                    <Typography className='accordion-text'>Dati Commessa</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='accordionDetails'>
+                                    {this.getDatiCommessa(this.state.commessaFatturabile)}
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion>
+                                <AccordionSummary
+                                    className='accordionSummary'
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
                                 >
-                                    <img className="menu" src="./images/assegnazione.png"></img>
-                                </button>
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion expanded>
-                            <AccordionSummary
-                                aria-controls="panel3a-content"
-                                id="panel3a-header"
-                            >
-                                <Typography></Typography>
-                            </AccordionSummary>
-                            <AccordionDetails className='accordionDetails'>
-                                <Link to={{
-                                    pathname: "/commessa-fatturabile",
-                                    state: {
-                                        update: true,
-                                        commessa: this.state.commessaFatturabile
-                                    }
-                                }} onClick={() => {this.props.dispatch(link())}}>
-                                    <button className="button-update" title='modifica commessa'
-                                        type="button" >
-                                        <img className="menu" src="./images/update.png"></img>
+                                    <Typography className='accordion-text'>Dati Numerici</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='accordionDetails'>
+                                    {this.getDatiNumerici(this.state.commessaFatturabile)}
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion>
+                                <AccordionSummary
+                                    className='accordionSummary'
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography className='accordion-text'>Estensioni Commessa</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='accordionDetails'>
+                                    <EstensioniTable
+                                        estensioni={this.state.estensioniCommessa}
+                                        codiceCommessa={this.props.location.state.codiceCommessa}
+                                        deleteEstensione={this.deleteEstensioneCommessa}
+                                    />
+                                    <button className="button-update"
+                                        title='estendi commessa'
+                                        type="button"
+                                        onClick={this.openModalEstensioni}
+                                    >
+                                        <img className="menu" src="./images/estensione.png"></img>
                                     </button>
-                                </Link>
-                            </AccordionDetails>
-                        </Accordion>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion>
+                                <AccordionSummary
+                                    className='accordionSummary'
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography className='accordion-text'>Utenti Assegnati</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='accordionDetails'>
+                                    <UtentiAssegnati
+                                        utentiAssegnati={this.state.infoUtentiCommessa}
+                                        removeAssegnazioneCommessa={this.removeAssegnazioneCommessa}
+                                    />
+                                    <button className='button-update' title='assegna commessa' type='button'
+                                        onClick={this.openModalAssegnazioni}
+                                        style={{ marginRight: "2%" }}
+                                    >
+                                        <img className="menu" src="./images/assegnazione.png"></img>
+                                    </button>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion expanded>
+                                <AccordionSummary
+                                    aria-controls="panel3a-content"
+                                    id="panel3a-header"
+                                >
+                                    <Typography></Typography>
+                                </AccordionSummary>
+                                <AccordionDetails className='accordionDetails'>
+                                    <Link to={{
+                                        pathname: "/commessa-fatturabile",
+                                        state: {
+                                            update: true,
+                                            commessa: this.state.commessaFatturabile
+                                        }
+                                    }} onClick={() => { this.props.dispatch(link()) }}>
+                                        <button className="button-update" title='modifica commessa'
+                                            type="button" >
+                                            <img className="menu" src="./images/update.png"></img>
+                                        </button>
+                                    </Link>
+                                </AccordionDetails>
+                            </Accordion>
+                        </div>
                     </div>
-                </div>
-
+                }
 
                 <Modal className="modal-lg" isOpen={this.state.estensioneModal} >
                     <div className="modal-header">
@@ -444,11 +452,11 @@ class CommessaFatturabileView extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user,
-      counter: state.counter,
-      history: state.history,
-      navBar: state.navBar
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
-  
-  export default withRouter(connect(mapStateToProps)(CommessaFatturabileView));
+}
+
+export default withRouter(connect(mapStateToProps)(CommessaFatturabileView));

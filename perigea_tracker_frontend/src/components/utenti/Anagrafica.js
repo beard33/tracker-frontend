@@ -321,16 +321,20 @@ class Anagrafica extends Component {
           </div>
 
 
-
-          <h3>Ruoli</h3>
-          <div className='info'>
-            <Ruoli updateState={this.handleAddRole} />
-            <RuoliTable
-              ruoli={this.state.ruoli}
-              removePermission={true}
-              onRemove={this.removeRole}
-            />
-          </div>
+          {(this.props.user.scope.includes("ROLE_MANAGEMENT") ||
+            this.props.user.scope.includes("ROLE_AMMINISTRAZIONE") ||
+            this.props.user.scope.includes("ROLE_HR")) &&
+            <React.Fragment>
+              <h3>Ruoli</h3>
+              <div className='info'>
+                <Ruoli updateState={this.handleAddRole} />
+                <RuoliTable
+                  ruoli={this.state.ruoli}
+                  removePermission={true}
+                  onRemove={this.removeRole}
+                />
+              </div>
+            </React.Fragment>}
 
           <Form>
             <div className="button-container">
@@ -342,7 +346,7 @@ class Anagrafica extends Component {
                     update: this.props.location.state
                   }
                 }}
-                
+
               >
                 <button className="button-avanti"
                   type="button" title='AVANTI' onClick={() => { this.props.dispatch(link()) }}>
