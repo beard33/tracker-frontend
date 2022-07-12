@@ -59,6 +59,13 @@ export const link = () => (dispatch) => {
     })
 }
 
+export const titleBarClick = (id) => (dispatch) => {
+    dispatch({
+        type: "TITLEBARCLICK",
+        payload: id
+    })
+}
+
 
 
 

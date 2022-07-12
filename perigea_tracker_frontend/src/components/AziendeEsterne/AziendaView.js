@@ -13,6 +13,7 @@ import { redirect, link } from '../../redux/Actions';
 import { authorizationControl } from '../utils/Utils';
 import LoadingSpinner from '../structural/LoadingSpinner';
 import { connect } from 'react-redux';
+import Title from '../structural/Title';
 
 
 let type;
@@ -109,7 +110,7 @@ class AziendaView extends React.Component {
     render() {
         return (
             <React.Fragment>
-
+                <Title></Title>
                 {this.state.isLoading ? <LoadingSpinner /> :
                     <div>
 

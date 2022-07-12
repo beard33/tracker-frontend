@@ -1,63 +1,89 @@
 //barra di navigazione inferiore contenente la posizione e il percorso
 
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { titleBarClick } from '../../redux/Actions';
+import { connect } from 'react-redux';
 
-export default class Title extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { };
-    this.path = this.path.bind(this);
-    this.pathItems = this.pathItems.bind(this);
+function Title(props) {
+
+  const duplicateControl = (list) => {
+    let elements = [];
+    list.map((item) => {
+      let info = elements.find((el) => el.location.pathname === item.location.pathname)
+      if (info) {
+        console.log("duplicato")
+      } else {
+        elements.push(item)
+      }      
+    })
+    return elements
   }
 
-  //ritorna array con percorso diviso 
-  path = () => {
-    var array = location.pathname.split("/");
-    array.splice(0,1);
-
-    return(
-      array
-    )
-  };
-
   //ritorna gli elementi del percorso con relativo link                
-  pathItems = (elements) => {
-    return(
-      <div className="path">
-        {elements.map((value, index) => {
-          if(index < elements.length){     
-            return(      
-              <Link to={location.pathname} key={index}>{this.upperCaseItem(value)+'>'}</Link>   
-            ) 
+  const pathItems = (elements) => {
+
+    return (
+      <div >
+        {elements.map((value, index) => {        
+
+          if (value.id !== elements.length) {
+            return (
+              <Link
+                to={{ pathname: value.location.pathname, state: value.location.state }}
+                key={index}
+                onClick={() => {props.dispatch(titleBarClick(value.id))}}
+                style={{ color: "white", textDecoration: "none" }}>
+                {upperCaseItem(value) + ' > '}
+              </Link>
+            )
           } else {
-            return(      
-              <div className="path-text" key={index}>{this.upperCaseItem(value)}</div>         
-            ) 
+            return (
+              <Link
+                to={{ pathname: value.location.pathname, state: value.location.state }}
+                key={index}
+                onClick={() => {props.dispatch(titleBarClick(value.id))}}
+                style={{ color: "white", textDecoration: "none" }}>
+                {upperCaseItem(value)}
+              </Link>
+            )
           }
-        })}
+        }
+        )}
       </div>
     )
   };
 
   //ritorna elemento del percorso con lettera maiuscola
-  upperCaseItem = (position) => {
-    position = position.slice(0,1).toUpperCase() + position.slice(1,position.length);
-    return(
-      position
+  const upperCaseItem = (value) => {
+    let array = value.location.pathname.split("/")
+
+    return (
+      array[1].charAt(0).toUpperCase() + array[1].slice(1).toLowerCase()
     )
   };
 
-  render() {
-    return (
-      <div className="page-titles" style={{ width: "100%", borderBottomRightRadius: "80%"}} >
-        <div className="position">
-        <div className="position-text">{this.upperCaseItem(this.path()[this.path().length-1])}</div>
-        </div>
-        
-        
 
+  return (
+    <div className="page-titles" style={{ width: "100%", borderBottomRightRadius: "80%" }} >
+      <div className="position">
+        <div className="position-text">{pathItems(duplicateControl(props.history))}</div>
       </div>
-    )
+
+
+
+    </div>
+  )
+
+}
+const mapStateToProps = (state) => {
+
+  return {
+    user: state.user,
+    counter: state.counter,
+    history: state.history,
+    navBar: state.navBar
   }
 }
+
+export default withRouter(connect(mapStateToProps)(Title));

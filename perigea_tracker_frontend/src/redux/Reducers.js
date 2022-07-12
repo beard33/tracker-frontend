@@ -5,9 +5,9 @@ const initialState = user ? { isLoggedIn: true, user, history: [], counter: 0, n
 export default function reducer(state = initialState, action) {
 
 
-    
+
     const { type, payload } = action;
-    
+
 
     switch (type) {
         case "LOGIN_SUCCESS":
@@ -51,16 +51,23 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 history: (state.history.filter((el) => el.id <= state.counter)).concat({
-                    id: state.counter +1,
+                    id: state.counter + 1,
                     location: payload
                 }),
-                counter: state.counter +1 
+                counter: state.counter + 1
             }
         case "LINK":
             return {
                 ...state,
                 navBar: false
             };
+        case "TITLEBARCLICK":
+            return {
+                ...state,
+                counter: payload,
+                history: (state.history.filter((el) => el.id <= payload)),
+                navBar: false
+            }
         default:
             return state;
     }
