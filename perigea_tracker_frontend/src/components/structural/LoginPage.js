@@ -4,7 +4,9 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
+import AxiosInstance from '../../axios/AxiosInstance';
 import { login } from '../../redux/Actions'
+import RecoverPasswordDialog from './RecoverPasswordDialog';
 import LoadingSpinner from './LoadingSpinner';
 
 
@@ -16,8 +18,12 @@ function LoginPage(props) {
   })
   const [redirect, setRedirect] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [recoverDialogOpen, setRecoverDialogOpen] = useState(false)
 
-
+     
+  const handleClose = () => {
+    setRecoverDialogOpen(false);
+  };
 
 
   const handleLogin = () => {
@@ -36,6 +42,17 @@ function LoginPage(props) {
 
   const handleChange = (event) => {
     setCredentials({ ...credentials, [event.target.name]: [event.target.value] })
+  }
+
+  const sendRecoverPasswordRequest = async () => {
+    await AxiosInstance({
+      method: "get",
+      url: `utente/recover-password-request/${credentials.username}`
+    }).then((response) => {
+      setRecoverDialogOpen(true)
+    }).catch((error) => {
+      alert("inserisci prima lo username nell'apposito campo")
+    })
   }
 
 
@@ -67,7 +84,7 @@ function LoginPage(props) {
                 value={credentials.password}
                 onChange={handleChange}
               />
-              <Link to="/" className="recupero-credenziali">Recupero credenziali</Link>
+              <Link onClick={sendRecoverPasswordRequest} to="/" className="recupero-credenziali">Recupero credenziali</Link>
               <br /><br />
 
               <button type="button"
@@ -85,6 +102,9 @@ function LoginPage(props) {
         {redirect && <Redirect to={{ pathname: "/home" }} />}
 
       </div>
+      
+      <RecoverPasswordDialog username={credentials.username[0]} handleClose={handleClose} open={recoverDialogOpen} logged={false}/>
+
     </React.Fragment>
   )
 }

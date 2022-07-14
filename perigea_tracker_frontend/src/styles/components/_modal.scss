@@ -256,8 +256,74 @@
                     color: #fafafa;
                 }
             }
-
-
         }
     }
+}
+
+.password-dialog {
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: top;
+
+    .title {
+        text-align: center;
+        background-color: #f1b126;
+        border-bottom: #333333 1.5px solid;
+        font-family: monospace;
+        font-weight: bold
+    }
+
+    .content {
+        justify-content: space-around;
+
+        .content-text {
+            padding-top: 2%;
+            padding-bottom: 1%;
+            justify-content: space-around;
+            margin-bottom: 2%;
+            text-align: center;
+        }
+
+        .text-fields {
+            justify-content: space-around;
+            width: 70%;
+            margin-bottom: 3%;
+            margin-left: 15%
+        }
+
+        .err {
+            margin-left: 14%;
+
+            .err-img {
+                margin-left: 0%;
+                height: 24px;
+                width: 24px;
+            }
+
+            .correct-img {
+                margin-left: 1%;
+                height: 20px;
+                width: 20px;
+                margin-top: -6%;
+            }
+        }
+    }
+
+    .actions {
+        .dialog-button {
+            width: 0%;
+            margin-left: -3%;
+            .cancel {
+                width: 35px;
+                height: 31px;
+                margin-bottom: -16%;
+            }
+
+            .confirm {
+                width: 34px;
+                height: 30px;
+            }
+        }
+    }
+
 }

@@ -14,6 +14,7 @@ import RuoliTable from './RuoliTable';
 import LoadingSpinner from '../structural/LoadingSpinner';
 import { authorizationControl } from '../utils/Utils';
 import { connect } from 'react-redux';
+import DownloadCurriculumButton from './DownloadCurriculumButton';
 
 
 class DipendenteView extends React.Component {
@@ -204,13 +205,17 @@ class DipendenteView extends React.Component {
                       <Typography></Typography>
                     </AccordionSummary>
                     <AccordionDetails className='accordionDetails'>
+                      <DownloadCurriculumButton
+                        codicePersona={this.props.location.state.codicePersona}
+                        username={this.state.utente.username}
+                      />
                       <Link to={{
                         pathname: "/anagrafica-dipendenti",
                         state: {
                           update: true,
                           user: this.state
                         }
-                      }} onClick={() => {this.props.dispatch(link())}}>
+                      }} onClick={() => { this.props.dispatch(link()) }}>
                         <button className="button-update" title='modifica dipendente'
                           type="button" >
                           <img className="menu" src="./images/update.png"></img>
