@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import WelcomeHeader from "../structural/WelcomeHeader";
 import TextButton from "../structural/TextButton";
 import UploadFileButton from '../structural/UploadFileButton';
+import AxiosInstance from "../../axios/AxiosInstance";
 import { connect } from 'react-redux';
 import UserInfoTable from './UserInfoTable';
 import { redirect } from '../../redux/Actions';
@@ -14,18 +15,65 @@ import { Redirect, withRouter } from 'react-router-dom';
 
 
 function ProfilePersonal(props) {
-  const admin = props.user ? props.user.type : "";
-  const userEmail = props.user ? props.user.userEmail : "";
+  const profileView = props.location.state ? true : false
+  const [src, setSrc] = useState("")
   const [recoverDialogOpen, setRecoverDialogOpen] = useState(false)
 
   useEffect(() => {
     if (!props.navBar) {
       props.dispatch(redirect(props.location))
     }
+    getImageProfile()
   }, []);
 
   const handleClose = () => {
     setRecoverDialogOpen(false)
+  }
+
+  const getImageProfile = async () => {
+    await AxiosInstance({
+      method: "get",
+      url: `profile-image/read/${props.user.codicePersona}`,
+    }).then((response) => {  
+      setSrc(`data:image/jpg;base64,${response.data.data.image}`)
+    }).catch((error) => {
+      setSrc("../images/fotoProfiloGenerica.png")
+    })
+  }
+
+  const uploadCurriculum = async (selectedFile) => {
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    console.log(formData)
+    await AxiosInstance({
+      method: 'post',
+      url: `curriculum/${props.user.codicePersona}`,
+      data: formData,
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }).then(() => {
+      alert("Upload del curriculum effettuato con successo")
+    }).catch((error) => {
+      console.log("Upload non riuscito", error)
+    })
+  }
+
+  const uploadProfileImage = async (selectedFile) => {
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    await AxiosInstance({
+      method: 'post',
+      url: `profile-image/${props.user.codicePersona}`,
+      data: formData,
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }).then(() => {
+      alert("Upload del curriculum effettuato con successo")
+    }).catch((error) => {
+      console.log("Upload non riuscito ", error)
+    })
   }
 
   return (
@@ -36,7 +84,7 @@ function ProfilePersonal(props) {
 
         <div className="profile-container">
 
-          <WelcomeHeader img="../images/fotoProfiloGenerica.png" name={`${props.user.name} ${props.user.lastname}`} admin={""} userEmail={""} />
+          <WelcomeHeader img={src} name={`${props.user.name} ${props.user.lastname}`} admin={""} userEmail={""} db={profileView} />
 
           <UserInfoTable
             username={props.user.username}
@@ -47,22 +95,24 @@ function ProfilePersonal(props) {
 
           {props.location.state &&
             <React.Fragment>
-             <button className='button-upload' onClick={() => setRecoverDialogOpen(true)}>Modifica Password</button>
+              <button className='button-upload' onClick={() => setRecoverDialogOpen(true)}>Modifica Password</button>
 
-              <UploadFileButton />
+              <UploadFileButton text={"Upload Immagine Profilo"} upload={uploadProfileImage} />
+
+              <UploadFileButton text={"Upload Curriculum"} upload={uploadCurriculum} />
             </React.Fragment>
           }
 
         </div>
         : <Redirect to={{ pathname: "/" }} />}
 
-        <RecoverPasswordDialog username={props.user.username} handleClose={handleClose} open={recoverDialogOpen} logged={true} />
+      <RecoverPasswordDialog username={props.user.username} handleClose={handleClose} open={recoverDialogOpen} logged={true} />
     </React.Fragment>
   )
 }
 
 const mapStateToProps = (state) => {
-  
+
   return {
     user: state.user,
     counter: state.counter,

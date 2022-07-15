@@ -26,7 +26,8 @@ class DipendenteView extends React.Component {
       dataAssunzione: "",
       dataCessazione: "",
       codiceResponsabile: "",
-      economics: ""
+      economics: "",
+      src:""
     },
     usernameResponsabile: "",
     isLoading: false
@@ -37,7 +38,19 @@ class DipendenteView extends React.Component {
       this.props.dispatch(redirect(this.props.location))
     }
     console.log("DIPENDENTE-VIEW start")
+    this.getImageProfile()
     this.readDipendenteById()
+  }
+
+  getImageProfile = async () => {
+    await AxiosInstance({
+      method: "get",
+      url: `profile-image/read/${this.props.location.state.codicePersona}`,
+    }).then((response) => {  
+      this.setState({src:`data:image/jpg;base64,${response.data.data.image}`})
+    }).catch((error) => {
+      this.setState({src: "../images/default-profile-picture.png"})
+    })
   }
 
   /**
@@ -134,7 +147,7 @@ class DipendenteView extends React.Component {
             {this.props.user ?
               <div>
                 <WelcomeHeader
-                  img="../images/default-profile-picture.png"
+                  img={this.state.src}
                   name={this.state.utente.nome + " " + this.state.utente.cognome}
                   admin={"Dipendente"}
                   userEmail={this.state.utente.username}

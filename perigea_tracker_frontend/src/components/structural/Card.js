@@ -1,6 +1,7 @@
 //componente generico che continene elementi card utente cliente dipendente..
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import AxiosInstance from "../../axios/AxiosInstance";
 import Box from './Box';
 import CardDetails from './CardDetails';
 import CardImage from './CardImage';
@@ -12,9 +13,27 @@ import { connect } from 'react-redux';
 
 
 const Card = (props) => {
+const [src,setSrc] = useState("")
+
+useEffect(() => {
+  if (props.item.codicePersona) {    
+  getImageProfile()
+  }
+}, []);
 
   const handleClick = () => {
     props.dispatch(link())
+  }
+
+  const getImageProfile = async () => {
+    await AxiosInstance({
+      method: "get",
+      url: `profile-image/read/${props.item.codicePersona}`,
+    }).then((response) => {  
+      setSrc(`data:image/jpg;base64,${response.data.data.image}`)
+    }).catch((error) => {
+      setSrc("../images/fotoProfiloGenerica.png")
+    })
   }
 
   if (props.tipo === "dipendenti" || props.tipo === "consulenti") {
@@ -22,7 +41,7 @@ const Card = (props) => {
       <Box className="card">
 
         {<CardImage className="image"
-          cardImage="../images/fotoProfiloGenerica.png"
+          cardImage={src}
         />}
 
         {((
