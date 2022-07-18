@@ -13,13 +13,13 @@ import { connect } from 'react-redux';
 
 
 const Card = (props) => {
-const [src,setSrc] = useState("")
+  const [src, setSrc] = useState("")
 
-useEffect(() => {
-  if (props.item.codicePersona) {    
-  getImageProfile()
-  }
-}, []);
+  useEffect(() => {
+    if (props.item.codicePersona) {
+      getImageProfile()
+    }
+  }, []);
 
   const handleClick = () => {
     props.dispatch(link())
@@ -29,7 +29,7 @@ useEffect(() => {
     await AxiosInstance({
       method: "get",
       url: `profile-image/read/${props.item.codicePersona}`,
-    }).then((response) => {  
+    }).then((response) => {
       setSrc(`data:image/jpg;base64,${response.data.data.image}`)
     }).catch((error) => {
       setSrc("../images/fotoProfiloGenerica.png")
@@ -49,25 +49,31 @@ useEffect(() => {
           || props.user.scope.includes("ROLE_ADMIN")
           || props.user.scope.includes("ROLE_AMMINISTRAZIONE")
           || props.user.scope.includes("ROLE_HR")
-        ) || props.item.codicePersona === props.user.codicePersona) ?
+        ) || props.item.codicePersona === props.user.codicePersona) &&
           <Link className='view-button' onClick={handleClick} to={{ pathname: "/" + props.tipo + "-view", state: { codicePersona: props.item.codicePersona } }} >
             <img className="view-image" title="vedi dettagli" src="./images/show-details.png"
               style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
             ></img>
-          </Link> :
-          <Link className='view-button' onClick={handleClick} to={{ pathname: "/unauthorized" }}>
-            <img className="view-image" title="vedi dettagli" src="./images/show-details.png"
-              style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
-            ></img>
           </Link>
+          //  :
+          // <Link className='view-button' onClick={handleClick} to={{ pathname: "/unauthorized" }}>
+          //   <img className="view-image" title="vedi dettagli" src="./images/show-details.png"
+          //     style={{ width: "calc(8vw/3.5)", height: "calc(8vw/3.5)" }}
+          //   ></img>
+          // </Link>
         }
-
-        <button className='delete-button' onClick={() => { props.showDeleteModal(props.item.codicePersona) }}>
-          <img className="bin" src="./images/bin.png"
-            style={{ width: "calc(7vw/3.5)", height: "calc(7vw/3.5)" }}
-          ></img>
-        </button>
-
+        {(
+          props.user.scope.includes("ROLE_MANAGEMENT")
+          || props.user.scope.includes("ROLE_ADMIN")
+          || props.user.scope.includes("ROLE_AMMINISTRAZIONE")
+          || props.user.scope.includes("ROLE_HR")
+        ) &&
+          <button className='delete-button' onClick={() => { props.showDeleteModal(props.item.codicePersona) }}>
+            <img className="bin" src="./images/bin.png"
+              style={{ width: "calc(7vw/3.5)", height: "calc(7vw/3.5)" }}
+            ></img>
+          </button>
+        }
         <CardDetails
           tipo={props.tipo}
           name={props.item.nome}

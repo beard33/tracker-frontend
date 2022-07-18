@@ -3,12 +3,14 @@ import WelcomeHeader from "../structural/WelcomeHeader";
 import TextButton from "../structural/TextButton";
 import UploadFileButton from '../structural/UploadFileButton';
 import AxiosInstance from "../../axios/AxiosInstance";
+import LoadingSpinner from '../structural/LoadingSpinner';
 import { connect } from 'react-redux';
 import UserInfoTable from './UserInfoTable';
 import { redirect } from '../../redux/Actions';
 import Title from '../structural/Title';
 import RecoverPasswordDialog from '../structural/RecoverPasswordDialog';
 import { Redirect, withRouter } from 'react-router-dom';
+import { set } from 'lodash';
 
 
 
@@ -18,6 +20,7 @@ function ProfilePersonal(props) {
   const profileView = props.location.state ? true : false
   const [src, setSrc] = useState("")
   const [recoverDialogOpen, setRecoverDialogOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (!props.navBar) {
@@ -31,13 +34,16 @@ function ProfilePersonal(props) {
   }
 
   const getImageProfile = async () => {
+    setIsLoading(true)
     await AxiosInstance({
       method: "get",
       url: `profile-image/read/${props.user.codicePersona}`,
-    }).then((response) => {  
+    }).then((response) => {
       setSrc(`data:image/jpg;base64,${response.data.data.image}`)
+      setIsLoading(false)
     }).catch((error) => {
       setSrc("../images/fotoProfiloGenerica.png")
+      setIsLoading(false)
     })
   }
 
@@ -81,32 +87,35 @@ function ProfilePersonal(props) {
       <Title></Title>
 
       {props.user ?
+        <React.Fragment>
+          {isLoading ? <LoadingSpinner /> :
+            <div className="profile-container">
 
-        <div className="profile-container">
+              <WelcomeHeader img={src} name={`${props.user.name} ${props.user.lastname}`} admin={""} userEmail={""} db={profileView} />
 
-          <WelcomeHeader img={src} name={`${props.user.name} ${props.user.lastname}`} admin={""} userEmail={""} db={profileView} />
+              <UserInfoTable
+                username={props.user.username}
+                scope={props.user.scope}
+                type={props.user.type}
+                mail={props.user.email}
+              />
 
-          <UserInfoTable
-            username={props.user.username}
-            scope={props.user.scope}
-            type={props.user.type}
-            mail={props.user.email}
-          />
+              {props.location.state &&
+                <React.Fragment>
+                  <button className='button-upload' onClick={() => setRecoverDialogOpen(true)}>Modifica Password</button>
 
-          {props.location.state &&
-            <React.Fragment>
-              <button className='button-upload' onClick={() => setRecoverDialogOpen(true)}>Modifica Password</button>
+                  <UploadFileButton text={"Upload Immagine Profilo"} upload={uploadProfileImage} />
 
-              <UploadFileButton text={"Upload Immagine Profilo"} upload={uploadProfileImage} />
+                  <UploadFileButton text={"Upload Curriculum"} upload={uploadCurriculum} />
+                </React.Fragment>
+              }
 
-              <UploadFileButton text={"Upload Curriculum"} upload={uploadCurriculum} />
-            </React.Fragment>
+            </div>
           }
-
-        </div>
+        </React.Fragment>
         : <Redirect to={{ pathname: "/" }} />}
 
-      <RecoverPasswordDialog username={props.user.username} handleClose={handleClose} open={recoverDialogOpen} logged={true} />
+      <RecoverPasswordDialog user={props.user} handleClose={handleClose} open={recoverDialogOpen} logged={true} />
     </React.Fragment>
   )
 }

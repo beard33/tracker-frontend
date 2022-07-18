@@ -24,6 +24,7 @@ import CommessaNonFatturabileView from '../components/commesse/CommessaNonFattur
 import CommessaFatturabileView from '../components/commesse/CommessaFatturabileView';
 import TimesheetCreazione from '../components/timesheet/TimesheetCreazione';
 import TimesheetView from '../components/timesheet/TimesheetView';
+import GruppiGrid from '../components/utenti/GruppiGrid';
 import UnauthorizedPage from '../components/general/UnauthorizedPage';
 import TimesheetGrid from '../components/timesheet/TimesheetGrid';
 
@@ -46,6 +47,7 @@ export default function RouterApp() {
         <Route path="/your-profile" exact component={PersonalProfile} />
         <Route path="/balance" exact component={Message} />
         <Route path="/add-clienti" exact component={Cliente} />
+        <Route path="/gruppi-grid" exact component={GruppiGrid} />
         <Route path="/clienti" exact render={() => <View tipo="clienti" />} />
         <Route path="/consulenti" exact render={() => <View tipo="consulenti" />} />
         <Route path="/consulente" exact component={Consulente} />

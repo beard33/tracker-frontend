@@ -51,12 +51,12 @@ export default function RecoverPasswordDialog(props) {
 
 
   const updatePassword = async () => {
-    console.log(props.username, input.password)
+    console.log(props.user.username, input.password)
     await AxiosInstance({
       method: 'put',
       url: `utente/update-user-password/${input.codice}`,
       params: {
-        username: props.username,
+        username: props.user.username,
         password: input.password
       }
     }).then(() => {
@@ -68,12 +68,12 @@ export default function RecoverPasswordDialog(props) {
   }
 
   const updatePasswordwithOld = async () => {
-    console.log(props.username, input.password)
+    console.log(props.user.username, input.password)
     await AxiosInstance({
       method: 'put',
       url: `utente/update-user-password-with-old`,
       params: {
-        username: props.username,
+        username: props.user.username,
         oldPassword: input.codice,
         newPassword: input.password
       }

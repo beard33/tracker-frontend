@@ -43,6 +43,7 @@ function Sidebar(props) {
                 <SubMenu title="Utenti">
                   <MenuItem><Link to="/dipendenti" onClick={handleClick}> Dipendenti</Link></MenuItem>
                   <MenuItem><Link to="/consulenti" onClick={handleClick}> Consulenti</Link></MenuItem>
+                  <MenuItem><Link to="gruppi-grid" onClick={handleClick}> Gruppi</Link></MenuItem>
                 </SubMenu>
 
                 {(props.user.scope.includes("ROLE_MANAGEMENT") ||
