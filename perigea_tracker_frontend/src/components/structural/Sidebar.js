@@ -1,19 +1,37 @@
 import { white } from 'material-ui/styles/colors';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AxiosInstance from '../../axios/AxiosInstance';
 import { link } from '../../redux/Actions';
 import { withRouter } from 'react-router-dom';
 import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-function Sidebar(props) {
 
+function Sidebar(props) {
+  const [src, setSrc] = React.useState("")
+
+  React.useEffect(() => {
+    getImageProfile(props.user.codicePersona)
+  }, [])
+  
   const handleClick = () => {
     props.dispatch(link())
     props.onMenuToggle()
   }
-    
+
+  const getImageProfile = async (codicePersona) => {
+    await AxiosInstance({
+      method: "get",
+      url: `profile-image/read/${codicePersona}`,
+    }).then((response) => {
+      setSrc(`data:image/jpg;base64,${response.data.data.image}`)
+    }).catch((error) => {
+      setSrc("../images/fotoProfiloGenerica.png")
+    })
+  }
+
   return (
 
     <React.Fragment>
@@ -23,7 +41,7 @@ function Sidebar(props) {
             <ProSidebar >
               <Menu>
                 <div className="img-profile-div" >
-                  <img className="img-profile" src="./images/fotoProfiloGenerica.png" alt="user"></img>
+                  <img className="img-profile" src={src} alt="user"></img>
                   <h5 style={{ color: white }}>{props.user.name + " " + props.user.lastname}</h5>
                 </div>
                 <MenuItem><Link to="/home" onClick={handleClick}>Home</Link></MenuItem>

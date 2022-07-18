@@ -152,7 +152,7 @@ const Field = (props) => {
                     />}
 
                     <Link className='view-button' to={{
-                        pathname: "/home",
+                        pathname: "/gruppo-view",
                         state: {
                           gruppo: props.gruppo
                         }

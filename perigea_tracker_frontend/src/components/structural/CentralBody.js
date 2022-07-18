@@ -8,29 +8,30 @@ import Title from '../structural/Title';
 export default class CentralBody extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { }
+    this.state = {}
   }
 
   render() {
-    console.log("CENTRALBODY ENTRY");    
+    console.log("CENTRALBODY ENTRY");
     let tipo;
-    if(this.props.tipo === "dipendenti"|| this.props.tipo === "consulenti"){
-    tipo = this.props.tipo;
-    console.log(tipo)
-      return (   
-      <div className={`centralbody${this.props.isMenuOpen ? ' open' : ''}`}>
-        <Title />
-        <UtentiGrid tipo={tipo} />
-      </div>
-    )
-    } else {
-      tipo = this.props.tipo;      
-      return (   
+    if (this.props.tipo === "clienti" || this.props.tipo === "fornitori") {
+      tipo = this.props.tipo;
+      console.log("TIPO  " +tipo)
+      return (
         <div className={`centralbody${this.props.isMenuOpen === true ? ' open' : ''}`}>
           <Title />
           <AziendaGrid tipo={tipo} />
         </div>
       )
+    } else {
+      tipo = this.props.tipo;
+      return (
+        <div className={`centralbody${this.props.isMenuOpen ? ' open' : ''}`}>
+          <Title />
+          <UtentiGrid tipo={tipo} gruppo={false} />
+        </div>
+      )
+
     }
   }
 }

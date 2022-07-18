@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 
 const CardDetails = (props) => {
 
-  if (props.tipo === "dipendenti" || props.tipo === "consulenti") {
+  if (props.tipo === "dipendenti" || props.tipo === "consulenti" || props.tipo ==="utenti") {
     return (
       <div className="card-details">
         <Form className='details-form'

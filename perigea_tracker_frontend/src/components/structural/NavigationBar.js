@@ -1,8 +1,9 @@
 //barra di navigazione superiore che cambia in base alla sidebar aperta o chiusa
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Redirect, useHistory } from "react-router-dom";
 import CollapseMenu from './CollapseMenu';
+import AxiosInstance from '../../axios/AxiosInstance';
 import { withRouter } from 'react-router-dom'
 import { goForward, goBack } from '../../redux/Actions';
 import { link } from '../../redux/Actions';
@@ -14,8 +15,22 @@ import { connect } from 'react-redux';
 function NavigationBar(props) {
   const [location, setLocation] = useState("")
   const [arrowClick, setArrowClick] = useState(false)
+  const [src, setSrc] = useState(false)
 
+  useEffect(() => {
+    getImageProfile(props.user.codicePersona)
+  }, [])
 
+  const getImageProfile = async (codicePersona) => {
+    await AxiosInstance({
+      method: "get",
+      url: `profile-image/read/${codicePersona}`,
+    }).then((response) => {
+      setSrc(`data:image/jpg;base64,${response.data.data.image}`)
+    }).catch((error) => {
+      setSrc("../images/fotoProfiloGenerica.png")
+    })
+  }
 
   // const history = useHistory()
 
@@ -55,7 +70,7 @@ function NavigationBar(props) {
         <div className="navigation-bar-right">
           <Link to="/search" onClick={() => { props.dispatch(link()) }}><img className="search" src={props.search}></img></Link>
           <Link to="/language" onClick={() => { props.dispatch(link()) }}><img className="language" src={props.language}></img></Link>
-          <button className='sidebar-button' onClick={props.onPersonalMenuToggle}><img className="img-profile2" src={props.profile2}></img></button>
+          <button className='sidebar-button' onClick={props.onPersonalMenuToggle}><img className="img-profile2" src={src}></img></button>
         </div>
 
       </header>

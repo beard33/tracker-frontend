@@ -25,8 +25,10 @@ import CommessaFatturabileView from '../components/commesse/CommessaFatturabileV
 import TimesheetCreazione from '../components/timesheet/TimesheetCreazione';
 import TimesheetView from '../components/timesheet/TimesheetView';
 import GruppiGrid from '../components/utenti/GruppiGrid';
+import GruppoView from '../components/utenti/GruppoView';
 import UnauthorizedPage from '../components/general/UnauthorizedPage';
 import TimesheetGrid from '../components/timesheet/TimesheetGrid';
+import UtentiGrid from '../components/utenti/UtentiGrid';
 
 
 
@@ -49,11 +51,11 @@ export default function RouterApp() {
         <Route path="/add-clienti" exact component={Cliente} />
         <Route path="/gruppi-grid" exact component={GruppiGrid} />
         <Route path="/clienti" exact render={() => <View tipo="clienti" />} />
-        <Route path="/consulenti" exact render={() => <View tipo="consulenti" />} />
+        <Route path="/consulenti" exact render={() => <UtentiGrid tipo={"consulenti"} gruppo={false}/>} />
         <Route path="/consulente" exact component={Consulente} />
         <Route path="/anagrafica-dipendenti" exact component={DipendenteCreazione} />
         <Route path="/anagrafica-consulenti" exact component={ConsulenteCreazione} />
-        <Route path="/dipendenti" exact render={() => <View tipo="dipendenti" />} />
+        <Route path="/dipendenti" exact render={() => <UtentiGrid tipo={"dipendenti"} gruppo={false}/>} />
         <Route path="/add-fornitori" exact component={Fornitore} />
         <Route path="/fornitori" exact render={() => <View tipo="fornitori" />} />
         <Route path="/dipendente" exact component={Dipendente} />
@@ -70,6 +72,7 @@ export default function RouterApp() {
         <Route path="/timesheet-create" exact component={TimesheetCreazione} />
         <Route path="/timesheet-view" exact component={TimesheetView} />
         <Route path="/timesheet-grid" exact component={TimesheetGrid} />
+        <Route path="/gruppo-view" exact component={GruppoView} />
 
 
 

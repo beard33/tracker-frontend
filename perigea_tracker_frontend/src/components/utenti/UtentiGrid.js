@@ -7,6 +7,7 @@ import SearchBar from '../structural/SearchBar';
 import { redirect } from '../../redux/Actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Title from '../structural/Title';
 
 let endpoint;
 
@@ -29,8 +30,16 @@ class UtentiGrid extends React.Component {
       this.props.dispatch(redirect(this.props.location))
     }
     console.log("componentDidMount start")
-    endpoint = this.checkPersonaleType()
-    this.readAllUtenti(endpoint)
+    if (this.props.gruppo) {
+      endpoint = "utenti"
+      this.setState({
+        listCard: this.props.utenti,
+        searchList: this.props.utenti
+      })
+    } else {
+      endpoint = this.checkPersonaleType()
+      this.readAllUtenti(endpoint)
+    }
   }
 
 
@@ -81,6 +90,7 @@ class UtentiGrid extends React.Component {
         mailAziendale: element.utente.mailAziendale,
         cellulare: element.utente.cellulare,
         username: element.utente.username,
+        tipo: element.utente.tipo
       })
     });
     this.setState({
@@ -152,6 +162,7 @@ class UtentiGrid extends React.Component {
   render() {
     return (
       <React.Fragment>
+        {this.props.gruppo ? null : <Title></Title>}
         <div className="card-grid">
 
           <SearchBar
@@ -160,12 +171,12 @@ class UtentiGrid extends React.Component {
             placeholder={"username"}
           />
 
-          {(
+          {((
             this.props.user.scope.includes("ROLE_MANAGEMENT")
             || this.props.user.scope.includes("ROLE_ADMIN")
             || this.props.user.scope.includes("ROLE_AMMINISTRAZIONE")
             || this.props.user.scope.includes("ROLE_HR")
-          ) &&
+          ) && !this.props.gruppo) &&
             <AddButton
               buttonName={"AGGIUNGI " + this.props.tipo.toUpperCase()}
               pathname={"/anagrafica-" + this.props.tipo}

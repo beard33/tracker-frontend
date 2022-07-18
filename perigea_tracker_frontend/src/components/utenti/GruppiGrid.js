@@ -10,7 +10,7 @@ import Field from "../structural/Field";
 import SearchBar from "../structural/SearchBar";
 import LoadingSpinner from "../structural/LoadingSpinner";
 import GruppoCreazione from "./GruppoCreazione";
-import { result } from "lodash";
+
 
 
 
