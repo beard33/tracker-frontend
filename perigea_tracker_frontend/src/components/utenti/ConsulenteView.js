@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { authorizationControl } from '../utils/Utils';
 import LoadingSpinner from '../structural/LoadingSpinner';
 import DownloadCurriculumButton from './DownloadCurriculumButton';
+import CessazioneUtenteButton from './CessazioneUtenteButton';
 import Title from '../structural/Title';
 
 
@@ -217,6 +218,9 @@ class ConsulenteView extends React.Component {
                     codicePersona={this.props.location.state.codicePersona}
                     username={this.state.utente.username}
                   />
+
+                  <CessazioneUtenteButton tipo={"consulenti"} codicePersona={this.props.location.state.codicePersona}/>
+
                   <Link to={{
                     pathname: "/anagrafica-consulenti",
                     state: {

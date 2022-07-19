@@ -66,7 +66,7 @@ const Card = (props) => {
           || props.user.scope.includes("ROLE_ADMIN")
           || props.user.scope.includes("ROLE_AMMINISTRAZIONE")
           || props.user.scope.includes("ROLE_HR")
-        ) && !props.tipo === "utente") &&
+        ) && props.tipo !== "utenti") &&
           <button className='delete-button' onClick={() => { props.showDeleteModal(props.item.codicePersona) }}>
             <img className="bin" src="./images/bin.png"
               style={{ width: "calc(7vw/3.5)", height: "calc(7vw/3.5)" }}

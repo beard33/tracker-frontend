@@ -11,6 +11,7 @@ import LoadingSpinner from '../structural/LoadingSpinner';
 import GruppoCreazione from './GruppoCreazione';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 
 
@@ -88,7 +89,10 @@ function GruppoView(props) {
                                     <Form>
                                         <Form.Row className="buttons-bar-form">
                                             <Button variant='light' title='update gruppo' className='update' onClick={() => { setShowModal(true) }}>
-                                                <EditIcon style={{ width: "30px", height: "30px", color: "black" }}></EditIcon>
+                                                <EditIcon className='img'></EditIcon>                                                
+                                            </Button>
+                                            <Button variant='light' title='crea meeting' className='update' >
+                                                <GroupsIcon className='img'></GroupsIcon>                                                
                                             </Button>
                                         </Form.Row>
                                     </Form>

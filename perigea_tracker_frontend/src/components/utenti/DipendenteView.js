@@ -14,6 +14,7 @@ import RuoliTable from './RuoliTable';
 import LoadingSpinner from '../structural/LoadingSpinner';
 import { authorizationControl } from '../utils/Utils';
 import { connect } from 'react-redux';
+import CessazioneUtenteButton from './CessazioneUtenteButton';
 import DownloadCurriculumButton from './DownloadCurriculumButton';
 
 
@@ -222,6 +223,9 @@ class DipendenteView extends React.Component {
                         codicePersona={this.props.location.state.codicePersona}
                         username={this.state.utente.username}
                       />
+
+                      <CessazioneUtenteButton tipo={"dipendenti"} codicePersona={this.props.location.state.codicePersona}/>
+
                       <Link to={{
                         pathname: "/anagrafica-dipendenti",
                         state: {

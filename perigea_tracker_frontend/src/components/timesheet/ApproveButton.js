@@ -5,7 +5,6 @@ import CalendarAxiosInstance from '../../axios/CalendarAxiosInstance';
 import TextField from '@material-ui/core/TextField';
 import { MenuItem } from '@mui/material';
 import { approvalStatusEnum } from '../enum/TimesheetEnums';
-import { set } from 'lodash';
 
 export default function ApproveButton(props) {
     const [approvalModal, setApprovalModal] = useState(false)
@@ -77,7 +76,7 @@ export default function ApproveButton(props) {
                         label="Stato di Approvazione"
                         value={approvalStatus}
                         required
-                        onChange={(e) => {setApprovalStatus(e.target.value)}}
+                        onChange={(e) => { setApprovalStatus(e.target.value) }}
                     >
                         {approvalStatusEnum.map((option) => (
                             <MenuItem value={option.value} >

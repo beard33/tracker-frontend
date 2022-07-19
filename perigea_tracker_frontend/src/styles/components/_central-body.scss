@@ -8,13 +8,13 @@
 
   .buttons-bar {
     margin-top: 2%;
-    margin-left: 60%;
+    margin-left: 55%;
     margin-bottom: -2%;
-    width: 5%;
+    width: 10%;
     height: 50%;
-    border: 1px solid $greyPerigea;
-    border-top-left-radius: 16%;
-    border-bottom-left-radius: 16%;
+    border: 1px solid #333333;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
 
     .buttons-bar-form {
       display: flex;
@@ -30,8 +30,14 @@
         background-color: transparent;
         height: 45px;
         width: 45px;
-        margin-top: 10%;
-        margin-left: 15%;
+        margin-top: 6%;
+        margin-left: 10%;
+
+        .img {
+          width: 30px;
+          height: 30px;
+          color: black;
+        }
       }
     }
   }
@@ -320,14 +326,14 @@
       }
     }
 
-    .searchBarGruppo{
+    .searchBarGruppo {
       margin-top: -4%;
       margin-left: 65%;
       width: 30%;
       height: 50%;
       border: 1px solid $greyPerigea;
       border-bottom-right-radius: 12px;
-    border-top-right-radius: 12px;
+      border-top-right-radius: 12px;
 
       .searchForm {
         display: flex;
