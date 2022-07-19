@@ -1,20 +1,17 @@
 import * as React from 'react';
 import AxiosInstance from '../../axios/AxiosInstance';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
-import TextField from '@material-ui/core/TextField';
 import { Link, Redirect, withRouter } from 'react-router-dom';
+import Form from "react-bootstrap/Form";
 import { redirect, link } from '../../redux/Actions';
 import Title from '../structural/Title';
-import RuoliTable from './RuoliTable';
+import EditIcon from '@mui/icons-material/Edit';
 import UtentiGrid from './UtentiGrid';
 import LoadingSpinner from '../structural/LoadingSpinner';
-import { authorizationControl } from '../utils/Utils';
+import GruppoCreazione from './GruppoCreazione';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
+
 
 
 
@@ -24,10 +21,11 @@ function GruppoView(props) {
         id: "",
         nome: "",
         descrizione: "",
-        user: []
+        utenti: []
     })
     const [isLoading, setIsLoading] = React.useState(false)
     const [sync, setSync] = React.useState(true)
+    const [showModal, setShowModal] = React.useState(false)
 
 
     React.useEffect(() => {
@@ -38,12 +36,17 @@ function GruppoView(props) {
     }, [])
 
 
-    // React.useEffect(() => {
-    //     readGruppobyId()
-    // }, [sync])
+    React.useEffect(() => {
+        readGruppobyId()
+    }, [sync])
+
+    const handleClose = () => {
+        setShowModal(false)
+        setSync(!sync)
+    }
 
 
-    const readGruppobyId = async () => {
+    const readGruppobyId = async (id) => {
         setIsLoading(true)
         await AxiosInstance({
             method: "get",
@@ -81,13 +84,26 @@ function GruppoView(props) {
                                     db={true}
                                 />
 
-                                <UtentiGrid gruppo={true} utenti={gruppo.utenti}/> 
+                                <div className='buttons-bar'>
+                                    <Form>
+                                        <Form.Row className="buttons-bar-form">
+                                            <Button variant='light' title='update gruppo' className='update' onClick={() => { setShowModal(true) }}>
+                                                <EditIcon style={{ width: "30px", height: "30px", color: "black" }}></EditIcon>
+                                            </Button>
+                                        </Form.Row>
+                                    </Form>
+                                </div>
 
+                                <UtentiGrid gruppo={true} utenti={gruppo.utenti} />
+
+                                <GruppoCreazione handleClose={handleClose} open={showModal} update={gruppo} />
                             </div>
                             : <Redirect to="/" />
                     }
                 </React.Fragment>
+
             }
+
         </React.Fragment>
     )
 

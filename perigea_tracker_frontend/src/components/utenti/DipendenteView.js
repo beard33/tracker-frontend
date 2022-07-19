@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import WelcomeHeader from '../structural/WelcomeHeader';
 import TextField from '@material-ui/core/TextField';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 import { redirect, link } from '../../redux/Actions';
 import Title from '../structural/Title';
 import RuoliTable from './RuoliTable';

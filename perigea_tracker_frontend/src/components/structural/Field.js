@@ -154,7 +154,7 @@ const Field = (props) => {
                     <Link className='view-button' to={{
                         pathname: "/gruppo-view",
                         state: {
-                          gruppo: props.gruppo
+                            gruppo: props.gruppo
                         }
                     }} onClick={() => { props.dispatch(link()) }}>
                         <img className="view-image" title='vedi dettagli' src="./images/show-details.png"
@@ -162,22 +162,29 @@ const Field = (props) => {
                         ></img>
                     </Link>
 
-                    <button className='delete-button' title='elimina gruppo'
-                        onClick={() => {
-                            props.showDeleteModal(props.gruppo.id)
-                        }}>
-                        <img className="bin" src="./images/bin.png"
-                            style={{ width: "calc(7vw/3.5)", height: "calc(7vw/3.5)" }}
-                        ></img>
-                    </button>
-
+                    {(
+                        props.user.scope.includes("ROLE_MANAGEMENT")
+                        || props.user.scope.includes("ROLE_ADMIN")
+                        || props.user.scope.includes("ROLE_AMMINISTRAZIONE")
+                        || props.user.scope.includes("ROLE_HR")
+                    ) &&
+                        < button className='delete-button' title='elimina gruppo'
+                            onClick={() => {
+                                props.showDeleteModal(props.gruppo.id)
+                            }}>
+                            <img className="bin" src="./images/bin.png"
+                                style={{ width: "calc(7vw/3.5)", height: "calc(7vw/3.5)" }}
+                            ></img>
+                        </button>
+                    }
+                    
                     <FieldDetails
                         tipoDato={"gruppo"}
                         nome={props.gruppo.nome}
                         descrizione={props.gruppo.descrizione}
                     />
 
-                </Box>
+                </Box >
             )
     }
 }

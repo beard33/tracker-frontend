@@ -13,8 +13,9 @@ import { redirect, link } from '../../redux/Actions';
 import { connect } from 'react-redux';
 import { authorizationControl } from '../utils/Utils';
 import LoadingSpinner from '../structural/LoadingSpinner';
+import DownloadCurriculumButton from './DownloadCurriculumButton';
 import Title from '../structural/Title';
-import { id } from 'date-fns/locale';
+
 
 class ConsulenteView extends React.Component {
   state = {
@@ -32,7 +33,7 @@ class ConsulenteView extends React.Component {
   }
 
   componentDidMount = () => {
-    if(!this.props.navBar) {
+    if (!this.props.navBar) {
       this.props.dispatch(redirect(this.props.location))
     }
     console.log("CONSULENTE-VIEW start")
@@ -92,7 +93,7 @@ class ConsulenteView extends React.Component {
     this.setState({ usernameResponsabile: response.utente.username })
   }
 
- 
+
   /**
    * metodo per la stesura dei dati all'interno dell'accordion di visualizzazione
    * @param {*} e 
@@ -212,13 +213,17 @@ class ConsulenteView extends React.Component {
                   <Typography></Typography>
                 </AccordionSummary>
                 <AccordionDetails className='accordionDetails'>
+                  <DownloadCurriculumButton
+                    codicePersona={this.props.location.state.codicePersona}
+                    username={this.state.utente.username}
+                  />
                   <Link to={{
                     pathname: "/anagrafica-consulenti",
                     state: {
                       update: true,
                       user: this.state
                     }
-                  }} onClick={() => {this.props.dispatch(link())}}>
+                  }} onClick={() => { this.props.dispatch(link()) }}>
                     <button className="button-update"
                       type="button" >
                       <img className="menu" src="./images/update.png"></img>
@@ -244,4 +249,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ConsulenteView);
+export default withRouter(connect(mapStateToProps)(ConsulenteView));

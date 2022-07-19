@@ -169,7 +169,8 @@ class UtentiGrid extends React.Component {
             searchValue={this.state.searchValue}
             dynamicSearch={this.dynamicSearch}
             placeholder={"username"}
-          />
+            gruppo={this.props.gruppo}
+          ></SearchBar>
 
           {((
             this.props.user.scope.includes("ROLE_MANAGEMENT")

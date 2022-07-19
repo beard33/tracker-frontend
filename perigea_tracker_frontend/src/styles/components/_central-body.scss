@@ -6,6 +6,36 @@
   height: 80%;
   margin-bottom: 50px;
 
+  .buttons-bar {
+    margin-top: 2%;
+    margin-left: 60%;
+    margin-bottom: -2%;
+    width: 5%;
+    height: 50%;
+    border: 1px solid $greyPerigea;
+    border-top-left-radius: 16%;
+    border-bottom-left-radius: 16%;
+
+    .buttons-bar-form {
+      display: flex;
+      justify-content: left;
+      height: 58.5px;
+      width: 100%;
+      margin-top: 0%;
+      margin-bottom: 0%;
+      margin-left: 0%;
+
+      .update {
+        border: transparent;
+        background-color: transparent;
+        height: 45px;
+        width: 45px;
+        margin-top: 10%;
+        margin-left: 15%;
+      }
+    }
+  }
+
   .card-grid {
     width: 100%;
     //height: 100%;
@@ -290,6 +320,27 @@
       }
     }
 
+    .searchBarGruppo{
+      margin-top: -4%;
+      margin-left: 65%;
+      width: 30%;
+      height: 50%;
+      border: 1px solid $greyPerigea;
+      border-bottom-right-radius: 12px;
+    border-top-right-radius: 12px;
+
+      .searchForm {
+        display: flex;
+        justify-content: left;
+        height: 54px;
+        width: 100%;
+        margin-top: 1%;
+        margin-left: 5%;
+
+      }
+    }
+
+
     .searchBar {
       margin-top: -4%;
       margin-left: 65%;
@@ -487,7 +538,7 @@
     }
 
     .page-titles {
-  
+
       width: 100%;
       // background: rgb(0,0,0);
       // background: linear-gradient(0deg, rgb(102, 97, 103) 9%, rgba(0,0,0,1) 100%);

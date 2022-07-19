@@ -23,9 +23,19 @@ export default function GruppoCreazione(props) {
     })
     const [user, setUser] = React.useState("")
     const [utenti, setUtenti] = React.useState([])
-    
+
 
     React.useEffect(() => {
+        console.log("PROPS", props.update)
+        if (props.update) {
+            setGruppo({
+                ...gruppo,
+                id: props.update.id,
+                nome: props.update.nome,
+                descrizione: props.update.descrizione,
+                users: props.update.utenti
+            })
+        }
         getUtenti()
     }, []);
 
@@ -44,18 +54,11 @@ export default function GruppoCreazione(props) {
     }
     const loadUtenti = (arg) => {
         console.log(arg)
-        // Object.values(arg.data.data).map((element) => {
-        //     result.push({
-        //         codicePersona: element.codicePersona,
-        //         mailAziendale: element.mailAziendale,
-        //         username: element.username
-        //     })
-        // });
         setUtenti(arg.data.data)
 
     }
 
- 
+
 
     const handleChange = (e) => {
         setGruppo({ ...gruppo, [e.target.name]: e.target.value })
@@ -70,6 +73,26 @@ export default function GruppoCreazione(props) {
         console.log(JSON.parse(user))
         setGruppo({ ...gruppo, users: gruppo.users.concat(JSON.parse(user)) })
 
+    }
+
+    const updateGruppo = async () => {
+        await AxiosInstance({
+            method: 'put',
+            url: "gruppi/update",
+            data: {
+                id: gruppo.id,
+                nome: gruppo.nome,
+                descrizione: gruppo.descrizione,
+                contatti: gruppo.users
+            }
+        }).then(() => {
+            props.handleClose()
+            alert("Salvataggio del gruppo effettuato con successo")
+            console.log("Salvataggio del gruppo effettuato con successo")
+        }).catch((error) => {
+            console.log("Error into loadUtenti ", error)
+            alert("errore nella modifica")
+        })
     }
 
     const createGruppo = async () => {
@@ -88,7 +111,7 @@ export default function GruppoCreazione(props) {
             console.log("Salvataggio del gruppo effettuato con successo")
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
-            alert("erroree nella creazione")
+            alert("errore nella creazione")
         })
     }
 
@@ -117,14 +140,14 @@ export default function GruppoCreazione(props) {
                                             onChange={handleChange}
                                         ></TextField>
                                         <TextField
-                                            style={{ width: "75%", paddingBottom: "2%",  marginLeft: "13%" }}
+                                            style={{ width: "75%", paddingBottom: "2%", marginLeft: "13%" }}
                                             label="Nome Gruppo"
                                             name='nome'
                                             value={gruppo.nome}
                                             onChange={handleChange}
                                         ></TextField>
                                         <TextField
-                                            style={{ width: "75%", paddingBottom: "2%",  marginLeft: "13%" }}
+                                            style={{ width: "75%", paddingBottom: "2%", marginLeft: "13%" }}
                                             label="Descrizione"
                                             name='descrizione'
                                             value={gruppo.descrizione}
@@ -133,7 +156,7 @@ export default function GruppoCreazione(props) {
                                     </Form.Row>
                                     <Form.Row className='infoForm'>
                                         <TextField
-                                            style={{ width: "75%", paddingBottom: "2%",  marginLeft: "13%" }}
+                                            style={{ width: "75%", paddingBottom: "2%", marginLeft: "13%" }}
                                             id="select stato"
                                             select
                                             name='codicePersona'
@@ -162,7 +185,7 @@ export default function GruppoCreazione(props) {
                 </DialogContent>
                 <DialogActions className="actions">
                     <Button className="dialog-button" title="annulla" onClick={props.handleClose}><img className="cancel" src="./images/annulla.png"></img></Button>
-                    <Button className="dialog-button" title="salva" onClick={createGruppo}><img className="confirm" src="./images/save.png"></img></Button>
+                    <Button className="dialog-button" title="salva" onClick={props.update ? updateGruppo : createGruppo}><img className="confirm" src="./images/save.png"></img></Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

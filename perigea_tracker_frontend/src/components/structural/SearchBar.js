@@ -10,7 +10,7 @@ export default function SearchBar(props) {
     return (
         <React.Fragment>
             
-             <div className="searchBar">
+             <div className={props.gruppo ? "searchBarGruppo" : "searchBar"}>
             <Form style={{ width: "100%" }}>
               <Form.Row className='searchForm'>
                 <TextField
