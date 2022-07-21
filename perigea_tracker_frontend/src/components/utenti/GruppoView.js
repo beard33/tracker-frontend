@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import UtentiGrid from './UtentiGrid';
 import LoadingSpinner from '../structural/LoadingSpinner';
 import GruppoCreazione from './GruppoCreazione';
+import MeetingDialog from '../structural/MeetingDialog';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -27,7 +28,8 @@ function GruppoView(props) {
     const [isLoading, setIsLoading] = React.useState(false)
     const [sync, setSync] = React.useState(true)
     const [showModal, setShowModal] = React.useState(false)
-
+    const [meetingDialogOpen, setMeetingDialogOpen] = React.useState(false)
+    
 
     React.useEffect(() => {
         if (!props.navBar) {
@@ -43,6 +45,7 @@ function GruppoView(props) {
 
     const handleClose = () => {
         setShowModal(false)
+        setMeetingDialogOpen(false)
         setSync(!sync)
     }
 
@@ -91,7 +94,7 @@ function GruppoView(props) {
                                             <Button variant='light' title='update gruppo' className='update' onClick={() => { setShowModal(true) }}>
                                                 <EditIcon className='img'></EditIcon>                                                
                                             </Button>
-                                            <Button variant='light' title='crea meeting' className='update' >
+                                            <Button variant='light' title='crea meeting' className='update' onClick={() => {setMeetingDialogOpen(true)}}>
                                                 <GroupsIcon className='img'></GroupsIcon>                                                
                                             </Button>
                                         </Form.Row>
@@ -101,6 +104,8 @@ function GruppoView(props) {
                                 <UtentiGrid gruppo={true} utenti={gruppo.utenti} />
 
                                 <GruppoCreazione handleClose={handleClose} open={showModal} update={gruppo} />
+
+                                <MeetingDialog handleClose={handleClose} open={meetingDialogOpen} groupId={gruppo.id} creator={props.user.codicePersona} />
                             </div>
                             : <Redirect to="/" />
                     }

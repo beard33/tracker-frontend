@@ -1,23 +1,18 @@
 import * as React from 'react';
 import AxiosInstance from '../../axios/AxiosInstance';
-import Form from "react-bootstrap/Form";
-import { Grid } from "@material-ui/core";
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import BlockIcon from '@mui/icons-material/Block';
-import { utenteStatus } from '../enum/AnagraficaEnums';
 import Alert from '@mui/material/Alert'
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
-import { MenuItem } from '@mui/material';
+
 
 
 export default function CessazioneUtenteButton(props) {
     const [cessazioneDialog, setCessazioneDialog] = React.useState(false)
-    const [userStatus, setUserStatus] = React.useState("")
+    
 
     const updateUserStatus = async (codicePersona, status) => {
         await AxiosInstance({
