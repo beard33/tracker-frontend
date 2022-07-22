@@ -15,7 +15,7 @@ function Sidebar(props) {
   React.useEffect(() => {
     getImageProfile(props.user.codicePersona)
   }, [])
-  
+
   const handleClick = () => {
     props.dispatch(link())
     props.onMenuToggle()
@@ -94,8 +94,22 @@ function Sidebar(props) {
                     <MenuItem>
                       <Link to={{
                         pathname: "/timesheet-grid",
+                        state: "referente"
                       }} onClick={handleClick}>
                         Timesheet Sottoposti
+                      </Link>
+                    </MenuItem> :
+                    <div></div>
+                  }
+                  {(props.user.scope.includes("ROLE_MANAGEMENT") ||
+                    props.user.scope.includes("ROLE_AMMINISTRAZIONE") ||
+                    props.user.scope.includes("ROLE_HR")) ?
+                    <MenuItem>
+                      <Link to={{
+                        pathname: "/timesheet-grid",
+                        state: "admin"
+                      }} onClick={handleClick}>
+                        Timesheet Dipendenti
                       </Link>
                     </MenuItem> :
                     <div></div>

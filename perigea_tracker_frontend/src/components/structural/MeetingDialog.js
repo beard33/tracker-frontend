@@ -27,7 +27,7 @@ export default function MeetingDialog(props) {
         inPerson: false,
         meetingRoom: false,
         description: "",
-        link: ""       
+        link: ""
     })
     const [selectedFile, setSelectedFile] = React.useState("")
 
@@ -42,16 +42,16 @@ export default function MeetingDialog(props) {
         setMeeting({ ...meeting, [e.target.name]: e.target.value })
     }
 
-   
-  
+
+
 
     const createMeeting = async () => {
         console.log(meeting)
         const json = JSON.stringify(meeting)
-        const blob = new Blob([json], {type: 'application/json'})
+        const blob = new Blob([json], { type: 'application/json' })
         const formData = new FormData();
         formData.append('event', blob)
-        formData.append('file', selectedFile);        
+        formData.append('file', selectedFile);
         await AxiosInstance({
             method: 'post',
             url: `/gruppi/create-meeting-by-group/${props.groupId}/${props.creator}`,
@@ -66,6 +66,8 @@ export default function MeetingDialog(props) {
             console.log("errore nella creazione del meeting")
         })
     }
+
+
 
     return (
         <React.Fragment>

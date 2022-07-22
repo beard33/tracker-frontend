@@ -32,20 +32,48 @@ class TimesheetGrid extends React.Component {
     }
 
     componentDidMount() {
-        if(!this.props.navBar) {
+        if (!this.props.navBar) {
             this.props.dispatch(redirect(this.props.location))
         }
         this.setState({ anno: new Date().getFullYear(), mese: new Date().getMonth() })
         this.getContattoResponsabile(this.props.user.codicePersona)
     }
 
+    controlProps = () => {
+        switch (this.props.location.state) {
+            case "referente":
+                this.getTimesheetsSottoposti(this.state.anno, this.state.mese)
+                break;
+            case "admin":
+                this.readAllTimesheets(this.state.anno, this.state.mese)
+                break;
+        }
+    }
 
-
+    /**
+     * chiamata axios per la lettura di tutti i timesheet del mese
+     */
+    readAllTimesheets = (anno, mese) => {
+        this.setState({isLoading: true})
+        console.log(this.state.anno, this.state.mese)
+        AxiosInstance({
+            method: 'get',
+            url: `timesheet/read-all-by-mese-anno/${anno}/${mese + 1}`
+        }).then((response) => {
+            console.log(response)
+            this.loadTimesheets(response.data.data)
+        }).catch((error) => {
+            console.log(error, "errore nella lettura dei timesheet")
+            this.setState({isLoading: false})
+        })
+    }
+    
     /**
      * chiamata axios per le referenze del responsabile
      * @param {*} userId 
      */
     getContattoResponsabile = async (userId) => {
+        console.log(this.state.anno, this.state.mese)
         await AxiosInstance({
             method: "get",
             url: `utenti/contact-details/read-by-id/${userId}`,
@@ -58,7 +86,7 @@ class TimesheetGrid extends React.Component {
     }
     loadContattoResponsabile = (arg) => {
         this.setState({ contattoResponsabile: arg.data.data })
-        this.getTimesheetsSottoposti(this.state.anno, this.state.mese)
+        this.controlProps()
     }
 
     /**
@@ -82,7 +110,7 @@ class TimesheetGrid extends React.Component {
             this.loadTimesheets(response.data.data)
         }).catch((error) => {
             console.log("Error into loadUtenti ", error)
-            this.setState({isLoading: false})
+            this.setState({ isLoading: false })
         })
     }
     loadTimesheets = (response) => {
@@ -172,11 +200,11 @@ class TimesheetGrid extends React.Component {
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-      user: state.user,
-      counter: state.counter,
-      history: state.history,
-      navBar: state.navBar
+        user: state.user,
+        counter: state.counter,
+        history: state.history,
+        navBar: state.navBar
     }
-  }
+}
 
 export default withRouter(connect(mapStateToProps)(TimesheetGrid));
